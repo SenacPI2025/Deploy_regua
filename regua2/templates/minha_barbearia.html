@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-tema="{{ config_acessibilidade.tema|default:'claro' }}" data-tamanho-fonte="{{ config_acessibilidade.tamanho_fonte|default:'medio' }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Barbearia | Regua</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Variáveis CSS para temas */
+    :root[data-tema="claro"] {
+      --cor-fundo: #f8fafc;
+      --cor-texto: #1e293b;
+      --cor-primaria: #007bff;
+      --cor-secundaria: #6c757d;
+      --cor-borda: #e2e8f0;
+      --cor-navbar: #ffffff;
+      --cor-navbar-texto: #000000;
+      --cor-card: rgba(0, 0, 20, 0.7);
+      --cor-overlay: rgba(0, 0, 0, 0.7);
+      --cor-dropdown: #ffffff;
+      --cor-dropdown-texto: #000000;
+      --cor-dropdown-hover: #f1f1f1;
+      --cor-widget: #ffffff;
+      --cor-widget-texto: #1e293b;
+      --cor-widget-hover: #f8f9fa;
+      --gradiente-primario: linear-gradient(135deg, #2aa745, #34ce57);
+      --cor-bolinha: #2aa745;
+      --cor-bolinha-hover: #228c3a;
+      --cor-sombra: rgba(0, 0, 0, 0.05);
+      --cor-input-bg: #f8fafc;
+      --cor-input-text: #1e293b;
+    }
+
+    :root[data-tema="escuro"] {
+      --cor-fundo: #1a1a1a;
+      --cor-texto: #e0e0e0;
+      --cor-primaria: #0d6efd;
+      --cor-secundaria: #6c757d;
+      --cor-borda: #495057;
+      --cor-navbar: #2d2d2d;
+      --cor-navbar-texto: #ffffff;
+      --cor-card: rgba(30, 30, 60, 0.8);
+      --cor-overlay: rgba(0, 0, 0, 0.8);
+      --cor-dropdown: #2d2d2d;
+      --cor-dropdown-texto: #ffffff;
+      --cor-dropdown-hover: #3d3d3d;
+      --cor-widget: #2d2d2d;
+      --cor-widget-texto: #ffffff;
+      --cor-widget-hover: #3d3d3d;
+      --gradiente-primario: linear-gradient(135deg, #2aa745, #28a745);
+      --cor-bolinha: #2aa745;
+      --cor-bolinha-hover: #34ce57;
+      --cor-sombra: rgba(0, 0, 0, 0.3);
+      --cor-input-bg: #2d2d2d;
+      --cor-input-text: #ffffff;
+    }
+
+    /* Tamanhos de fonte */
+    :root[data-tamanho-fonte="pequeno"] {
+      --tamanho-fonte: 12px;
+      --tamanho-h1: 1.5rem;
+      --tamanho-h2: 1.3rem;
+      --tamanho-h3: 1.1rem;
+      --tamanho-p: 0.9rem;
+    }
+
+    :root[data-tamanho-fonte="medio"] {
+      --tamanho-fonte: 16px;
+      --tamanho-h1: 2rem;
+      --tamanho-h2: 1.5rem;
+      --tamanho-h3: 1.2rem;
+      --tamanho-p: 0.95rem;
+    }
+
+    :root[data-tamanho-fonte="grande"] {
+      --tamanho-fonte: 20px;
+      --tamanho-h1: 2.5rem;
+      --tamanho-h2: 2rem;
+      --tamanho-h3: 1.5rem;
+      --tamanho-p: 1.1rem;
+    }
+
+    :root[data-tamanho-fonte="muito_grande"] {
+      --tamanho-fonte: 24px;
+      --tamanho-h1: 3rem;
+      --tamanho-h2: 2.5rem;
+      --tamanho-h3: 1.8rem;
+      --tamanho-p: 1.3rem;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--cor-fundo);
+      color: var(--cor-texto);
+      font-size: var(--tamanho-fonte);
+      transition: all 0.3s ease;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--cor-widget);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px var(--cor-sombra);
+      padding: 30px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      font-family: 'Unbounded', cursive;
+      font-size: var(--tamanho-h1);
+      font-weight: bold;
+    }
+
+    .logo {
+      color: var(--cor-texto);
+      font-weight: bold;
+    }
+
+    .R {
+      color: #1DB954;
+    }
+
+    /* Bolinha de Acessibilidade */
+    .bolinha-acessibilidade {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: var(--cor-bolinha);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: 0 4px 20px var(--cor-sombra);
+      transition: all 0.3s ease;
+      border: none;
+      color: white;
+      font-size: 24px;
+    }
+
+    .bolinha-acessibilidade:hover {
+      transform: scale(1.1);
+      background: var(--cor-bolinha-hover);
+      box-shadow: 0 6px 25px var(--cor-sombra);
+    }
+
+    .bolinha-acessibilidade.ativo {
+      transform: rotate(45deg);
+      background: var(--cor-bolinha-hover);
+    }
+
+    /* Menu de Acessibilidade */
+    .menu-acessibilidade {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background: var(--cor-widget);
+      border: 1px solid var(--cor-borda);
+      border-radius: 15px;
+      padding: 20px;
+      z-index: 1000;
+      box-shadow: 0 8px 30px var(--cor-sombra);
+      backdrop-filter: blur(10px);
+      transform: scale(0.8);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      min-width: 200px;
+    }
+
+    .menu-acessibilidade.aberto {
+      transform: scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .menu-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .menu-titulo {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--cor-widget-texto);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .menu-botoes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+
+    .botao-acessibilidade {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 8px;
+      background: var(--gradiente-primario);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      min-height: 60px;
+      gap: 5px;
+      box-shadow: 0 4px 10px rgba(42, 167, 69, 0.3);
+    }
+
+    .botao-acessibilidade:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(42, 167, 69, 0.4);
+    }
+
+    .botao-acessibilidade .icone {
+      font-size: 18px;
+    }
+
+    .botao-acessibilidade .texto {
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* Efeito de pulso na bolinha */
+    .bolinha-acessibilidade.pulsando {
+      animation: pulse 2s infinite;
+    }
+
+    @media (max-width: 768px) {
+      /* Ajustes para a bolinha de acessibilidade em mobile */
+      .bolinha-acessibilidade {
+        width: 70px;
+        height: 70px;
+        bottom: 25px;
+        right: 25px;
+        font-size: 28px;
+      }
+
+      .menu-acessibilidade {
+        bottom: 110px;
+        right: 25px;
+        min-width: 180px;
+        padding: 15px;
+      }
+
+      .menu-botoes {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .botao-acessibilidade {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 12px 15px;
+        min-height: 50px;
+        gap: 12px;
+      }
+
+      .botao-acessibilidade .icone {
+        font-size: 20px;
+      }
+
+      .botao-acessibilidade .texto {
+        font-size: 12px;
+      }
+    }
+
+    /* Resto do CSS permanece igual com as variáveis */
+    .photo-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .photo-container {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin-bottom: 15px;
+    }
+
+    .photo-preview {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #22c55e;
+      cursor: pointer;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--cor-input-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: var(--cor-secundaria);
+      border: 2px dashed var(--cor-borda);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .photo-placeholder:hover {
+      border-color: #22c55e;
+      background-color: var(--cor-widget-hover);
+    }
+
+    .photo-text {
+      color: var(--cor-secundaria);
+      font-weight: 600;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .photo-text strong {
+      color: #22c55e;
+    }
+
+    .status-indicator {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background-color: #22c55e;
+      color: white;
+      font-weight: bold;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+    }
+
+    .status-indicator.fechado {
+      background-color: #ef4444;
+    }
+
+    #logo-upload {
+      display: none;
+    }
+
+    /* Formulário */
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      flex: 1 1 45%;
+      min-width: 250px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--cor-texto);
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--cor-borda);
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.2s;
+      background-color: var(--cor-input-bg);
+      color: var(--cor-input-text);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    }
+
+    /* Status da Barbearia */
+    .status-section {
+      margin: 30px 0;
+      text-align: center;
+    }
+
+    .status-title {
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--cor-texto);
+    }
+
+    .status-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .status-btn {
+      padding: 12px 30px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 140px;
+    }
+
+    .btn-aberto {
+      background-color: #22c55e;
+      color: white;
+      box-shadow: 0 2px 5px rgba(34, 197, 94, 0.2);
+    }
+
+    .btn-fechado {
+      background-color: #ef4444;
+      color: white;
+      box-shadow: 0 2px 5px rgba(239, 68, 68, 0.2);
+    }
+
+    .btn-aberto.active {
+      background-color: #16a34a;
+      transform: translateY(2px);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-fechado.active {
+      background-color: #dc2626;
+      transform: translateY(2px);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Botões de Ação */
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      gap: 15px;
+    }
+
+    .action-btn {
+      padding: 14px 25px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-salvar {
+      background-color: #22c55e;
+      color: white;
+      box-shadow: 0 2px 5px rgba(34, 197, 94, 0.2);
+    }
+
+    .btn-salvar:hover {
+      background-color: #16a34a;
+      transform: translateY(-2px);
+    }
+
+    .btn-excluir {
+      background-color: #ef4444;
+      color: white;
+      box-shadow: 0 2px 5px rgba(239, 68, 68, 0.2);
+    }
+
+    .btn-excluir:hover {
+      background-color: #dc2626;
+      transform: translateY(-2px);
+    }
+
+    .btn-cancelar {
+      background-color: var(--cor-secundaria);
+      color: white;
+      box-shadow: 0 2px 5px rgba(100, 116, 139, 0.2);
+    }
+
+    .btn-cancelar:hover {
+      background-color: #475569;
+      transform: translateY(-2px);
+    }
+
+    /* Botão Excluir Separado */
+    .excluir-section {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid var(--cor-borda);
+      text-align: center;
+    }
+
+    .excluir-title {
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--cor-texto);
+    }
+
+    .excluir-warning {
+      background-color: #fef2f2;
+      color: #991b1b;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border: 1px solid #fecaca;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .btn-excluir-barbearia {
+      background-color: #dc2626;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-excluir-barbearia:hover {
+      background-color: #b91c1c;
+      transform: translateY(-2px);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: var(--cor-widget);
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--cor-texto);
+    }
+
+    .modal-message {
+      color: var(--cor-secundaria);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .modal-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .modal-btn.confirm {
+      background-color: #dc2626;
+      color: white;
+    }
+
+    .modal-btn.confirm:hover {
+      background-color: #b91c1c;
+    }
+
+    .modal-btn.cancel {
+      background-color: var(--cor-secundaria);
+      color: white;
+    }
+
+    .modal-btn.cancel:hover {
+      background-color: #475569;
+    }
+
+    /* Mensagens */
+    .alert-messages {
+      margin-bottom: 20px;
+    }
+
+    .alert {
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .alert-success {
+      background-color: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .alert-error {
+      background-color: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+      }
+
+      .status-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .modal-buttons {
+        flex-direction: column;
+      }
+
+      .form-group,
+      .status-btn,
+      .action-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Bolinha de Acessibilidade -->
+  <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
+    ♿
+  </button>
+
+  <!-- Menu de Acessibilidade -->
+  <div class="menu-acessibilidade" id="menuAcessibilidade">
+    <div class="menu-conteudo">
+      <div class="menu-titulo">Acessibilidade</div>
+      <div class="menu-botoes">
+        <button class="botao-acessibilidade" onclick="alternarTema()">
+          <span class="icone">🌓</span>
+          <span class="texto">Tema</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="aumentarFonte()">
+          <span class="icone">A+</span>
+          <span class="texto">Aumentar Fonte</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="diminuirFonte()">
+          <span class="icone">A-</span>
+          <span class="texto">Diminuir Fonte</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="resetarAcessibilidade()">
+          <span class="icone">↻</span>
+          <span class="texto">Resetar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <span class="R">R</span>egua
+      </div>
+    </div>
+
+    <!-- Mensagens -->
+    <div class="alert-messages">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <div class="form-container">
+      <form method="post" enctype="multipart/form-data" id="form-barbearia">
+        {% csrf_token %}
+        
+        <!-- Seção de Foto Centralizada -->
+        <div class="photo-section">
+          <div class="photo-container">
+            {% if barbearia.foto_logo %}
+              <img src="{{ barbearia.foto_logo.url }}" class="photo-preview" id="logo-preview">
+            {% else %}
+              <div class="photo-placeholder" id="logo-placeholder">🪒</div>
+            {% endif %}
+            <div class="status-indicator {% if barbearia.status_barbearia == 'fechado' %}fechado{% endif %}" id="status-indicator">
+              {{ barbearia.status_barbearia|upper|default:"ABERTO" }}
+            </div>
+          </div>
+          
+          <p class="photo-text">Clique na imagem para <strong>alterar a foto</strong></p>
+          <input type="file" id="logo-upload" name="logo-upload" accept="image/*">
+        </div>
+
+        <!-- Dados Básicos -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nome_barbearia">Nome da barbearia</label>
+            <input type="text" id="nome_barbearia" name="nome_barbearia" value="{{ barbearia.nome_barbearia }}" required>
+          </div>
+          <div class="form-group">
+            <label for="telefone_comercial">Telefone comercial</label>
+            <input type="tel" id="telefone_comercial" name="telefone_comercial" value="{{ barbearia.telefone_comercial }}" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="endereco">Endereço</label>
+            <input type="text" id="endereco" name="endereco" value="{{ barbearia.endereco }}" required>
+          </div>
+          <div class="form-group">
+            <label for="cidade">Cidade</label>
+            <input type="text" id="cidade" name="cidade" value="{{ barbearia.cidade }}" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="estado">Estado</label>
+            <select id="estado" name="estado" required>
+              <option value="">Selecione...</option>
+              <option value="DF" {% if barbearia.estado == 'DF' %}selected{% endif %}>Distrito Federal</option>
+              <option value="GO" {% if barbearia.estado == 'GO' %}selected{% endif %}>Goiás</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Status da Barbearia -->
+        <div class="status-section">
+          <div class="status-title">Status atual da barbearia</div>
+          <div class="status-buttons">
+            <button type="button" class="status-btn btn-aberto {% if barbearia.status_barbearia != 'fechado' %}active{% endif %}" id="btn-aberto">
+              ABERTO
+            </button>
+            <button type="button" class="status-btn btn-fechado {% if barbearia.status_barbearia == 'fechado' %}active{% endif %}" id="btn-fechado">
+              FECHADO
+            </button>
+          </div>
+          <input type="hidden" id="status_barbearia" name="status_barbearia" value="{{ barbearia.status_barbearia|default:'aberto' }}">
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="action-buttons">
+          <a href="{% url 'barbeiroatalho' %}" class="action-btn btn-cancelar" id="btn-cancelar">
+            CANCELAR
+          </a>
+          <button type="submit" class="action-btn btn-salvar">
+            SALVAR ALTERAÇÕES
+          </button>
+        </div>
+      </form>
+
+      <!-- Seção de Excluir Barbearia -->
+      <div class="excluir-section">
+        <div class="excluir-title">Zona de Perigo</div>
+        <div class="excluir-warning">
+          ⚠️ <strong>Atenção:</strong> Esta ação não pode ser desfeita. Ao excluir a barbearia, todos os dados serão permanentemente removidos, incluindo agendamentos e histórico.
+        </div>
+        <button type="button" class="btn-excluir-barbearia" onclick="abrirModalExclusao()">
+          EXCLUIR BARBEARIA
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação de Exclusão -->
+  <div class="modal" id="modalExclusao">
+    <div class="modal-content">
+      <div class="modal-title">Confirmar Exclusão</div>
+      <div class="modal-message">
+        Tem certeza que deseja excluir a barbearia <strong>"{{ barbearia.nome_barbearia }}"</strong>?<br><br>
+        Esta ação é <strong>irreversível</strong> e todos os dados serão perdidos permanentemente.
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="fecharModalExclusao()">Cancelar</button>
+        <form method="post" style="display: inline;">
+          {% csrf_token %}
+          <input type="hidden" name="excluir_barbearia" value="true">
+          <button type="submit" class="modal-btn confirm">Sim, Excluir</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Funções de Acessibilidade
+    function toggleMenuAcessibilidade() {
+      const menu = document.getElementById('menuAcessibilidade');
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
+      
+      menu.classList.toggle('aberto');
+      bolinha.classList.toggle('ativo');
+      bolinha.classList.remove('pulsando');
+      
+      // Fecha o menu se clicar fora dele
+      if (menu.classList.contains('aberto')) {
+        setTimeout(() => {
+          document.addEventListener('click', fecharMenuAoClicarFora);
+        }, 100);
+      } else {
+        document.removeEventListener('click', fecharMenuAoClicarFora);
+      }
+    }
+
+    function fecharMenuAoClicarFora(event) {
+      const menu = document.getElementById('menuAcessibilidade');
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
+      
+      if (!menu.contains(event.target) && !bolinha.contains(event.target)) {
+        menu.classList.remove('aberto');
+        bolinha.classList.remove('ativo');
+        document.removeEventListener('click', fecharMenuAoClicarFora);
+      }
+    }
+
+    function alternarTema() {
+      const temaAtual = document.documentElement.getAttribute('data-tema');
+      const novoTema = temaAtual === 'claro' ? 'escuro' : 'claro';
+      
+      fetch('{% url "alterar_tema" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({tema: novoTema})
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          document.documentElement.setAttribute('data-tema', novoTema);
+        }
+      });
+      
+      // Fecha o menu após a ação
+      toggleMenuAcessibilidade();
+    }
+
+    function aumentarFonte() {
+      const tamanhos = ['pequeno', 'medio', 'grande', 'muito_grande'];
+      const atual = document.documentElement.getAttribute('data-tamanho-fonte');
+      const indexAtual = tamanhos.indexOf(atual);
+      const novoIndex = Math.min(indexAtual + 1, tamanhos.length - 1);
+      
+      if (indexAtual !== novoIndex) {
+        alterarTamanhoFonte(tamanhos[novoIndex]);
+      }
+    }
+
+    function diminuirFonte() {
+      const tamanhos = ['pequeno', 'medio', 'grande', 'muito_grande'];
+      const atual = document.documentElement.getAttribute('data-tamanho-fonte');
+      const indexAtual = tamanhos.indexOf(atual);
+      const novoIndex = Math.max(indexAtual - 1, 0);
+      
+      if (indexAtual !== novoIndex) {
+        alterarTamanhoFonte(tamanhos[novoIndex]);
+      }
+    }
+
+    function alterarTamanhoFonte(tamanho) {
+      fetch('{% url "alterar_tamanho_fonte" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({tamanho: tamanho})
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          document.documentElement.setAttribute('data-tamanho-fonte', tamanho);
+        }
+      });
+    }
+
+    function resetarAcessibilidade() {
+      fetch('{% url "resetar_acessibilidade" %}')
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          document.documentElement.setAttribute('data-tema', 'claro');
+          document.documentElement.setAttribute('data-tamanho-fonte', 'medio');
+        }
+      });
+      
+      // Fecha o menu após a ação
+      toggleMenuAcessibilidade();
+    }
+
+    function getCSRFToken() {
+      const name = 'csrftoken';
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    // Máscara para telefone
+    document.getElementById('telefone_comercial').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 11) value = value.substring(0, 11);
+      if (value.length > 0) {
+        value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+        value = value.length > 10 ? 
+          value.replace(/(\d)(\d{4})$/, '$1-$2') : 
+          value.replace(/(\d)(\d{3})$/, '$1-$2');
+      }
+      e.target.value = value;
+    });
+
+    // Controle dos botões de status
+    const statusIndicator = document.getElementById('status-indicator');
+    const statusHiddenInput = document.getElementById('status_barbearia');
+    const btnAberto = document.getElementById('btn-aberto');
+    const btnFechado = document.getElementById('btn-fechado');
+
+    btnAberto.addEventListener('click', function() {
+      statusHiddenInput.value = 'aberto';
+      btnAberto.classList.add('active');
+      btnFechado.classList.remove('active');
+      statusIndicator.textContent = 'ABERTO';
+      statusIndicator.classList.remove('fechado');
+    });
+
+    btnFechado.addEventListener('click', function() {
+      statusHiddenInput.value = 'fechado';
+      btnFechado.classList.add('active');
+      btnAberto.classList.remove('active');
+      statusIndicator.textContent = 'FECHADO';
+      statusIndicator.classList.add('fechado');
+    });
+
+    // Controle do upload de foto
+    const logoUpload = document.getElementById('logo-upload');
+    const logoPlaceholder = document.getElementById('logo-placeholder');
+    const logoPreview = document.getElementById('logo-preview');
+
+    // Clique no placeholder ou preview
+    if (logoPlaceholder) {
+      logoPlaceholder.addEventListener('click', function() {
+        logoUpload.click();
+      });
+    }
+
+    if (logoPreview) {
+      logoPreview.addEventListener('click', function() {
+        logoUpload.click();
+      });
+    }
+
+    // Preview da imagem
+    logoUpload.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const existingPreview = document.getElementById('logo-preview');
+          
+          if (existingPreview) {
+            existingPreview.src = event.target.result;
+          } else {
+            const newPreview = document.createElement('img');
+            newPreview.src = event.target.result;
+            newPreview.className = 'photo-preview';
+            newPreview.id = 'logo-preview';
+            newPreview.addEventListener('click', function() {
+              logoUpload.click();
+            });
+            
+            const placeholder = document.getElementById('logo-placeholder');
+            placeholder.replaceWith(newPreview);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Função para confirmar cancelamento
+    function confirmarCancelamento() {
+      if (confirm('Tem certeza que deseja cancelar? Todas as alterações não salvas serão perdidas.')) {
+        window.location.href = "{% url 'barbeiroatalho' %}";
+      }
+    }
+
+    // Adicionar evento de clique ao botão de cancelar
+    document.getElementById('btn-cancelar').addEventListener('click', function(e) {
+      e.preventDefault();
+      confirmarCancelamento();
+    });
+
+    // Funções para o modal de exclusão
+    function abrirModalExclusao() {
+      document.getElementById('modalExclusao').style.display = 'flex';
+    }
+
+    function fecharModalExclusao() {
+      document.getElementById('modalExclusao').style.display = 'none';
+    }
+
+    // Fechar modal ao clicar fora dele
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('modalExclusao');
+      if (event.target === modal) {
+        fecharModalExclusao();
+      }
+    });
+
+    // Adicionar confirmação antes de enviar o formulário de exclusão
+    document.querySelector('form[action*="excluir_barbearia"]')?.addEventListener('submit', function(e) {
+      if (!confirm('Tem certeza absoluta que deseja excluir esta barbearia? Esta ação não pode ser desfeita!')) {
+        e.preventDefault();
+      }
+    });
+
+    // Para de pulsar a bolinha depois de 10 segundos
+    setTimeout(() => {
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
+      if (bolinha) {
+        bolinha.classList.remove('pulsando');
+      }
+    }, 10000);
+  </script>
+</body>
+</html>

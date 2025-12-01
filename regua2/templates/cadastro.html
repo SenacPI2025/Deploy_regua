@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-tema="{{ config_acessibilidade.tema|default:'claro' }}" data-tamanho-fonte="{{ config_acessibilidade.tamanho_fonte|default:'medio' }}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro | Regua</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a2e8d043f0.js" crossorigin="anonymous"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Variáveis CSS para temas */
+    :root[data-tema="claro"] {
+      --cor-fundo: #f8fafc;
+      --cor-texto: #1e293b;
+      --cor-primaria: #10b981;
+      --cor-primaria-hover: #059669;
+      --cor-secundaria: #64748b;
+      --cor-borda: #e2e8f0;
+      --cor-input: #ffffff;
+      --cor-input-texto: #1e293b;
+      --cor-erro: #ef4444;
+      --cor-erro-bg: #fef2f2;
+      --cor-erro-border: #fecaca;
+      --cor-sucesso: #10b981;
+      --cor-sombra: rgba(0, 0, 0, 0.08);
+      --cor-widget: #ffffff;
+      --cor-widget-texto: #334155;
+      --cor-widget-hover: #f8fafc;
+      --gradiente-primario: linear-gradient(135deg, #10b981, #34d399);
+      --cor-bolinha: #10b981;
+      --cor-bolinha-hover: #059669;
+      --cor-card: #ffffff;
+      --cor-sombra-card: rgba(0, 0, 0, 0.05);
+      --cor-role-cliente: #10b981;
+      --cor-role-barbearia: #8b5cf6;
+    }
+
+    :root[data-tema="escuro"] {
+      --cor-fundo: #0f172a;
+      --cor-texto: #f1f5f9;
+      --cor-primaria: #10b981;
+      --cor-primaria-hover: #34d399;
+      --cor-secundaria: #94a3b8;
+      --cor-borda: #334155;
+      --cor-input: #1e293b;
+      --cor-input-texto: #f1f5f9;
+      --cor-erro: #f87171;
+      --cor-erro-bg: #450a0a;
+      --cor-erro-border: #7f1d1d;
+      --cor-sucesso: #10b981;
+      --cor-sombra: rgba(0, 0, 0, 0.4);
+      --cor-widget: #1e293b;
+      --cor-widget-texto: #f1f5f9;
+      --cor-widget-hover: #334155;
+      --gradiente-primario: linear-gradient(135deg, #10b981, #059669);
+      --cor-bolinha: #10b981;
+      --cor-bolinha-hover: #34d399;
+      --cor-card: #1e293b;
+      --cor-sombra-card: rgba(0, 0, 0, 0.3);
+      --cor-role-cliente: #10b981;
+      --cor-role-barbearia: #8b5cf6;
+    }
+
+    /* Tamanhos de fonte */
+    :root[data-tamanho-fonte="pequeno"] {
+      --tamanho-fonte: 12px;
+      --tamanho-h1: 1.5rem;
+      --tamanho-h2: 1.3rem;
+      --tamanho-p: 0.9rem;
+    }
+
+    :root[data-tamanho-fonte="medio"] {
+      --tamanho-fonte: 16px;
+      --tamanho-h1: 2rem;
+      --tamanho-h2: 1.5rem;
+      --tamanho-p: 1rem;
+    }
+
+    :root[data-tamanho-fonte="grande"] {
+      --tamanho-fonte: 20px;
+      --tamanho-h1: 2.5rem;
+      --tamanho-h2: 2rem;
+      --tamanho-p: 1.1rem;
+    }
+
+    :root[data-tamanho-fonte="muito_grande"] {
+      --tamanho-fonte: 24px;
+      --tamanho-h1: 3rem;
+      --tamanho-h2: 2.5rem;
+      --tamanho-p: 1.3rem;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--cor-fundo);
+      color: var(--cor-texto);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-size: var(--tamanho-fonte);
+      transition: all 0.3s ease;
+      line-height: 1.6;
+    }
+
+    header {
+      border-bottom: 1px solid var(--cor-borda);
+      text-align: center;
+      padding: 20px;
+      background-color: var(--cor-card);
+      box-shadow: 0 2px 10px var(--cor-sombra);
+    }
+
+    header h1 {
+      font-size: var(--tamanho-h1);
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    header span {
+      color: var(--cor-primaria);
+    }
+
+    main {
+      padding: 40px 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cadastro-card {
+      background: var(--cor-card);
+      border-radius: 20px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 10px 30px var(--cor-sombra-card);
+      border: 1px solid var(--cor-borda);
+      transition: all 0.3s ease;
+    }
+
+    .cadastro-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px var(--cor-sombra-card);
+    }
+
+    .title {
+      font-size: var(--tamanho-h2);
+      letter-spacing: 8px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-align: center;
+      color: var(--cor-texto);
+    }
+
+    .subtitle {
+      font-size: var(--tamanho-p);
+      color: var(--cor-secundaria);
+      margin-bottom: 30px;
+      text-align: center;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    form {
+      width: 100%;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 16px;
+    }
+
+    .input-row .input-group {
+      flex: 1;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 16px 20px 16px 50px;
+      border: 1px solid var(--cor-borda);
+      border-radius: 12px;
+      font-size: var(--tamanho-p);
+      outline: none;
+      background-color: var(--cor-input);
+      color: var(--cor-input-texto);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .input-group input:focus {
+      border-color: var(--cor-primaria);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+    }
+
+    .input-group input.error {
+      border-color: var(--cor-erro);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+    }
+
+    .input-group i {
+      position: absolute;
+      top: 50%;
+      left: 18px;
+      transform: translateY(-50%);
+      color: var(--cor-secundaria);
+      transition: color 0.3s ease;
+    }
+
+    .input-group input:focus + i {
+      color: var(--cor-primaria);
+    }
+
+    .role-section {
+      margin: 30px 0;
+      padding: 20px;
+      background: var(--cor-fundo);
+      border-radius: 12px;
+      border: 1px solid var(--cor-borda);
+    }
+
+    .role-label {
+      font-weight: 600;
+      margin-bottom: 15px;
+      font-size: var(--tamanho-p);
+      text-align: center;
+      color: var(--cor-texto);
+    }
+
+    .role-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .role-buttons button {
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: var(--tamanho-p);
+      flex: 1;
+      max-width: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cliente-btn {
+      background-color: var(--cor-role-cliente);
+      color: white;
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+    }
+
+    .trabalhador-btn {
+      background-color: var(--cor-role-barbearia);
+      color: white;
+      box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+    }
+
+    .active-role {
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .role-icon {
+      font-size: 20px;
+    }
+
+    .login-text {
+      margin: 24px 0;
+      font-size: var(--tamanho-p);
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .login-text a {
+      color: var(--cor-primaria);
+      text-decoration: none;
+      margin-left: 4px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .login-text a:hover {
+      text-decoration: underline;
+      color: var(--cor-primaria-hover);
+    }
+
+    .confirm-btn-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .confirm-btn {
+      background: var(--gradiente-primario);
+      color: white;
+      padding: 16px 40px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: var(--tamanho-p);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+      width: 100%;
+      letter-spacing: 0.5px;
+    }
+
+    .confirm-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .confirm-btn:active {
+      transform: translateY(0);
+    }
+
+    .error-message {
+      color: var(--cor-erro);
+      font-size: 12px;
+      margin-top: 5px;
+      text-align: left;
+      padding-left: 18px;
+      display: none;
+      font-weight: 500;
+    }
+
+    .server-error {
+      color: var(--cor-erro);
+      font-size: var(--tamanho-p);
+      margin: 15px 0;
+      text-align: center;
+      padding: 12px 16px;
+      background-color: var(--cor-erro-bg);
+      border-radius: 8px;
+      border: 1px solid var(--cor-erro-border);
+      width: 100%;
+      font-weight: 500;
+    }
+
+    /* Bolinha de Acessibilidade */
+    .bolinha-acessibilidade {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: var(--cor-bolinha);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: 0 4px 20px var(--cor-sombra);
+      transition: all 0.3s ease;
+      border: none;
+      color: white;
+      font-size: 24px;
+    }
+
+    .bolinha-acessibilidade:hover {
+      transform: scale(1.1);
+      background: var(--cor-bolinha-hover);
+      box-shadow: 0 6px 25px var(--cor-sombra);
+    }
+
+    .bolinha-acessibilidade.ativo {
+      transform: rotate(45deg);
+      background: var(--cor-bolinha-hover);
+    }
+
+    /* Menu de Acessibilidade */
+    .menu-acessibilidade {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      background: var(--cor-widget);
+      border: 1px solid var(--cor-borda);
+      border-radius: 15px;
+      padding: 20px;
+      z-index: 1000;
+      box-shadow: 0 8px 30px var(--cor-sombra);
+      backdrop-filter: blur(10px);
+      transform: scale(0.8);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      min-width: 200px;
+    }
+
+    .menu-acessibilidade.aberto {
+      transform: scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .menu-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .menu-titulo {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--cor-widget-texto);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .menu-botoes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+
+    .botao-acessibilidade {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 8px;
+      background: var(--gradiente-primario);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      min-height: 60px;
+      gap: 5px;
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+    }
+
+    .botao-acessibilidade:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .botao-acessibilidade .icone {
+      font-size: 18px;
+    }
+
+    .botao-acessibilidade .texto {
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    footer {
+      border-top: 1px solid var(--cor-borda);
+      height: 30px;
+      background-color: var(--cor-card);
+    }
+
+    /* Efeito de pulso na bolinha */
+    .bolinha-acessibilidade.pulsando {
+      animation: pulse 2s infinite;
+    }
+
+    @media (max-width: 768px) {
+      .cadastro-card {
+        padding: 30px 20px;
+        max-width: 400px;
+      }
+      
+      .input-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .bolinha-acessibilidade {
+        width: 70px;
+        height: 70px;
+        bottom: 25px;
+        right: 25px;
+        font-size: 28px;
+      }
+
+      .menu-acessibilidade {
+        bottom: 110px;
+        right: 25px;
+        min-width: 180px;
+        padding: 15px;
+      }
+
+      .menu-botoes {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .botao-acessibilidade {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 12px 15px;
+        min-height: 50px;
+        gap: 12px;
+      }
+
+      .botao-acessibilidade .icone {
+        font-size: 20px;
+      }
+
+      .botao-acessibilidade .texto {
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .title {
+        font-size: 20px;
+        letter-spacing: 6px;
+      }
+
+      .role-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .role-buttons button {
+        max-width: 100%;
+      }
+
+      .confirm-btn-container {
+        justify-content: center;
+      }
+
+      .confirm-btn {
+        width: 100%;
+      }
+
+      .bolinha-acessibilidade {
+        width: 65px;
+        height: 65px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 26px;
+      }
+
+      .menu-acessibilidade {
+        bottom: 100px;
+        right: 20px;
+        min-width: 170px;
+      }
+    }
+
+    /* Para telas muito pequenas */
+    @media (max-width: 360px) {
+      .menu-acessibilidade {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+      }
+      
+      .cadastro-card {
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Bolinha de Acessibilidade -->
+  <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
+    ♿
+  </button>
+
+  <!-- Menu de Acessibilidade -->
+  <div class="menu-acessibilidade" id="menuAcessibilidade">
+    <div class="menu-conteudo">
+      <div class="menu-titulo">Acessibilidade</div>
+      <div class="menu-botoes">
+        <button class="botao-acessibilidade" onclick="alternarTema()">
+          <span class="icone">🌓</span>
+          <span class="texto">Tema</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="aumentarFonte()">
+          <span class="icone">A+</span>
+          <span class="texto">Aumentar Fonte</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="diminuirFonte()">
+          <span class="icone">A-</span>
+          <span class="texto">Diminuir Fonte</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="resetarAcessibilidade()">
+          <span class="icone">↻</span>
+          <span class="texto">Resetar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <h1><span>R</span>egua</h1>
+  </header>
+
+  <main>
+    <div class="cadastro-card">
+      <h2 class="title">CADASTRO</h2>
+      <p class="subtitle">
+        Faça seu cadastro e tenha acesso rápido <br />
+        aos melhores horários, barbeiros e serviços.
+      </p>
+
+      <!-- Mensagem de erro do servidor -->
+      {% if cadastro %}
+      <div class="server-error" id="serverError">
+        {{ cadastro }}
+      </div>
+      {% endif %}
+
+      <form method="post" action="{% url 'autenticar' %}" id="cadastroForm">
+        {% csrf_token %}
+        
+        <div class="input-row">
+          <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" name="nome" placeholder="Nome" required>
+          </div>
+          
+          <div class="input-group">
+            <i class="fas fa-user"></i>
+            <input type="text" name="sobrenome" placeholder="Sobrenome" required>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-envelope"></i>
+          <input type="email" name="email" id="email" placeholder="E-mail" required>
+          <div class="error-message" id="emailError">O email deve terminar com @gmail.com</div>
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" name="senha" id="senha" placeholder="Senha" required>
+          <div class="error-message" id="senhaError">A senha deve ter no mínimo 8 caracteres</div>
+        </div>
+
+        <div class="role-section">
+          <div class="role-label">VOCÊ É CLIENTE OU BARBEARIA?</div>
+          <div class="role-buttons">
+            <button type="button" id="clienteBtn" class="cliente-btn active-role">
+              <span class="role-icon">👤</span>
+              <span>CLIENTE</span>
+            </button>
+            <button type="button" id="barbeariaBtn" class="trabalhador-btn">
+              <span class="role-icon">💈</span>
+              <span>BARBEARIA</span>
+            </button>
+            <input type="hidden" name="tipo" id="tipoUsuario" value="cliente">
+          </div>
+        </div>
+
+        <div class="login-text">
+          JÁ TEM UMA CONTA? <a href="{% url 'loginatalho' %}">LOGIN</a>
+        </div>
+
+        <div class="confirm-btn-container">
+          <button type="submit" name="cadastrar" class="confirm-btn">CRIAR CONTA</button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <footer></footer>
+
+  <script>
+    // Controle do menu de acessibilidade
+    function toggleMenuAcessibilidade() {
+      const menu = document.getElementById('menuAcessibilidade');
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
+      
+      menu.classList.toggle('aberto');
+      bolinha.classList.toggle('ativo');
+      bolinha.classList.remove('pulsando');
+      
+      // Fecha o menu se clicar fora dele
+      if (menu.classList.contains('aberto')) {
+        setTimeout(() => {
+          document.addEventListener('click', fecharMenuAoClicarFora);
+        }, 100);
+      } else {
+        document.removeEventListener('click', fecharMenuAoClicarFora);
+      }
+    }
+
+    function fecharMenuAoClicarFora(event) {
+      const menu = document.getElementById('menuAcessibilidade');
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
+      
+      if (!menu.contains(event.target) && !bolinha.contains(event.target)) {
+        menu.classList.remove('aberto');
+        bolinha.classList.remove('ativo');
+        document.removeEventListener('click', fecharMenuAoClicarFora);
+      }
+    }
+
+    // Funções de acessibilidade
+    function alternarTema() {
+        const temaAtual = document.documentElement.getAttribute('data-tema');
+        const novoTema = temaAtual === 'claro' ? 'escuro' : 'claro';
+        
+        fetch('{% url "alterar_tema" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            },
+            body: JSON.stringify({tema: novoTema})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                document.documentElement.setAttribute('data-tema', novoTema);
+            }
+        });
+        
+        // Fecha o menu após a ação
+        toggleMenuAcessibilidade();
+    }
+
+    function aumentarFonte() {
+        const tamanhos = ['pequeno', 'medio', 'grande', 'muito_grande'];
+        const atual = document.documentElement.getAttribute('data-tamanho-fonte');
+        const indexAtual = tamanhos.indexOf(atual);
+        const novoIndex = Math.min(indexAtual + 1, tamanhos.length - 1);
+        
+        if (indexAtual !== novoIndex) {
+            alterarTamanhoFonte(tamanhos[novoIndex]);
+        }
+    }
+
+    function diminuirFonte() {
+        const tamanhos = ['pequeno', 'medio', 'grande', 'muito_grande'];
+        const atual = document.documentElement.getAttribute('data-tamanho-fonte');
+        const indexAtual = tamanhos.indexOf(atual);
+        const novoIndex = Math.max(indexAtual - 1, 0);
+        
+        if (indexAtual !== novoIndex) {
+            alterarTamanhoFonte(tamanhos[novoIndex]);
+        }
+    }
+
+    function alterarTamanhoFonte(tamanho) {
+        fetch('{% url "alterar_tamanho_fonte" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCSRFToken()
+            },
+            body: JSON.stringify({tamanho: tamanho})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                document.documentElement.setAttribute('data-tamanho-fonte', tamanho);
+            }
+        });
+    }
+
+    function resetarAcessibilidade() {
+        fetch('{% url "resetar_acessibilidade" %}')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                document.documentElement.setAttribute('data-tema', 'claro');
+                document.documentElement.setAttribute('data-tamanho-fonte', 'medio');
+            }
+        });
+        
+        // Fecha o menu após a ação
+        toggleMenuAcessibilidade();
+    }
+
+    function getCSRFToken() {
+        const name = 'csrftoken';
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const clienteBtn = document.getElementById('clienteBtn');
+      const barbeariaBtn = document.getElementById('barbeariaBtn');
+      const tipoUsuario = document.getElementById('tipoUsuario');
+      const emailInput = document.getElementById('email');
+      const senhaInput = document.getElementById('senha');
+      const emailError = document.getElementById('emailError');
+      const senhaError = document.getElementById('senhaError');
+      const serverError = document.getElementById('serverError');
+      const form = document.getElementById('cadastroForm');
+      
+      function selecionarTipo(tipo) {
+        if (tipo === 'cliente') {
+          clienteBtn.classList.add('active-role');
+          barbeariaBtn.classList.remove('active-role');
+          tipoUsuario.value = 'cliente';
+        } else {
+          clienteBtn.classList.remove('active-role');
+          barbeariaBtn.classList.add('active-role');
+          tipoUsuario.value = 'barbearia';
+        }
+      }
+      
+      clienteBtn.addEventListener('click', function() {
+        selecionarTipo('cliente');
+      });
+      
+      barbeariaBtn.addEventListener('click', function() {
+        selecionarTipo('barbearia');
+      });
+
+      // Validação do email
+      emailInput.addEventListener('blur', function() {
+        validateEmail();
+      });
+
+      emailInput.addEventListener('input', function() {
+        if (emailError.style.display === 'block') {
+          emailError.style.display = 'none';
+          emailInput.classList.remove('error');
+        }
+        // Limpa erro do servidor quando usuário digitar
+        if (serverError) {
+          serverError.style.display = 'none';
+        }
+      });
+
+      // Validação da senha
+      senhaInput.addEventListener('blur', function() {
+        validateSenha();
+      });
+
+      senhaInput.addEventListener('input', function() {
+        if (senhaError.style.display === 'block') {
+          senhaError.style.display = 'none';
+          senhaInput.classList.remove('error');
+        }
+        // Limpa erro do servidor quando usuário digitar
+        if (serverError) {
+          serverError.style.display = 'none';
+        }
+      });
+
+      function validateEmail() {
+        const email = emailInput.value.trim();
+        if (email && !email.endsWith('@gmail.com')) {
+          emailError.style.display = 'block';
+          emailInput.classList.add('error');
+          return false;
+        } else {
+          emailError.style.display = 'none';
+          emailInput.classList.remove('error');
+          return true;
+        }
+      }
+
+      function validateSenha() {
+        const senha = senhaInput.value;
+        if (senha && senha.length < 8) {
+          senhaError.style.display = 'block';
+          senhaInput.classList.add('error');
+          return false;
+        } else {
+          senhaError.style.display = 'none';
+          senhaInput.classList.remove('error');
+          return true;
+        }
+      }
+
+      // Validação do formulário
+      form.addEventListener('submit', function(e) {
+        let isValid = true;
+        
+        if (!validateEmail()) {
+          isValid = false;
+          emailError.style.display = 'block';
+          emailInput.classList.add('error');
+          if (!emailInput.value.trim()) {
+            emailInput.focus();
+          }
+        }
+        
+        if (!validateSenha()) {
+          isValid = false;
+          senhaError.style.display = 'block';
+          senhaInput.classList.add('error');
+          if (isValid && emailInput.value.trim()) {
+            senhaInput.focus();
+          }
+        }
+        
+        if (!isValid) {
+          e.preventDefault();
+          // Foca no primeiro campo com erro
+          if (!emailInput.value.trim() || !validateEmail()) {
+            emailInput.focus();
+          } else if (!senhaInput.value || !validateSenha()) {
+            senhaInput.focus();
+          }
+        }
+      });
+
+      // Para de pulsar a bolinha depois de 10 segundos
+      setTimeout(() => {
+        const bolinha = document.querySelector('.bolinha-acessibilidade');
+        if (bolinha) {
+          bolinha.classList.remove('pulsando');
+        }
+      }, 10000);
+    });
+  </script>
+</body>
+</html>
