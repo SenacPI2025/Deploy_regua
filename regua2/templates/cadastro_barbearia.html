@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastrar Barbearia | Regua</title>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
   <style>
     /* Variáveis CSS para temas */
     :root[data-tema="claro"] {
@@ -30,6 +31,8 @@
       --cor-input-fundo: #f8fafc;
       --cor-input-texto: #1e293b;
       --cor-input-borda: #e2e8f0;
+      --cor-leitor-texto: rgba(29, 185, 84, 0.1);
+      --cor-leitor-borda: #1DB954;
     }
 
     :root[data-tema="escuro"] {
@@ -55,6 +58,8 @@
       --cor-input-fundo: #374151;
       --cor-input-texto: #ffffff;
       --cor-input-borda: #4b5563;
+      --cor-leitor-texto: rgba(29, 185, 84, 0.2);
+      --cor-leitor-borda: #1DB954;
     }
 
     /* Tamanhos de fonte */
@@ -103,6 +108,12 @@
       padding: 20px;
       font-size: var(--tamanho-fonte);
       transition: all 0.3s ease;
+      user-select: text;
+    }
+
+    ::selection {
+      background-color: var(--cor-leitor-texto);
+      color: var(--cor-texto);
     }
 
     .container {
@@ -440,7 +451,7 @@
     .bolinha-acessibilidade {
       position: fixed;
       bottom: 20px;
-      right: 20px;
+      right: 90px;
       width: 60px;
       height: 60px;
       background: var(--cor-bolinha);
@@ -468,11 +479,187 @@
       background: var(--cor-bolinha-hover);
     }
 
+    /* Botão de Leitura de Texto */
+    .botao-leitura-texto {
+      position: fixed;
+      bottom: 20px;
+      right: 160px;
+      width: 60px;
+      height: 60px;
+      background: var(--cor-primaria);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: 0 4px 20px var(--cor-sombra);
+      transition: all 0.3s ease;
+      border: none;
+      color: white;
+      font-size: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+    }
+
+    .botao-leitura-texto.ativo {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .botao-leitura-texto:hover {
+      transform: scale(1.1);
+      background: var(--cor-primaria-escura);
+    }
+
+    .botao-leitura-texto.ouvindo {
+      animation: pulsar 1.5s infinite;
+      background: #ff4757;
+    }
+
+    @keyframes pulsar {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
+      }
+    }
+
+    /* Controles do Leitor de Texto */
+    .controles-leitor {
+      position: fixed;
+      bottom: 90px;
+      right: 160px;
+      background: var(--cor-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: 15px;
+      padding: 15px;
+      z-index: 1000;
+      box-shadow: 0 8px 30px var(--cor-sombra);
+      transform: scale(0.8);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      min-width: 180px;
+    }
+
+    .controles-leitor.aberto {
+      transform: scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .controles-leitor-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .controle-leitor-titulo {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--cor-texto);
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    .controles-leitor-botoes {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .controle-leitor-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--cor-primaria);
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .controle-leitor-btn:hover {
+      background: var(--cor-primaria-escura);
+      transform: scale(1.1);
+    }
+
+    .controle-leitor-btn:disabled {
+      background: var(--cor-secundaria);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .velocidade-leitor {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    .velocidade-leitor label {
+      font-size: 12px;
+      color: var(--cor-texto);
+      white-space: nowrap;
+    }
+
+    .velocidade-leitor input {
+      flex: 1;
+      width: 100%;
+      height: 5px;
+      background: var(--cor-borda);
+      border-radius: 10px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .velocidade-leitor input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--cor-primaria);
+      cursor: pointer;
+    }
+
+    .velocidade-leitor input::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--cor-primaria);
+      cursor: pointer;
+      border: none;
+    }
+
+    .velocidade-valor {
+      font-size: 12px;
+      color: var(--cor-texto);
+      min-width: 30px;
+      text-align: center;
+    }
+
     /* Menu de Acessibilidade */
     .menu-acessibilidade {
       position: fixed;
       bottom: 90px;
-      right: 20px;
+      right: 90px;
       background: var(--cor-widget);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
@@ -550,6 +737,35 @@
       text-align: center;
     }
 
+    /* VLibras Widget Styles */
+    .vw-plugin-top-wrapper {
+      z-index: 9999 !important;
+    }
+    
+    div[vw] {
+      z-index: 9999 !important;
+    }
+    
+    div[vw] .vw-access-button {
+      background-color: var(--cor-primaria) !important;
+      border-radius: 50% !important;
+      width: 50px !important;
+      height: 50px !important;
+      bottom: 20px !important;
+      left: 20px !important;
+      box-shadow: 0 4px 20px var(--cor-sombra) !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    div[vw] .vw-access-button:hover {
+      transform: scale(1.1) !important;
+      background-color: var(--cor-bolinha-hover) !important;
+    }
+    
+    div[vw] .vw-access-button img {
+      filter: brightness(0) invert(1) !important;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -603,18 +819,29 @@
       }
 
       .bolinha-acessibilidade {
-        width: 70px;
-        height: 70px;
-        bottom: 25px;
-        right: 25px;
-        font-size: 28px;
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        right: 70px;
       }
 
       .menu-acessibilidade {
-        bottom: 110px;
-        right: 25px;
+        bottom: 80px;
+        right: 70px;
         min-width: 180px;
         padding: 15px;
+      }
+
+      .botao-leitura-texto {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        right: 130px;
+      }
+
+      .controles-leitor {
+        right: 130px;
+        bottom: 80px;
       }
 
       .menu-botoes {
@@ -637,24 +864,98 @@
       .botao-acessibilidade .texto {
         font-size: 12px;
       }
+
+      div[vw] .vw-access-button {
+        width: 45px !important;
+        height: 45px !important;
+        bottom: 20px !important;
+        left: 15px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .bolinha-acessibilidade {
+        width: 45px;
+        height: 45px;
+        right: 60px;
+      }
+
+      .menu-acessibilidade {
+        right: 60px;
+      }
+
+      .botao-leitura-texto {
+        width: 45px;
+        height: 45px;
+        right: 115px;
+      }
+
+      .controles-leitor {
+        right: 115px;
+      }
+
+      div[vw] .vw-access-button {
+        width: 40px !important;
+        height: 40px !important;
+        bottom: 20px !important;
+        left: 10px !important;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .bolinha-acessibilidade {
+        right: 50px;
+      }
+
+      .menu-acessibilidade {
+        right: 50px;
+      }
+
+      .botao-leitura-texto {
+        right: 100px;
+      }
+
+      .controles-leitor {
+        right: 100px;
+      }
     }
   </style>
 </head>
 <body>
-  {% if messages %}
-  <div class="alert-messages">
-      {% for message in messages %}
-      <div class="alert alert-{{ message.tags }}">
-          {{ message }}
-      </div>
-      {% endfor %}
+  <!-- VLibras Widget -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
   </div>
-  {% endif %}
 
   <!-- Bolinha de Acessibilidade -->
   <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
     ♿
   </button>
+
+  <!-- Botão de Leitura de Texto -->
+  <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
+    🔊
+  </button>
+
+  <!-- Controles do Leitor de Texto -->
+  <div class="controles-leitor" id="controlesLeitor">
+    <div class="controles-leitor-conteudo">
+      <div class="controle-leitor-titulo">Leitor de Texto</div>
+      <div class="controles-leitor-botoes">
+        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
+        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
+        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
+      </div>
+      <div class="velocidade-leitor">
+        <label for="velocidadeLeitor">Velocidade:</label>
+        <input type="range" id="velocidadeLeitor" min="0.5" max="2" step="0.1" value="1" oninput="atualizarVelocidade(this.value)">
+        <span class="velocidade-valor" id="velocidadeValor">1x</span>
+      </div>
+    </div>
+  </div>
 
   <!-- Menu de Acessibilidade -->
   <div class="menu-acessibilidade" id="menuAcessibilidade">
@@ -673,6 +974,10 @@
           <span class="icone">A-</span>
           <span class="texto">Diminuir Fonte</span>
         </button>
+        <button class="botao-acessibilidade" onclick="ativarLeitorTexto()">
+          <span class="icone">🔊</span>
+          <span class="texto">Leitor</span>
+        </button>
         <button class="botao-acessibilidade" onclick="resetarAcessibilidade()">
           <span class="icone">↻</span>
           <span class="texto">Resetar</span>
@@ -680,6 +985,16 @@
       </div>
     </div>
   </div>
+
+  {% if messages %}
+  <div class="alert-messages">
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+      </div>
+      {% endfor %}
+  </div>
+  {% endif %}
 
   <div class="container">
     <div class="header">
@@ -767,7 +1082,292 @@
   </div>
 
   <script>
-    // Funções de acessibilidade
+    let synth = window.speechSynthesis;
+    let utterance = null;
+    let isSpeaking = false;
+    let isPaused = false;
+    let speechRate = 1;
+    let selectedText = '';
+    let leitorAtivo = false;
+
+    window.addEventListener('DOMContentLoaded', function() {
+      if (typeof VLibras !== 'undefined') {
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+      }
+
+      document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
+      document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
+    });
+
+    document.addEventListener('mouseup', function() {
+      const textoSelecionado = window.getSelection().toString().trim();
+      
+      if (textoSelecionado && textoSelecionado.length > 0) {
+        selectedText = textoSelecionado;
+        
+        if (leitorAtivo) {
+          mostrarBotaoLeitura();
+        }
+        
+        highlightSelectedText();
+      } else {
+        esconderBotaoLeitura();
+        clearHighlight();
+      }
+    });
+
+    document.addEventListener('keyup', function(e) {
+      if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt') {
+        const textoSelecionado = window.getSelection().toString().trim();
+        
+        if (textoSelecionado && textoSelecionado.length > 0) {
+          selectedText = textoSelecionado;
+          
+          if (leitorAtivo) {
+            mostrarBotaoLeitura();
+          }
+          
+          highlightSelectedText();
+        } else {
+          esconderBotaoLeitura();
+          clearHighlight();
+        }
+      }
+    });
+
+    function ativarLeitorTexto() {
+      leitorAtivo = !leitorAtivo;
+      
+      if (leitorAtivo) {
+        mostrarBotaoLeitura();
+        document.getElementById('botaoLeituraTexto').title = "Leitor de texto ativado. Selecione texto para ler.";
+        
+        const textoSelecionado = window.getSelection().toString().trim();
+        if (textoSelecionado) {
+          selectedText = textoSelecionado;
+          mostrarBotaoLeitura();
+        }
+      } else {
+        esconderBotaoLeitura();
+        fecharControlesLeitor();
+        pararLeitura();
+        document.getElementById('botaoLeituraTexto').title = "Leitor de texto desativado";
+      }
+      
+      toggleMenuAcessibilidade();
+    }
+
+    function mostrarBotaoLeitura() {
+      const botao = document.getElementById('botaoLeituraTexto');
+      botao.classList.add('ativo');
+    }
+
+    function esconderBotaoLeitura() {
+      const botao = document.getElementById('botaoLeituraTexto');
+      botao.classList.remove('ativo');
+    }
+
+    function toggleControlesLeitor() {
+      const controles = document.getElementById('controlesLeitor');
+      const botao = document.getElementById('botaoLeituraTexto');
+      
+      controles.classList.toggle('aberto');
+      
+      const menuAcessibilidade = document.getElementById('menuAcessibilidade');
+      if (menuAcessibilidade.classList.contains('aberto')) {
+        menuAcessibilidade.classList.remove('aberto');
+      }
+      
+      if (controles.classList.contains('aberto')) {
+        setTimeout(() => {
+          document.addEventListener('click', fecharControlesAoClicarFora);
+        }, 100);
+      } else {
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
+    }
+
+    function fecharControlesAoClicarFora(event) {
+      const controles = document.getElementById('controlesLeitor');
+      const botao = document.getElementById('botaoLeituraTexto');
+      
+      if (!controles.contains(event.target) && !botao.contains(event.target)) {
+        controles.classList.remove('aberto');
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
+    }
+
+    function fecharControlesLeitor() {
+      const controles = document.getElementById('controlesLeitor');
+      controles.classList.remove('aberto');
+      document.removeEventListener('click', fecharControlesAoClicarFora);
+    }
+
+    function lerTextoSelecionado() {
+      if (!selectedText || selectedText.length === 0) {
+        const textoSelecionado = window.getSelection().toString().trim();
+        if (textoSelecionado) {
+          selectedText = textoSelecionado;
+        } else {
+          alert('Por favor, selecione algum texto para ler.');
+          return;
+        }
+      }
+      
+      if (isSpeaking && !isPaused) {
+        synth.cancel();
+      }
+      
+      utterance = new SpeechSynthesisUtterance(selectedText);
+      
+      utterance.lang = 'pt-BR';
+      utterance.rate = speechRate;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      
+      utterance.onstart = function() {
+        isSpeaking = true;
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.add('ouvindo');
+      };
+      
+      utterance.onend = function() {
+        isSpeaking = false;
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+      };
+      
+      utterance.onerror = function(event) {
+        console.error('Erro no leitor de texto:', event);
+        isSpeaking = false;
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+        
+        if (event.error === 'not-allowed') {
+          alert('Permissão para usar síntese de voz não concedida. Por favor, verifique as configurações do seu navegador.');
+        }
+      };
+      
+      synth.speak(utterance);
+    }
+
+    function pausarLeitura() {
+      if (isSpeaking && !isPaused) {
+        synth.pause();
+        isPaused = true;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+      } else if (isSpeaking && isPaused) {
+        synth.resume();
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.add('ouvindo');
+      }
+    }
+
+    function pararLeitura() {
+      synth.cancel();
+      isSpeaking = false;
+      isPaused = false;
+      atualizarBotoesLeitor();
+      document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+    }
+
+    function atualizarVelocidade(valor) {
+      speechRate = parseFloat(valor);
+      document.getElementById('velocidadeValor').textContent = valor + 'x';
+      
+      if (utterance && isSpeaking) {
+        synth.cancel();
+        utterance.rate = speechRate;
+        synth.speak(utterance);
+      }
+    }
+
+    function atualizarBotoesLeitor() {
+      const btnPlay = document.getElementById('btnPlay');
+      const btnPause = document.getElementById('btnPause');
+      const btnStop = document.getElementById('btnStop');
+      
+      if (isSpeaking && !isPaused) {
+        btnPlay.disabled = true;
+        btnPause.disabled = false;
+        btnStop.disabled = false;
+        btnPause.title = "Pausar leitura";
+      } else if (isSpeaking && isPaused) {
+        btnPlay.disabled = true;
+        btnPause.disabled = false;
+        btnStop.disabled = false;
+        btnPause.title = "Continuar leitura";
+      } else {
+        btnPlay.disabled = false;
+        btnPause.disabled = true;
+        btnStop.disabled = true;
+        btnPause.title = "Pausar";
+      }
+    }
+
+    function highlightSelectedText() {
+      clearHighlight();
+      
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        const span = document.createElement('span');
+        span.style.backgroundColor = 'var(--cor-leitor-texto)';
+        span.style.border = '2px solid var(--cor-leitor-borda)';
+        span.style.borderRadius = '3px';
+        span.style.padding = '2px 0';
+        span.className = 'texto-selecionado-leitor';
+        
+        try {
+          range.surroundContents(span);
+        } catch(e) {
+          console.log('Não foi possível destacar o texto:', e);
+        }
+      }
+    }
+
+    function clearHighlight() {
+      const highlights = document.querySelectorAll('.texto-selecionado-leitor');
+      highlights.forEach(span => {
+        const parent = span.parentNode;
+        while (span.firstChild) {
+          parent.insertBefore(span.firstChild, span);
+        }
+        parent.removeChild(span);
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.altKey && e.key === 'l') {
+        e.preventDefault();
+        ativarLeitorTexto();
+      }
+      
+      if (e.ctrlKey && e.altKey && e.key === 's') {
+        e.preventDefault();
+        if (leitorAtivo && selectedText) {
+          lerTextoSelecionado();
+        }
+      }
+      
+      if (e.ctrlKey && e.altKey && e.key === 'p') {
+        e.preventDefault();
+        if (isSpeaking) {
+          pausarLeitura();
+        }
+      }
+      
+      if (e.ctrlKey && e.altKey && e.key === 't') {
+        e.preventDefault();
+        pararLeitura();
+      }
+    });
+
     function toggleMenuAcessibilidade() {
       const menu = document.getElementById('menuAcessibilidade');
       const bolinha = document.querySelector('.bolinha-acessibilidade');
@@ -776,7 +1376,11 @@
       bolinha.classList.toggle('ativo');
       bolinha.classList.remove('pulsando');
       
-      // Fecha o menu se clicar fora dele
+      const controles = document.getElementById('controlesLeitor');
+      if (controles.classList.contains('aberto')) {
+        controles.classList.remove('aberto');
+      }
+      
       if (menu.classList.contains('aberto')) {
         setTimeout(() => {
           document.addEventListener('click', fecharMenuAoClicarFora);
@@ -816,7 +1420,6 @@
         }
       });
       
-      // Fecha o menu após a ação
       toggleMenuAcessibilidade();
     }
 
@@ -866,10 +1469,13 @@
         if (data.status === 'success') {
           document.documentElement.setAttribute('data-tema', 'claro');
           document.documentElement.setAttribute('data-tamanho-fonte', 'medio');
+          leitorAtivo = false;
+          esconderBotaoLeitura();
+          fecharControlesLeitor();
+          pararLeitura();
         }
       });
       
-      // Fecha o menu após a ação
       toggleMenuAcessibilidade();
     }
 
@@ -889,7 +1495,6 @@
       return cookieValue;
     }
 
-    // Para de pulsar a bolinha depois de 10 segundos
     setTimeout(() => {
       const bolinha = document.querySelector('.bolinha-acessibilidade');
       if (bolinha) {
@@ -897,7 +1502,6 @@
       }
     }, 10000);
 
-    // Funções originais do formulário
     document.getElementById('telefone_comercial').addEventListener('input', function(e) {
       let value = e.target.value.replace(/\D/g, '');
       if (value.length > 11) value = value.substring(0, 11);
