@@ -15,6 +15,9 @@ from .models import Barbearia, Usuario,Agendamento
 def pag_principal(request):
     return render(request, 'principal.html')
 
+def esqueci_senha(request):
+    return render(request, 'esqueci_senha.html')
+
 def Home(request):
     if not request.session.get('logado'):
         return redirect('loginatalho')
@@ -784,4 +787,5 @@ def resetar_acessibilidade(request):
         del request.session['config_acessibilidade']
     
     return JsonResponse({'status': 'success', 'message': 'Configurações resetadas!'})
+
 
