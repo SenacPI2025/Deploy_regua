@@ -12,7 +12,7 @@
       --cor-fundo: #f8fafc;
       --cor-texto: #1e293b;
       --cor-primaria: #22c55e;
-      --cor-secundaria: #64748b;
+      --cor-secundaria: #6c757d;
       --cor-borda: #e2e8f0;
       --cor-navbar: #ffffff;
       --cor-navbar-texto: #000000;
@@ -39,7 +39,7 @@
       --cor-fundo: #1a1a1a;
       --cor-texto: #ffffff;
       --cor-primaria: #22c55e;
-      --cor-secundaria: #94a3b8;
+      --cor-secundaria: #6c757d;
       --cor-borda: #374151;
       --cor-navbar: #2d2d2d;
       --cor-navbar-texto: #ffffff;
@@ -479,6 +479,10 @@
       background: var(--cor-bolinha-hover);
     }
 
+    .bolinha-acessibilidade.pulsando {
+      animation: pulse 2s infinite;
+    }
+
     /* Botão de Leitura de Texto */
     .botao-leitura-texto {
       position: fixed;
@@ -486,7 +490,7 @@
       right: 160px;
       width: 60px;
       height: 60px;
-      background: var(--cor-primaria);
+      background: var(--cor-bolinha);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -511,7 +515,7 @@
 
     .botao-leitura-texto:hover {
       transform: scale(1.1);
-      background: var(--cor-primaria-escura);
+      background: var(--cor-bolinha-hover);
     }
 
     .botao-leitura-texto.ouvindo {
@@ -520,18 +524,9 @@
     }
 
     @keyframes pulsar {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
-      }
-      70% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
-      }
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
     }
 
     /* Controles do Leitor de Texto */
@@ -539,7 +534,7 @@
       position: fixed;
       bottom: 90px;
       right: 160px;
-      background: var(--cor-card);
+      background: var(--cor-widget);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 15px;
@@ -549,7 +544,7 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      min-width: 180px;
+      min-width: 200px;
     }
 
     .controles-leitor.aberto {
@@ -558,19 +553,43 @@
       visibility: visible;
     }
 
-    .controles-leitor-conteudo {
+    .controles-leitor-header {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--cor-borda);
     }
 
     .controle-leitor-titulo {
       font-size: 14px;
       font-weight: bold;
-      color: var(--cor-texto);
-      margin-bottom: 5px;
+      color: var(--cor-widget-texto);
       text-align: center;
+      flex: 1;
+    }
+
+    .controle-leitor-fechar {
+      background: none;
+      border: none;
+      color: var(--cor-widget-texto);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 5px;
+      line-height: 1;
+      transition: color 0.3s ease;
+    }
+
+    .controle-leitor-fechar:hover {
+      color: #ff4757;
+    }
+
+    .controles-leitor-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
 
     .controles-leitor-botoes {
@@ -584,7 +603,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--gradiente-primario);
       border: none;
       color: white;
       cursor: pointer;
@@ -596,7 +615,6 @@
     }
 
     .controle-leitor-btn:hover {
-      background: var(--cor-primaria-escura);
       transform: scale(1.1);
     }
 
@@ -616,7 +634,7 @@
 
     .velocidade-leitor label {
       font-size: 12px;
-      color: var(--cor-texto);
+      color: var(--cor-widget-texto);
       white-space: nowrap;
     }
 
@@ -635,7 +653,7 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--cor-bolinha);
       cursor: pointer;
     }
 
@@ -643,14 +661,14 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--cor-bolinha);
       cursor: pointer;
       border: none;
     }
 
     .velocidade-valor {
       font-size: 12px;
-      color: var(--cor-texto);
+      color: var(--cor-widget-texto);
       min-width: 30px;
       text-align: center;
     }
@@ -747,7 +765,7 @@
     }
     
     div[vw] .vw-access-button {
-      background-color: var(--cor-primaria) !important;
+      background-color: var(--cor-bolinha) !important;
       border-radius: 50% !important;
       width: 50px !important;
       height: 50px !important;
@@ -771,10 +789,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .fade-out {
-      animation: fadeOut 0.5s forwards;
-    }
-
     @keyframes fadeOut {
       from { opacity: 1; transform: translateY(0); }
       to { opacity: 0; transform: translateY(-20px); }
@@ -786,8 +800,8 @@
       100% { transform: scale(1); }
     }
 
-    .bolinha-acessibilidade.pulsando {
-      animation: pulse 2s infinite;
+    .fade-out {
+      animation: fadeOut 0.5s forwards;
     }
 
     @media (max-width: 768px) {
@@ -819,15 +833,16 @@
       }
 
       .bolinha-acessibilidade {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        right: 70px;
+        width: 70px;
+        height: 70px;
+        bottom: 25px;
+        right: 80px;
+        font-size: 28px;
       }
 
       .menu-acessibilidade {
-        bottom: 80px;
-        right: 70px;
+        bottom: 110px;
+        right: 80px;
         min-width: 180px;
         padding: 15px;
       }
@@ -836,12 +851,13 @@
         width: 50px;
         height: 50px;
         font-size: 20px;
-        right: 130px;
+        right: 140px;
       }
 
       .controles-leitor {
-        right: 130px;
-        bottom: 80px;
+        right: 140px;
+        bottom: 105px;
+        min-width: 180px;
       }
 
       .menu-botoes {
@@ -873,25 +889,51 @@
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 500px) {
       .bolinha-acessibilidade {
-        width: 45px;
-        height: 45px;
-        right: 60px;
+        width: 65px;
+        height: 65px;
+        bottom: 20px;
+        right: 70px;
+        font-size: 26px;
       }
 
       .menu-acessibilidade {
-        right: 60px;
+        bottom: 100px;
+        right: 70px;
+        min-width: 170px;
       }
 
       .botao-leitura-texto {
         width: 45px;
         height: 45px;
-        right: 115px;
+        right: 125px;
       }
 
       .controles-leitor {
-        right: 115px;
+        right: 125px;
+        min-width: 170px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .menu-acessibilidade {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+      }
+
+      .bolinha-acessibilidade {
+        right: 60px;
+      }
+
+      .botao-leitura-texto {
+        right: 110px;
+      }
+
+      .controles-leitor {
+        right: 110px;
+        min-width: 160px;
       }
 
       div[vw] .vw-access-button {
@@ -899,24 +941,6 @@
         height: 40px !important;
         bottom: 20px !important;
         left: 10px !important;
-      }
-    }
-
-    @media (max-width: 360px) {
-      .bolinha-acessibilidade {
-        right: 50px;
-      }
-
-      .menu-acessibilidade {
-        right: 50px;
-      }
-
-      .botao-leitura-texto {
-        right: 100px;
-      }
-
-      .controles-leitor {
-        right: 100px;
       }
     }
   </style>
@@ -942,12 +966,15 @@
 
   <!-- Controles do Leitor de Texto -->
   <div class="controles-leitor" id="controlesLeitor">
-    <div class="controles-leitor-conteudo">
+    <div class="controles-leitor-header">
       <div class="controle-leitor-titulo">Leitor de Texto</div>
+      <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
+    </div>
+    <div class="controles-leitor-conteudo">
       <div class="controles-leitor-botoes">
-        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">play</button>
-        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>pause</button>
-        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>parar</button>
+        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
+        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
+        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
       </div>
       <div class="velocidade-leitor">
         <label for="velocidadeLeitor">Velocidade:</label>
@@ -1094,7 +1121,6 @@
       if (typeof VLibras !== 'undefined') {
         new window.VLibras.Widget('https://vlibras.gov.br/app');
       }
-
       document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
       document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
     });
@@ -1171,30 +1197,16 @@
       const controles = document.getElementById('controlesLeitor');
       const botao = document.getElementById('botaoLeituraTexto');
       
-      controles.classList.toggle('aberto');
+      // Abre os controles apenas (remove o toggle)
+      controles.classList.add('aberto');
       
       const menuAcessibilidade = document.getElementById('menuAcessibilidade');
       if (menuAcessibilidade.classList.contains('aberto')) {
         menuAcessibilidade.classList.remove('aberto');
       }
       
-      if (controles.classList.contains('aberto')) {
-        setTimeout(() => {
-          document.addEventListener('click', fecharControlesAoClicarFora);
-        }, 100);
-      } else {
-        document.removeEventListener('click', fecharControlesAoClicarFora);
-      }
-    }
-
-    function fecharControlesAoClicarFora(event) {
-      const controles = document.getElementById('controlesLeitor');
-      const botao = document.getElementById('botaoLeituraTexto');
-      
-      if (!controles.contains(event.target) && !botao.contains(event.target)) {
-        controles.classList.remove('aberto');
-        document.removeEventListener('click', fecharControlesAoClicarFora);
-      }
+      // Remove o evento de fechar ao clicar fora
+      document.removeEventListener('click', fecharControlesAoClicarFora);
     }
 
     function fecharControlesLeitor() {
@@ -1219,7 +1231,6 @@
       }
       
       utterance = new SpeechSynthesisUtterance(selectedText);
-      
       utterance.lang = 'pt-BR';
       utterance.rate = speechRate;
       utterance.pitch = 1;
@@ -1375,11 +1386,6 @@
       menu.classList.toggle('aberto');
       bolinha.classList.toggle('ativo');
       bolinha.classList.remove('pulsando');
-      
-      const controles = document.getElementById('controlesLeitor');
-      if (controles.classList.contains('aberto')) {
-        controles.classList.remove('aberto');
-      }
       
       if (menu.classList.contains('aberto')) {
         setTimeout(() => {
@@ -1617,5 +1623,4 @@
     }, 5000);
   </script>
 </body>
-
 </html>

@@ -141,7 +141,7 @@
       color: #1DB954;
     }
 
-    /* Bolinha de Acessibilidade */
+    /* Bolinha de Acessibilidade (IGUAL barbearias.html) */
     .bolinha-acessibilidade {
       position: fixed;
       bottom: 20px;
@@ -173,17 +173,28 @@
       background: var(--cor-bolinha-hover);
     }
 
-    /* Menu de Acessibilidade */
+    .bolinha-acessibilidade.pulsando {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* Menu de Acessibilidade (IGUAL barbearias.html) */
     .menu-acessibilidade {
       position: fixed;
       bottom: 90px;
       right: 90px;
-      background: var(--cor-card);
+      background: var(--cor-widget);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 20px;
       z-index: 1000;
       box-shadow: 0 8px 30px var(--cor-sombra);
+      backdrop-filter: blur(10px);
       transform: scale(0.8);
       opacity: 0;
       visibility: hidden;
@@ -227,7 +238,7 @@
       align-items: center;
       justify-content: center;
       padding: 12px 8px;
-      background: var(--cor-primaria);
+      background: var(--gradiente-primario);
       color: white;
       border: none;
       border-radius: 12px;
@@ -236,13 +247,12 @@
       transition: all 0.3s ease;
       min-height: 60px;
       gap: 5px;
-      box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+      box-shadow: 0 4px 10px rgba(42, 167, 69, 0.3);
     }
 
     .botao-acessibilidade:hover {
       transform: translateY(-3px);
-      background: var(--cor-primaria-escura);
-      box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+      box-shadow: 0 6px 15px rgba(42, 167, 69, 0.4);
     }
 
     .botao-acessibilidade .icone {
@@ -255,24 +265,14 @@
       text-align: center;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .bolinha-acessibilidade.pulsando {
-      animation: pulse 2s infinite;
-    }
-
-    /* Botão de Leitura de Texto */
+    /* Botão de Leitura de Texto (IGUAL barbearias.html) */
     .botao-leitura-texto {
       position: fixed;
       bottom: 20px;
       right: 160px;
       width: 60px;
       height: 60px;
-      background: var(--cor-primaria);
+      background: var(--cor-bolinha);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -297,7 +297,7 @@
 
     .botao-leitura-texto:hover {
       transform: scale(1.1);
-      background: var(--cor-primaria-escura);
+      background: var(--cor-bolinha-hover);
     }
 
     .botao-leitura-texto.ouvindo {
@@ -306,26 +306,17 @@
     }
 
     @keyframes pulsar {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
-      }
-      70% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
-      }
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
     }
 
-    /* Controles do Leitor de Texto */
+    /* Controles do Leitor de Texto (IGUAL barbearias.html) */
     .controles-leitor {
       position: fixed;
       bottom: 90px;
       right: 160px;
-      background: var(--cor-card);
+      background: var(--cor-widget);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 15px;
@@ -335,7 +326,7 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      min-width: 180px;
+      min-width: 200px;
     }
 
     .controles-leitor.aberto {
@@ -344,19 +335,43 @@
       visibility: visible;
     }
 
-    .controles-leitor-conteudo {
+    .controles-leitor-header {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--cor-borda);
     }
 
     .controle-leitor-titulo {
       font-size: 14px;
       font-weight: bold;
-      color: var(--cor-texto);
-      margin-bottom: 5px;
+      color: var(--cor-widget-texto);
       text-align: center;
+      flex: 1;
+    }
+
+    .controle-leitor-fechar {
+      background: none;
+      border: none;
+      color: var(--cor-widget-texto);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 5px;
+      line-height: 1;
+      transition: color 0.3s ease;
+    }
+
+    .controle-leitor-fechar:hover {
+      color: #ff4757;
+    }
+
+    .controles-leitor-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
 
     .controles-leitor-botoes {
@@ -370,7 +385,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--gradiente-primario);
       border: none;
       color: white;
       cursor: pointer;
@@ -382,12 +397,11 @@
     }
 
     .controle-leitor-btn:hover {
-      background: var(--cor-primaria-escura);
       transform: scale(1.1);
     }
 
     .controle-leitor-btn:disabled {
-      background: var(--cor-texto-claro);
+      background: var(--cor-secundaria);
       cursor: not-allowed;
       transform: none;
     }
@@ -402,7 +416,7 @@
 
     .velocidade-leitor label {
       font-size: 12px;
-      color: var(--cor-texto);
+      color: var(--cor-widget-texto);
       white-space: nowrap;
     }
 
@@ -421,7 +435,7 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--cor-bolinha);
       cursor: pointer;
     }
 
@@ -429,14 +443,14 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--cor-bolinha);
       cursor: pointer;
       border: none;
     }
 
     .velocidade-valor {
       font-size: 12px;
-      color: var(--cor-texto);
+      color: var(--cor-widget-texto);
       min-width: 30px;
       text-align: center;
     }
@@ -451,7 +465,7 @@
     }
     
     div[vw] .vw-access-button {
-      background-color: var(--cor-primaria) !important;
+      background-color: var(--cor-bolinha) !important;
       border-radius: 50% !important;
       width: 50px !important;
       height: 50px !important;
@@ -463,37 +477,28 @@
     
     div[vw] .vw-access-button:hover {
       transform: scale(1.1) !important;
-      background-color: var(--cor-primaria-escura) !important;
+      background-color: var(--cor-bolinha-hover) !important;
     }
     
     div[vw] .vw-access-button img {
       filter: brightness(0) invert(1) !important;
     }
 
+    /* Responsividade (IGUAL barbearias.html) */
     @media (max-width: 768px) {
       .bolinha-acessibilidade {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        right: 70px;
+        width: 70px;
+        height: 70px;
+        bottom: 25px;
+        right: 80px;
+        font-size: 28px;
       }
 
       .menu-acessibilidade {
-        bottom: 80px;
-        right: 70px;
+        bottom: 110px;
+        right: 80px;
         min-width: 180px;
-      }
-
-      .botao-leitura-texto {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        right: 130px;
-      }
-
-      .controles-leitor {
-        right: 130px;
-        bottom: 80px;
+        padding: 15px;
       }
 
       .menu-botoes {
@@ -517,6 +522,19 @@
         font-size: 12px;
       }
 
+      .botao-leitura-texto {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        right: 140px;
+      }
+
+      .controles-leitor {
+        right: 140px;
+        bottom: 105px;
+        min-width: 180px;
+      }
+
       div[vw] .vw-access-button {
         width: 45px !important;
         height: 45px !important;
@@ -525,25 +543,51 @@
       }
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 500px) {
       .bolinha-acessibilidade {
-        width: 45px;
-        height: 45px;
-        right: 60px;
+        width: 65px;
+        height: 65px;
+        bottom: 20px;
+        right: 70px;
+        font-size: 26px;
       }
 
       .menu-acessibilidade {
-        right: 60px;
+        bottom: 100px;
+        right: 70px;
+        min-width: 170px;
       }
 
       .botao-leitura-texto {
         width: 45px;
         height: 45px;
-        right: 115px;
+        right: 125px;
       }
 
       .controles-leitor {
-        right: 115px;
+        right: 125px;
+        min-width: 170px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .menu-acessibilidade {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+      }
+
+      .bolinha-acessibilidade {
+        right: 60px;
+      }
+
+      .botao-leitura-texto {
+        right: 110px;
+      }
+
+      .controles-leitor {
+        right: 110px;
+        min-width: 160px;
       }
 
       div[vw] .vw-access-button {
@@ -554,24 +598,7 @@
       }
     }
 
-    @media (max-width: 360px) {
-      .bolinha-acessibilidade {
-        right: 50px;
-      }
-
-      .menu-acessibilidade {
-        right: 50px;
-      }
-
-      .botao-leitura-texto {
-        right: 100px;
-      }
-
-      .controles-leitor {
-        right: 100px;
-      }
-    }
-
+    /* Estilos específicos da página */
     .photo-section {
       display: flex;
       flex-direction: column;
@@ -956,7 +983,6 @@
       }
     }
   </style>
-  <!-- VLibras Plugin -->
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 </head>
 <body>
@@ -968,24 +994,27 @@
     </div>
   </div>
 
-  <!-- Bolinha de Acessibilidade -->
+  <!-- Bolinha de Acessibilidade (IGUAL barbearias.html) -->
   <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
     ♿
   </button>
 
-  <!-- Botão de Leitura de Texto -->
+  <!-- Botão de Leitura de Texto (IGUAL barbearias.html) -->
   <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
     🔊
   </button>
 
-  <!-- Controles do Leitor de Texto -->
+  <!-- Controles do Leitor de Texto (IGUAL barbearias.html) -->
   <div class="controles-leitor" id="controlesLeitor">
-    <div class="controles-leitor-conteudo">
+    <div class="controles-leitor-header">
       <div class="controle-leitor-titulo">Leitor de Texto</div>
+      <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
+    </div>
+    <div class="controles-leitor-conteudo">
       <div class="controles-leitor-botoes">
-        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">play</button>
-        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>pause</button>
-        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>parar</button>
+        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
+        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
+        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
       </div>
       <div class="velocidade-leitor">
         <label for="velocidadeLeitor">Velocidade:</label>
@@ -995,7 +1024,7 @@
     </div>
   </div>
 
-  <!-- Menu de Acessibilidade -->
+  <!-- Menu de Acessibilidade (IGUAL barbearias.html) -->
   <div class="menu-acessibilidade" id="menuAcessibilidade">
     <div class="menu-conteudo">
       <div class="menu-titulo">Acessibilidade</div>
@@ -1155,6 +1184,7 @@
   </div>
 
   <script>
+    // JavaScript IDÊNTICO ao do barbearias.html
     let synth = window.speechSynthesis;
     let utterance = null;
     let isSpeaking = false;
@@ -1167,7 +1197,6 @@
       if (typeof VLibras !== 'undefined') {
         new window.VLibras.Widget('https://vlibras.gov.br/app');
       }
-
       document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
       document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
     });
@@ -1244,30 +1273,16 @@
       const controles = document.getElementById('controlesLeitor');
       const botao = document.getElementById('botaoLeituraTexto');
       
-      controles.classList.toggle('aberto');
+      // Abre os controles apenas (remove o toggle)
+      controles.classList.add('aberto');
       
       const menuAcessibilidade = document.getElementById('menuAcessibilidade');
       if (menuAcessibilidade.classList.contains('aberto')) {
         menuAcessibilidade.classList.remove('aberto');
       }
       
-      if (controles.classList.contains('aberto')) {
-        setTimeout(() => {
-          document.addEventListener('click', fecharControlesAoClicarFora);
-        }, 100);
-      } else {
-        document.removeEventListener('click', fecharControlesAoClicarFora);
-      }
-    }
-
-    function fecharControlesAoClicarFora(event) {
-      const controles = document.getElementById('controlesLeitor');
-      const botao = document.getElementById('botaoLeituraTexto');
-      
-      if (!controles.contains(event.target) && !botao.contains(event.target)) {
-        controles.classList.remove('aberto');
-        document.removeEventListener('click', fecharControlesAoClicarFora);
-      }
+      // Remove o evento de fechar ao clicar fora
+      document.removeEventListener('click', fecharControlesAoClicarFora);
     }
 
     function fecharControlesLeitor() {
@@ -1292,7 +1307,6 @@
       }
       
       utterance = new SpeechSynthesisUtterance(selectedText);
-      
       utterance.lang = 'pt-BR';
       utterance.rate = speechRate;
       utterance.pitch = 1;
@@ -1447,11 +1461,7 @@
       
       menu.classList.toggle('aberto');
       bolinha.classList.toggle('ativo');
-      
-      const controles = document.getElementById('controlesLeitor');
-      if (controles.classList.contains('aberto')) {
-        controles.classList.remove('aberto');
-      }
+      bolinha.classList.remove('pulsando');
       
       if (menu.classList.contains('aberto')) {
         setTimeout(() => {
@@ -1567,6 +1577,7 @@
       return cookieValue;
     }
 
+    // JavaScript específico da página minha_barbearia
     document.getElementById('telefone_comercial').addEventListener('input', function(e) {
       let value = e.target.value.replace(/\D/g, '');
       if (value.length > 11) value = value.substring(0, 11);
@@ -1682,5 +1693,4 @@
     }, 10000);
   </script>
 </body>
-
 </html>

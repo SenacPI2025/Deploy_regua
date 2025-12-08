@@ -246,6 +246,17 @@
             font-size: 2rem;
             color: var(--cor-navbar-texto);
             cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .mobile-menu-close:hover {
+            background-color: var(--cor-dropdown-hover);
         }
 
         .mobile-menu-links {
@@ -262,6 +273,7 @@
             border-radius: 8px;
             transition: background-color 0.3s ease;
             font-family: 'Unbounded', sans-serif;
+            background-color: transparent;
         }
 
         .mobile-menu-links a:hover {
@@ -279,6 +291,7 @@
             transition: background-color 0.3s ease;
             border-radius: 8px;
             text-decoration: none;
+            background-color: transparent;
         }
 
         .mobile-profile:hover {
@@ -375,6 +388,29 @@
             letter-spacing: 1px;
             margin-bottom: 10px;
             text-align: center;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-fechar {
+            background: none;
+            border: none;
+            color: var(--cor-widget-texto);
+            font-size: 20px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-fechar:hover {
+            background-color: var(--cor-widget-hover);
         }
 
         .menu-botoes {
@@ -507,6 +543,10 @@
             color: var(--cor-widget-texto);
             margin-bottom: 5px;
             text-align: center;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .controles-leitor-botoes {
@@ -540,6 +580,7 @@
             background: var(--cor-secundaria);
             cursor: not-allowed;
             transform: none;
+            opacity: 0.6;
         }
 
         .velocidade-leitor {
@@ -874,6 +915,8 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
+            background-color: var(--cor-primaria);
+            color: white;
         }
         
         .btn-confirmar {
@@ -882,8 +925,8 @@
         }
         
         .btn-cancelar {
-            background-color: var(--cor-widget-hover);
-            color: var(--cor-texto);
+            background-color: #dc3545;
+            color: white;
         }
         
         .btn-salvar-horario {
@@ -1018,11 +1061,14 @@
 
     <div class="controles-leitor" id="controlesLeitor">
         <div class="controles-leitor-conteudo">
-            <div class="controle-leitor-titulo">Leitor de Texto</div>
+            <div class="controle-leitor-titulo">
+                Leitor de Texto
+                <button class="menu-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
+            </div>
             <div class="controles-leitor-botoes">
-                <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">play</button>
-                <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>pause</button>
-                <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>parar</button>
+                <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
+                <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
+                <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
             </div>
             <div class="velocidade-leitor">
                 <label for="velocidadeLeitor">Velocidade:</label>
@@ -1034,7 +1080,10 @@
 
     <div class="menu-acessibilidade" id="menuAcessibilidade">
         <div class="menu-conteudo">
-            <div class="menu-titulo">Acessibilidade</div>
+            <div class="menu-titulo">
+                Acessibilidade
+                <button class="menu-fechar" onclick="toggleMenuAcessibilidade()" title="Fechar">×</button>
+            </div>
             <div class="menu-botoes">
                 <button class="botao-acessibilidade" onclick="alternarTema()">
                     <span class="icone">🌓</span>
@@ -1350,9 +1399,7 @@
             }
             
             if (controles.classList.contains('aberto')) {
-                setTimeout(() => {
-                    document.addEventListener('click', fecharControlesAoClicarFora);
-                }, 100);
+                document.addEventListener('click', fecharControlesAoClicarFora);
             } else {
                 document.removeEventListener('click', fecharControlesAoClicarFora);
             }
@@ -1361,10 +1408,10 @@
         function fecharControlesAoClicarFora(event) {
             const controles = document.getElementById('controlesLeitor');
             const botao = document.getElementById('botaoLeituraTexto');
+            const botaoFechar = controles.querySelector('.menu-fechar');
             
-            if (!controles.contains(event.target) && !botao.contains(event.target)) {
-                controles.classList.remove('aberto');
-                document.removeEventListener('click', fecharControlesAoClicarFora);
+            if (!controles.contains(event.target) && !botao.contains(event.target) && event.target !== botaoFechar) {
+                fecharControlesLeitor();
             }
         }
 
@@ -1567,9 +1614,7 @@
             }
             
             if (menu.classList.contains('aberto')) {
-                setTimeout(() => {
-                    document.addEventListener('click', fecharMenuAoClicarFora);
-                }, 100);
+                document.addEventListener('click', fecharMenuAoClicarFora);
             } else {
                 document.removeEventListener('click', fecharMenuAoClicarFora);
             }
@@ -1578,8 +1623,9 @@
         function fecharMenuAoClicarFora(event) {
             const menu = document.getElementById('menuAcessibilidade');
             const bolinha = document.querySelector('.bolinha-acessibilidade');
+            const botaoFechar = menu.querySelector('.menu-fechar');
             
-            if (!menu.contains(event.target) && !bolinha.contains(event.target)) {
+            if (!menu.contains(event.target) && !bolinha.contains(event.target) && event.target !== botaoFechar) {
                 menu.classList.remove('aberto');
                 bolinha.classList.remove('ativo');
                 document.removeEventListener('click', fecharMenuAoClicarFora);
@@ -2041,5 +2087,4 @@
         });
     </script>
 </body>
-
 </html>

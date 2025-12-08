@@ -18,7 +18,7 @@
     :root[data-tema="claro"] {
       --cor-primaria: #1DB954;
       --cor-primaria-escura: #17a745;
-      --cor-secundaria: #2d3748;
+      --cor-secundaria: #6c757d;
       --cor-fundo: #ffffff;
       --cor-fundo-secundario: #f8f9fa;
       --cor-texto: #2d3748;
@@ -38,7 +38,6 @@
       --cor-widget: #ffffff;
       --cor-widget-texto: #333333;
       --cor-widget-hover: #f8f9fa;
-      /* Novas cores para o footer */
       --cor-footer-texto: #ffffff;
       --cor-footer-links: #e2e8f0;
       --cor-footer-links-hover: #1DB954;
@@ -49,7 +48,7 @@
     :root[data-tema="escuro"] {
       --cor-primaria: #1DB954;
       --cor-primaria-escura: #17a745;
-      --cor-secundaria: #e2e8f0;
+      --cor-secundaria: #6c757d;
       --cor-fundo: #1a202c;
       --cor-fundo-secundario: #2d3748;
       --cor-texto: #e2e8f0;
@@ -69,7 +68,6 @@
       --cor-widget: #2d2d2d;
       --cor-widget-texto: #ffffff;
       --cor-widget-hover: #3d3d3d;
-      /* Novas cores para o footer */
       --cor-footer-texto: #000000;
       --cor-footer-links: #000000;
       --cor-footer-links-hover: #1DB954;
@@ -549,7 +547,7 @@
     .bolinha-acessibilidade {
       position: fixed;
       bottom: 20px;
-      right: 90px; /* Alterado para dar espaço ao VLibras */
+      right: 90px;
       width: 60px;
       height: 60px;
       background: var(--cor-bolinha);
@@ -569,14 +567,20 @@
     .bolinha-acessibilidade:hover {
       transform: scale(1.1);
       background: var(--cor-bolinha-hover);
+      box-shadow: 0 6px 25px var(--cor-sombra);
+    }
+
+    .bolinha-acessibilidade.ativo {
+      transform: rotate(45deg);
+      background: var(--cor-bolinha-hover);
     }
 
     /* Menu de Acessibilidade */
     .menu-acessibilidade {
       position: fixed;
       bottom: 90px;
-      right: 90px; /* Alterado para dar espaço ao VLibras */
-      background: var(--cor-card);
+      right: 90px;
+      background: var(--cor-widget);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 20px;
@@ -605,7 +609,7 @@
     .menu-titulo {
       font-size: 16px;
       font-weight: bold;
-      color: var(--cor-texto);
+      color: var(--cor-widget-texto);
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 10px;
@@ -625,7 +629,7 @@
       align-items: center;
       justify-content: center;
       padding: 12px 8px;
-      background: var(--cor-primaria);
+      background: var(--gradiente-primario);
       color: white;
       border: none;
       border-radius: 12px;
@@ -634,11 +638,12 @@
       transition: all 0.3s ease;
       min-height: 60px;
       gap: 5px;
+      box-shadow: 0 4px 10px rgba(42, 167, 69, 0.3);
     }
 
     .botao-acessibilidade:hover {
       transform: translateY(-3px);
-      background: var(--cor-primaria-escura);
+      box-shadow: 0 6px 15px rgba(42, 167, 69, 0.4);
     }
 
     .botao-acessibilidade .icone {
@@ -651,14 +656,24 @@
       text-align: center;
     }
 
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .bolinha-acessibilidade.pulsando {
+      animation: pulse 2s infinite;
+    }
+
     /* Botão de Leitura de Texto */
     .botao-leitura-texto {
       position: fixed;
       bottom: 20px;
-      right: 160px; /* Posicionado à direita da bolinha */
+      right: 160px;
       width: 60px;
       height: 60px;
-      background: var(--cor-primaria);
+      background: var(--cor-bolinha);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -683,7 +698,7 @@
 
     .botao-leitura-texto:hover {
       transform: scale(1.1);
-      background: var(--cor-primaria-escura);
+      background: var(--cor-bolinha-hover);
     }
 
     .botao-leitura-texto.ouvindo {
@@ -692,18 +707,9 @@
     }
 
     @keyframes pulsar {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
-      }
-      70% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
-      }
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
     }
 
     /* Controles do Leitor de Texto */
@@ -711,7 +717,7 @@
       position: fixed;
       bottom: 90px;
       right: 160px;
-      background: var(--cor-card);
+      background: var(--cor-widget);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 15px;
@@ -721,7 +727,7 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      min-width: 180px;
+      min-width: 200px;
     }
 
     .controles-leitor.aberto {
@@ -730,39 +736,36 @@
       visibility: visible;
     }
 
-    .controle-leitor-cabecalho {
+    .controles-leitor-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      width: 100%;
       margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--cor-borda);
     }
 
     .controle-leitor-titulo {
       font-size: 14px;
       font-weight: bold;
-      color: var(--cor-texto);
+      color: var(--cor-widget-texto);
       text-align: center;
+      flex: 1;
     }
 
     .controle-leitor-fechar {
       background: none;
       border: none;
-      color: var(--cor-texto);
+      color: var(--cor-widget-texto);
       font-size: 20px;
       cursor: pointer;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      transition: all 0.3s ease;
+      padding: 0 5px;
+      line-height: 1;
+      transition: color 0.3s ease;
     }
 
     .controle-leitor-fechar:hover {
-      background-color: var(--cor-dropdown-hover);
-      transform: scale(1.1);
+      color: #ff4757;
     }
 
     .controles-leitor-conteudo {
@@ -783,7 +786,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--gradiente-primario);
       border: none;
       color: white;
       cursor: pointer;
@@ -795,12 +798,11 @@
     }
 
     .controle-leitor-btn:hover {
-      background: var(--cor-primaria-escura);
       transform: scale(1.1);
     }
 
     .controle-leitor-btn:disabled {
-      background: var(--cor-texto-claro);
+      background: var(--cor-secundaria);
       cursor: not-allowed;
       transform: none;
     }
@@ -815,7 +817,7 @@
 
     .velocidade-leitor label {
       font-size: 12px;
-      color: var(--cor-texto);
+      color: var(--cor-widget-texto);
       white-space: nowrap;
     }
 
@@ -834,7 +836,7 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--cor-bolinha);
       cursor: pointer;
     }
 
@@ -842,14 +844,14 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--cor-bolinha);
       cursor: pointer;
       border: none;
     }
 
     .velocidade-valor {
       font-size: 12px;
-      color: var(--cor-texto);
+      color: var(--cor-widget-texto);
       min-width: 30px;
       text-align: center;
     }
@@ -864,7 +866,7 @@
     }
     
     div[vw] .vw-access-button {
-      background-color: var(--cor-primaria) !important;
+      background-color: var(--cor-bolinha) !important;
       border-radius: 50% !important;
       width: 50px !important;
       height: 50px !important;
@@ -876,7 +878,7 @@
     
     div[vw] .vw-access-button:hover {
       transform: scale(1.1) !important;
-      background-color: var(--cor-primaria-escura) !important;
+      background-color: var(--cor-bolinha-hover) !important;
     }
     
     div[vw] .vw-access-button img {
@@ -957,31 +959,51 @@
 
       .menu-botoes {
         grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .botao-acessibilidade {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 12px 15px;
+        min-height: 50px;
+        gap: 12px;
+      }
+
+      .botao-acessibilidade .icone {
+        font-size: 20px;
+      }
+
+      .botao-acessibilidade .texto {
+        font-size: 12px;
       }
 
       .bolinha-acessibilidade {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        right: 70px; /* Ajustado para mobile */
+        width: 70px;
+        height: 70px;
+        bottom: 25px;
+        right: 80px;
+        font-size: 28px;
       }
 
       .menu-acessibilidade {
-        bottom: 80px;
-        right: 70px; /* Ajustado para mobile */
+        bottom: 110px;
+        right: 80px;
         min-width: 180px;
+        padding: 15px;
       }
 
       .botao-leitura-texto {
         width: 50px;
         height: 50px;
         font-size: 20px;
-        right: 130px; /* Ajustado para mobile */
+        right: 140px;
       }
 
       .controles-leitor {
-        right: 130px;
-        bottom: 80px;
+        right: 140px;
+        bottom: 105px;
+        min-width: 180px;
       }
 
       .footer-links {
@@ -1017,23 +1039,28 @@
       }
 
       .bolinha-acessibilidade {
-        width: 45px;
-        height: 45px;
-        right: 60px; /* Ajustado para mobile pequeno */
+        width: 65px;
+        height: 65px;
+        bottom: 20px;
+        right: 70px;
+        font-size: 26px;
       }
 
       .menu-acessibilidade {
-        right: 60px; /* Ajustado para mobile pequeno */
+        bottom: 100px;
+        right: 70px;
+        min-width: 170px;
       }
 
       .botao-leitura-texto {
         width: 45px;
         height: 45px;
-        right: 115px; /* Ajustado para mobile pequeno */
+        right: 125px;
       }
 
       .controles-leitor {
-        right: 115px;
+        right: 125px;
+        min-width: 170px;
       }
 
       /* VLibras Mobile Pequeno */
@@ -1046,20 +1073,23 @@
     }
 
     @media (max-width: 360px) {
-      .bolinha-acessibilidade {
-        right: 50px;
+      .menu-acessibilidade {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
       }
 
-      .menu-acessibilidade {
-        right: 50px;
+      .bolinha-acessibilidade {
+        right: 60px;
       }
 
       .botao-leitura-texto {
-        right: 100px;
+        right: 110px;
       }
 
       .controles-leitor {
-        right: 100px;
+        right: 110px;
+        min-width: 160px;
       }
     }
   </style>
@@ -1076,7 +1106,7 @@
   </div>
 
   <!-- Bolinha de Acessibilidade -->
-  <button class="bolinha-acessibilidade" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
+  <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
     ♿
   </button>
 
@@ -1087,11 +1117,11 @@
 
   <!-- Controles do Leitor de Texto -->
   <div class="controles-leitor" id="controlesLeitor">
+    <div class="controles-leitor-header">
+      <div class="controle-leitor-titulo">Leitor de Texto</div>
+      <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
+    </div>
     <div class="controles-leitor-conteudo">
-      <div class="controle-leitor-cabecalho">
-        <div class="controle-leitor-titulo">Leitor de Texto</div>
-        <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
-      </div>
       <div class="controles-leitor-botoes">
         <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
         <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
@@ -1293,7 +1323,7 @@
   </footer>
 
   <script>
-    // Variáveis do leitor de texto
+    // Variáveis do leitor de texto (IGUAL à barbearias.html)
     let synth = window.speechSynthesis;
     let utterance = null;
     let isSpeaking = false;
@@ -1302,39 +1332,31 @@
     let selectedText = '';
     let leitorAtivo = false;
 
-    // Inicializa o VLibras
     window.addEventListener('DOMContentLoaded', function() {
       if (typeof VLibras !== 'undefined') {
         new window.VLibras.Widget('https://vlibras.gov.br/app');
       }
-
-      // Inicializa variáveis CSS para leitor
       document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
       document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
     });
 
-    // Detectar seleção de texto
     document.addEventListener('mouseup', function() {
       const textoSelecionado = window.getSelection().toString().trim();
       
       if (textoSelecionado && textoSelecionado.length > 0) {
         selectedText = textoSelecionado;
         
-        // Mostra o botão de leitura se o leitor estiver ativo
         if (leitorAtivo) {
           mostrarBotaoLeitura();
         }
         
-        // Destacar texto selecionado
         highlightSelectedText();
       } else {
-        // Esconde o botão se não há texto selecionado
         esconderBotaoLeitura();
         clearHighlight();
       }
     });
 
-    // Detectar seleção via teclado
     document.addEventListener('keyup', function(e) {
       if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt') {
         const textoSelecionado = window.getSelection().toString().trim();
@@ -1354,7 +1376,6 @@
       }
     });
 
-    // Funções do leitor de texto
     function ativarLeitorTexto() {
       leitorAtivo = !leitorAtivo;
       
@@ -1362,7 +1383,6 @@
         mostrarBotaoLeitura();
         document.getElementById('botaoLeituraTexto').title = "Leitor de texto ativado. Selecione texto para ler.";
         
-        // Verifica se já tem texto selecionado
         const textoSelecionado = window.getSelection().toString().trim();
         if (textoSelecionado) {
           selectedText = textoSelecionado;
@@ -1392,9 +1412,9 @@
       const controles = document.getElementById('controlesLeitor');
       const botao = document.getElementById('botaoLeituraTexto');
       
-      controles.classList.toggle('aberto');
+      // Abre os controles apenas (remove o toggle) - IGUAL à barbearias.html
+      controles.classList.add('aberto');
       
-      // Fecha o menu de acessibilidade se estiver aberto
       const menuAcessibilidade = document.getElementById('menuAcessibilidade');
       if (menuAcessibilidade.classList.contains('aberto')) {
         menuAcessibilidade.classList.remove('aberto');
@@ -1407,11 +1427,11 @@
     function fecharControlesLeitor() {
       const controles = document.getElementById('controlesLeitor');
       controles.classList.remove('aberto');
+      document.removeEventListener('click', fecharControlesAoClicarFora);
     }
 
     function lerTextoSelecionado() {
       if (!selectedText || selectedText.length === 0) {
-        // Se não há texto selecionado, tenta selecionar automaticamente
         const textoSelecionado = window.getSelection().toString().trim();
         if (textoSelecionado) {
           selectedText = textoSelecionado;
@@ -1421,21 +1441,16 @@
         }
       }
       
-      // Para qualquer leitura em andamento
       if (isSpeaking && !isPaused) {
         synth.cancel();
       }
       
-      // Cria nova utterance
       utterance = new SpeechSynthesisUtterance(selectedText);
-      
-      // Configurações
       utterance.lang = 'pt-BR';
       utterance.rate = speechRate;
       utterance.pitch = 1;
       utterance.volume = 1;
       
-      // Eventos
       utterance.onstart = function() {
         isSpeaking = true;
         isPaused = false;
@@ -1457,13 +1472,11 @@
         atualizarBotoesLeitor();
         document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
         
-        // Fallback para navegadores sem suporte
         if (event.error === 'not-allowed') {
           alert('Permissão para usar síntese de voz não concedida. Por favor, verifique as configurações do seu navegador.');
         }
       };
       
-      // Inicia a leitura
       synth.speak(utterance);
     }
 
@@ -1493,7 +1506,6 @@
       speechRate = parseFloat(valor);
       document.getElementById('velocidadeValor').textContent = valor + 'x';
       
-      // Atualiza a velocidade da leitura atual, se houver
       if (utterance && isSpeaking) {
         synth.cancel();
         utterance.rate = speechRate;
@@ -1540,7 +1552,6 @@
         try {
           range.surroundContents(span);
         } catch(e) {
-          // Algumas seleções não podem ser envoltas em span
           console.log('Não foi possível destacar o texto:', e);
         }
       }
@@ -1557,15 +1568,12 @@
       });
     }
 
-    // Teclas de atalho para o leitor de texto
     document.addEventListener('keydown', function(e) {
-      // Ctrl + Alt + L para ativar/desativar leitor
       if (e.ctrlKey && e.altKey && e.key === 'l') {
         e.preventDefault();
         ativarLeitorTexto();
       }
       
-      // Ctrl + Alt + S para ler texto selecionado
       if (e.ctrlKey && e.altKey && e.key === 's') {
         e.preventDefault();
         if (leitorAtivo && selectedText) {
@@ -1573,7 +1581,6 @@
         }
       }
       
-      // Ctrl + Alt + P para pausar/continuar
       if (e.ctrlKey && e.altKey && e.key === 'p') {
         e.preventDefault();
         if (isSpeaking) {
@@ -1581,7 +1588,6 @@
         }
       }
       
-      // Ctrl + Alt + T para parar
       if (e.ctrlKey && e.altKey && e.key === 't') {
         e.preventDefault();
         pararLeitura();
@@ -1611,14 +1617,8 @@
       
       menu.classList.toggle('aberto');
       bolinha.classList.toggle('ativo');
+      bolinha.classList.remove('pulsando');
       
-      // Fecha controles do leitor se estiverem abertos
-      const controles = document.getElementById('controlesLeitor');
-      if (controles.classList.contains('aberto')) {
-        controles.classList.remove('aberto');
-      }
-      
-      // Fecha o menu se clicar fora dele
       if (menu.classList.contains('aberto')) {
         setTimeout(() => {
           document.addEventListener('click', fecharMenuAoClicarFora);
@@ -1708,7 +1708,6 @@
         if (data.status === 'success') {
           document.documentElement.setAttribute('data-tema', 'claro');
           document.documentElement.setAttribute('data-tamanho-fonte', 'medio');
-          // Desativa o leitor de texto também
           leitorAtivo = false;
           esconderBotaoLeitura();
           fecharControlesLeitor();
@@ -1743,6 +1742,14 @@
         pic.classList.add('has-photo');
       });
       {% endif %}
+
+      // Remove animação da bolinha após 10 segundos
+      setTimeout(() => {
+        const bolinha = document.querySelector('.bolinha-acessibilidade');
+        if (bolinha) {
+          bolinha.classList.remove('pulsando');
+        }
+      }, 10000);
     });
   </script>
 </body>

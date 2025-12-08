@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br" data-tema="{{ config_acessibilidade.tema|default:'claro' }}" data-tamanho-fonte="{{ config_acessibilidade.tamanho_fonte|default:'medio' }}">
 <head>
@@ -18,7 +17,7 @@
     :root[data-tema="claro"] {
       --cor-primaria: #1DB954;
       --cor-primaria-escura: #17a745;
-      --cor-secundaria: #2d3748;
+      --cor-secundaria: #6c757d;
       --cor-fundo: #ffffff;
       --cor-fundo-secundario: #f8f9fa;
       --cor-texto: #2d3748;
@@ -48,7 +47,7 @@
     :root[data-tema="escuro"] {
       --cor-primaria: #1DB954;
       --cor-primaria-escura: #17a745;
-      --cor-secundaria: #e2e8f0;
+      --cor-secundaria: #6c757d;
       --cor-fundo: #1a202c;
       --cor-fundo-secundario: #2d3748;
       --cor-texto: #e2e8f0;
@@ -618,6 +617,7 @@
       text-align: center;
     }
 
+    /* Leitor de Texto - Igual ao da página barbearias */
     .bolinha-acessibilidade {
       position: fixed;
       bottom: 20px;
@@ -641,18 +641,25 @@
     .bolinha-acessibilidade:hover {
       transform: scale(1.1);
       background: var(--cor-bolinha-hover);
+      box-shadow: 0 6px 25px var(--cor-sombra);
+    }
+
+    .bolinha-acessibilidade.ativo {
+      transform: rotate(45deg);
+      background: var(--cor-bolinha-hover);
     }
 
     .menu-acessibilidade {
       position: fixed;
       bottom: 90px;
       right: 90px;
-      background: var(--cor-card);
+      background: var(--cor-widget);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 20px;
       z-index: 1000;
       box-shadow: 0 8px 30px var(--cor-sombra);
+      backdrop-filter: blur(10px);
       transform: scale(0.8);
       opacity: 0;
       visibility: hidden;
@@ -676,7 +683,7 @@
     .menu-titulo {
       font-size: 16px;
       font-weight: bold;
-      color: var(--cor-texto);
+      color: var(--cor-widget-texto);
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 10px;
@@ -696,7 +703,7 @@
       align-items: center;
       justify-content: center;
       padding: 12px 8px;
-      background: var(--cor-primaria);
+      background: var(--gradiente-primario);
       color: white;
       border: none;
       border-radius: 12px;
@@ -705,11 +712,12 @@
       transition: all 0.3s ease;
       min-height: 60px;
       gap: 5px;
+      box-shadow: 0 4px 10px rgba(42, 167, 69, 0.3);
     }
 
     .botao-acessibilidade:hover {
       transform: translateY(-3px);
-      background: var(--cor-primaria-escura);
+      box-shadow: 0 6px 15px rgba(42, 167, 69, 0.4);
     }
 
     .botao-acessibilidade .icone {
@@ -722,13 +730,23 @@
       text-align: center;
     }
 
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .bolinha-acessibilidade.pulsando {
+      animation: pulse 2s infinite;
+    }
+
     .botao-leitura-texto {
       position: fixed;
       bottom: 20px;
       right: 160px;
       width: 60px;
       height: 60px;
-      background: var(--cor-primaria);
+      background: var(--cor-bolinha);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -753,7 +771,7 @@
 
     .botao-leitura-texto:hover {
       transform: scale(1.1);
-      background: var(--cor-primaria-escura);
+      background: var(--cor-bolinha-hover);
     }
 
     .botao-leitura-texto.ouvindo {
@@ -762,25 +780,16 @@
     }
 
     @keyframes pulsar {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
-      }
-      70% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
-      }
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
     }
 
     .controles-leitor {
       position: fixed;
       bottom: 90px;
       right: 160px;
-      background: var(--cor-card);
+      background: var(--cor-widget);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 15px;
@@ -790,7 +799,7 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      min-width: 180px;
+      min-width: 200px;
     }
 
     .controles-leitor.aberto {
@@ -799,19 +808,43 @@
       visibility: visible;
     }
 
-    .controles-leitor-conteudo {
+    .controles-leitor-header {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--cor-borda);
     }
 
     .controle-leitor-titulo {
       font-size: 14px;
       font-weight: bold;
-      color: var(--cor-texto);
-      margin-bottom: 5px;
+      color: var(--cor-widget-texto);
       text-align: center;
+      flex: 1;
+    }
+
+    .controle-leitor-fechar {
+      background: none;
+      border: none;
+      color: var(--cor-widget-texto);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 5px;
+      line-height: 1;
+      transition: color 0.3s ease;
+    }
+
+    .controle-leitor-fechar:hover {
+      color: #ff4757;
+    }
+
+    .controles-leitor-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
 
     .controles-leitor-botoes {
@@ -825,7 +858,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--gradiente-primario);
       border: none;
       color: white;
       cursor: pointer;
@@ -837,12 +870,11 @@
     }
 
     .controle-leitor-btn:hover {
-      background: var(--cor-primaria-escura);
       transform: scale(1.1);
     }
 
     .controle-leitor-btn:disabled {
-      background: var(--cor-texto-claro);
+      background: var(--cor-secundaria);
       cursor: not-allowed;
       transform: none;
     }
@@ -857,7 +889,7 @@
 
     .velocidade-leitor label {
       font-size: 12px;
-      color: var(--cor-texto);
+      color: var(--cor-widget-texto);
       white-space: nowrap;
     }
 
@@ -876,7 +908,7 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--cor-bolinha);
       cursor: pointer;
     }
 
@@ -884,14 +916,14 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--cor-bolinha);
       cursor: pointer;
       border: none;
     }
 
     .velocidade-valor {
       font-size: 12px;
-      color: var(--cor-texto);
+      color: var(--cor-widget-texto);
       min-width: 30px;
       text-align: center;
     }
@@ -905,7 +937,7 @@
     }
     
     div[vw] .vw-access-button {
-      background-color: var(--cor-primaria) !important;
+      background-color: var(--cor-bolinha) !important;
       border-radius: 50% !important;
       width: 50px !important;
       height: 50px !important;
@@ -917,7 +949,7 @@
     
     div[vw] .vw-access-button:hover {
       transform: scale(1.1) !important;
-      background-color: var(--cor-primaria-escura) !important;
+      background-color: var(--cor-bolinha-hover) !important;
     }
     
     div[vw] .vw-access-button img {
@@ -994,33 +1026,53 @@
         grid-template-columns: 1fr;
       }
 
-      .menu-botoes {
-        grid-template-columns: 1fr;
-      }
-
       .bolinha-acessibilidade {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        right: 70px;
+        width: 70px;
+        height: 70px;
+        bottom: 25px;
+        right: 80px;
+        font-size: 28px;
       }
 
       .menu-acessibilidade {
-        bottom: 80px;
-        right: 70px;
+        bottom: 110px;
+        right: 80px;
         min-width: 180px;
+        padding: 15px;
+      }
+
+      .menu-botoes {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .botao-acessibilidade {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 12px 15px;
+        min-height: 50px;
+        gap: 12px;
+      }
+
+      .botao-acessibilidade .icone {
+        font-size: 20px;
+      }
+
+      .botao-acessibilidade .texto {
+        font-size: 12px;
       }
 
       .botao-leitura-texto {
         width: 50px;
         height: 50px;
         font-size: 20px;
-        right: 130px;
+        right: 140px;
       }
 
       .controles-leitor {
-        right: 130px;
-        bottom: 80px;
+        right: 140px;
+        bottom: 105px;
+        min-width: 180px;
       }
 
       .footer-links {
@@ -1067,23 +1119,28 @@
       }
 
       .bolinha-acessibilidade {
-        width: 45px;
-        height: 45px;
-        right: 60px;
+        width: 65px;
+        height: 65px;
+        bottom: 20px;
+        right: 70px;
+        font-size: 26px;
       }
 
       .menu-acessibilidade {
-        right: 60px;
+        bottom: 100px;
+        right: 70px;
+        min-width: 170px;
       }
 
       .botao-leitura-texto {
         width: 45px;
         height: 45px;
-        right: 115px;
+        right: 125px;
       }
 
       .controles-leitor {
-        right: 115px;
+        right: 125px;
+        min-width: 170px;
       }
 
       div[vw] .vw-access-button {
@@ -1095,20 +1152,36 @@
     }
 
     @media (max-width: 360px) {
-      .bolinha-acessibilidade {
-        right: 50px;
+      .menu-acessibilidade {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
       }
 
-      .menu-acessibilidade {
-        right: 50px;
+      .bolinha-acessibilidade {
+        right: 60px;
       }
 
       .botao-leitura-texto {
-        right: 100px;
+        right: 110px;
       }
 
       .controles-leitor {
-        right: 100px;
+        right: 110px;
+        min-width: 160px;
+      }
+
+      .notificacoes-container {
+        top: 60px;
+        right: 5px;
+        max-width: 250px;
+      }
+
+      div[vw] .vw-access-button {
+        width: 40px !important;
+        height: 40px !important;
+        bottom: 20px !important;
+        left: 10px !important;
       }
     }
   </style>
@@ -1133,7 +1206,7 @@
     {% endif %}
   </div>
 
-  <button class="bolinha-acessibilidade" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
+  <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
     ♿
   </button>
 
@@ -1142,12 +1215,15 @@
   </button>
 
   <div class="controles-leitor" id="controlesLeitor">
-    <div class="controles-leitor-conteudo">
+    <div class="controles-leitor-header">
       <div class="controle-leitor-titulo">Leitor de Texto</div>
+      <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
+    </div>
+    <div class="controles-leitor-conteudo">
       <div class="controles-leitor-botoes">
-        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">play</button>
-        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>pause</button>
-        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>parar</button>
+        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
+        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
+        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
       </div>
       <div class="velocidade-leitor">
         <label for="velocidadeLeitor">Velocidade:</label>
@@ -1287,8 +1363,8 @@
         
         <div class="feature-card">
           <div class="feature-icon">⏱️</div>
-          <h3>Controle de clientes </h3>
-          <p>Uma barbearia vazia e controlada </p>
+          <h3>Controle de clientes</h3>
+          <p>Uma barbearia vazia e controlada</p>
         </div>
       </div>
     </div>
@@ -1371,7 +1447,6 @@
       if (typeof VLibras !== 'undefined') {
         new window.VLibras.Widget('https://vlibras.gov.br/app');
       }
-
       document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
       document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
     });
@@ -1448,30 +1523,16 @@
       const controles = document.getElementById('controlesLeitor');
       const botao = document.getElementById('botaoLeituraTexto');
       
-      controles.classList.toggle('aberto');
+      // Abre os controles apenas (remove o toggle)
+      controles.classList.add('aberto');
       
       const menuAcessibilidade = document.getElementById('menuAcessibilidade');
       if (menuAcessibilidade.classList.contains('aberto')) {
         menuAcessibilidade.classList.remove('aberto');
       }
       
-      if (controles.classList.contains('aberto')) {
-        setTimeout(() => {
-          document.addEventListener('click', fecharControlesAoClicarFora);
-        }, 100);
-      } else {
-        document.removeEventListener('click', fecharControlesAoClicarFora);
-      }
-    }
-
-    function fecharControlesAoClicarFora(event) {
-      const controles = document.getElementById('controlesLeitor');
-      const botao = document.getElementById('botaoLeituraTexto');
-      
-      if (!controles.contains(event.target) && !botao.contains(event.target)) {
-        controles.classList.remove('aberto');
-        document.removeEventListener('click', fecharControlesAoClicarFora);
-      }
+      // Remove o evento de fechar ao clicar fora
+      document.removeEventListener('click', fecharControlesAoClicarFora);
     }
 
     function fecharControlesLeitor() {
@@ -1496,7 +1557,6 @@
       }
       
       utterance = new SpeechSynthesisUtterance(selectedText);
-      
       utterance.lang = 'pt-BR';
       utterance.rate = speechRate;
       utterance.pitch = 1;
@@ -1665,11 +1725,7 @@
       
       menu.classList.toggle('aberto');
       bolinha.classList.toggle('ativo');
-      
-      const controles = document.getElementById('controlesLeitor');
-      if (controles.classList.contains('aberto')) {
-        controles.classList.remove('aberto');
-      }
+      bolinha.classList.remove('pulsando');
       
       if (menu.classList.contains('aberto')) {
         setTimeout(() => {
@@ -1839,7 +1895,13 @@
       });
       {% endif %}
     });
+
+    setTimeout(() => {
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
+      if (bolinha) {
+        bolinha.classList.remove('pulsando');
+      }
+    }, 10000);
   </script>
 </body>
-
 </html>

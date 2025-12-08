@@ -31,8 +31,8 @@
             --cor-widget-texto: #333333;
             --cor-widget-hover: #f8f9fa;
             --gradiente-primario: linear-gradient(135deg, #2aa745, #34ce57);
-            --cor-bolinha: #1DB954;
-            --cor-bolinha-hover: #17a745;
+            --cor-bolinha: #2aa745;
+            --cor-bolinha-hover: #228c3a;
             --cor-sombra: rgba(0, 0, 0, 0.1);
             --cor-leitor-texto: rgba(29, 185, 84, 0.1);
             --cor-leitor-borda: #1DB954;
@@ -55,8 +55,8 @@
             --cor-widget-texto: #ffffff;
             --cor-widget-hover: #3d3d3d;
             --gradiente-primario: linear-gradient(135deg, #2aa745, #28a745);
-            --cor-bolinha: #1DB954;
-            --cor-bolinha-hover: #17a745;
+            --cor-bolinha: #2aa745;
+            --cor-bolinha-hover: #34ce57;
             --cor-sombra: rgba(0, 0, 0, 0.3);
             --cor-leitor-texto: rgba(29, 185, 84, 0.2);
             --cor-leitor-borda: #1DB954;
@@ -123,6 +123,10 @@
             font-size: var(--tamanho-h2);
             color: var(--cor-navbar-texto);
             font-weight: bold;
+        }
+
+        .R {
+            color: #1DB954;
         }
 
         .nav-links {
@@ -429,10 +433,6 @@
             gap: 15px;
         }
 
-        .R {
-            color: #1DB954;
-        }
-
         .bolinha-acessibilidade {
             position: fixed;
             bottom: 20px;
@@ -545,6 +545,16 @@
             text-align: center;
         }
 
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .bolinha-acessibilidade.pulsando {
+            animation: pulse 2s infinite;
+        }
+
         .botao-leitura-texto {
             position: fixed;
             bottom: 20px;
@@ -585,18 +595,9 @@
         }
 
         @keyframes pulsar {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
-            }
-            70% {
-                transform: scale(1.05);
-                box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
-            }
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
         }
 
         .controles-leitor {
@@ -613,7 +614,7 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
-            min-width: 180px;
+            min-width: 200px;
         }
 
         .controles-leitor.aberto {
@@ -622,19 +623,43 @@
             visibility: visible;
         }
 
-        .controles-leitor-conteudo {
+        .controles-leitor-header {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            gap: 10px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--cor-borda);
         }
 
         .controle-leitor-titulo {
             font-size: 14px;
             font-weight: bold;
-            color: var(--cor-texto);
-            margin-bottom: 5px;
+            color: var(--cor-widget-texto);
             text-align: center;
+            flex: 1;
+        }
+
+        .controle-leitor-fechar {
+            background: none;
+            border: none;
+            color: var(--cor-widget-texto);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0 5px;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .controle-leitor-fechar:hover {
+            color: #ff4757;
+        }
+
+        .controles-leitor-conteudo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
 
         .controles-leitor-botoes {
@@ -648,7 +673,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: var(--cor-bolinha);
+            background: var(--gradiente-primario);
             border: none;
             color: white;
             cursor: pointer;
@@ -660,7 +685,6 @@
         }
 
         .controle-leitor-btn:hover {
-            background: var(--cor-bolinha-hover);
             transform: scale(1.1);
         }
 
@@ -680,7 +704,7 @@
 
         .velocidade-leitor label {
             font-size: 12px;
-            color: var(--cor-texto);
+            color: var(--cor-widget-texto);
             white-space: nowrap;
         }
 
@@ -714,7 +738,7 @@
 
         .velocidade-valor {
             font-size: 12px;
-            color: var(--cor-texto);
+            color: var(--cor-widget-texto);
             min-width: 30px;
             text-align: center;
         }
@@ -755,12 +779,6 @@
         @keyframes fadeOut {
             from { opacity: 1; }
             to { opacity: 0; }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
         }
 
         .bolinha-acessibilidade.pulsando {
@@ -912,6 +930,7 @@
             .controles-leitor {
                 right: 130px;
                 bottom: 80px;
+                min-width: 180px;
             }
 
             .menu-botoes {
@@ -1002,7 +1021,7 @@
     </div>
 
     <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
-        ♿
+        +
     </button>
 
     <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
@@ -1010,12 +1029,15 @@
     </button>
 
     <div class="controles-leitor" id="controlesLeitor">
-        <div class="controles-leitor-conteudo">
+        <div class="controles-leitor-header">
             <div class="controle-leitor-titulo">Leitor de Texto</div>
+            <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
+        </div>
+        <div class="controles-leitor-conteudo">
             <div class="controles-leitor-botoes">
-                <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">play</button>
-                <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>pause</button>
-                <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>parar</button>
+                <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
+                <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
+                <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
             </div>
             <div class="velocidade-leitor">
                 <label for="velocidadeLeitor">Velocidade:</label>
@@ -1256,30 +1278,16 @@
             const controles = document.getElementById('controlesLeitor');
             const botao = document.getElementById('botaoLeituraTexto');
             
-            controles.classList.toggle('aberto');
+            // Abre os controles apenas (remove o toggle)
+            controles.classList.add('aberto');
             
             const menuAcessibilidade = document.getElementById('menuAcessibilidade');
             if (menuAcessibilidade.classList.contains('aberto')) {
                 menuAcessibilidade.classList.remove('aberto');
             }
             
-            if (controles.classList.contains('aberto')) {
-                setTimeout(() => {
-                    document.addEventListener('click', fecharControlesAoClicarFora);
-                }, 100);
-            } else {
-                document.removeEventListener('click', fecharControlesAoClicarFora);
-            }
-        }
-
-        function fecharControlesAoClicarFora(event) {
-            const controles = document.getElementById('controlesLeitor');
-            const botao = document.getElementById('botaoLeituraTexto');
-            
-            if (!controles.contains(event.target) && !botao.contains(event.target)) {
-                controles.classList.remove('aberto');
-                document.removeEventListener('click', fecharControlesAoClicarFora);
-            }
+            // Remove o evento de fechar ao clicar fora
+            document.removeEventListener('click', fecharControlesAoClicarFora);
         }
 
         function fecharControlesLeitor() {
@@ -1304,7 +1312,6 @@
             }
             
             utterance = new SpeechSynthesisUtterance(selectedText);
-            
             utterance.lang = 'pt-BR';
             utterance.rate = speechRate;
             utterance.pitch = 1;
@@ -1474,11 +1481,6 @@
             menu.classList.toggle('aberto');
             bolinha.classList.toggle('ativo');
             bolinha.classList.remove('pulsando');
-            
-            const controles = document.getElementById('controlesLeitor');
-            if (controles.classList.contains('aberto')) {
-                controles.classList.remove('aberto');
-            }
             
             if (menu.classList.contains('aberto')) {
                 setTimeout(() => {
@@ -1746,5 +1748,4 @@
         }, 10000);
     </script>
 </body>
-
 </html>

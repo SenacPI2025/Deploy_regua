@@ -17,7 +17,7 @@
     :root[data-tema="claro"] {
       --cor-primaria: #1DB954;
       --cor-primaria-escura: #17a745;
-      --cor-secundaria: #2d3748;
+      --cor-secundaria: #6c757d;
       --cor-fundo: #ffffff;
       --cor-fundo-secundario: #f8f9fa;
       --cor-texto: #2d3748;
@@ -56,7 +56,7 @@
       --cor-primaria-escura: #17a745;
       --cor-secundaria: #e2e8f0;
       --cor-fundo: #1a202c;
-      --cor-fundo-secundario: #2d3748;
+      --cor-fundo-secundario: #6c757d;
       --cor-texto: #e2e8f0;
       --cor-texto-claro: #a0aec0;
       --cor-borda: #4a5568;
@@ -565,19 +565,43 @@
       visibility: visible;
     }
 
-    .controles-leitor-conteudo {
+    .controles-leitor-header {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--cor-borda);
     }
 
     .controle-leitor-titulo {
       font-size: 14px;
       font-weight: bold;
       color: var(--cor-texto);
-      margin-bottom: 5px;
       text-align: center;
+      flex: 1;
+    }
+
+    .controle-leitor-fechar {
+      background: none;
+      border: none;
+      color: var(--cor-texto);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 5px;
+      line-height: 1;
+      transition: color 0.3s ease;
+    }
+
+    .controle-leitor-fechar:hover {
+      color: #ff4757;
+    }
+
+    .controles-leitor-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
 
     .controles-leitor-botoes {
@@ -864,12 +888,15 @@
   </button>
 
   <div class="controles-leitor" id="controlesLeitor">
-    <div class="controles-leitor-conteudo">
+    <div class="controles-leitor-header">
       <div class="controle-leitor-titulo">Leitor de Texto</div>
+      <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
+    </div>
+    <div class="controles-leitor-conteudo">
       <div class="controles-leitor-botoes">
-        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">play</button>
-        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>pause</button>
-        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>parar</button>
+        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
+        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
+        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
       </div>
       <div class="velocidade-leitor">
         <label for="velocidadeLeitor">Velocidade:</label>
@@ -1071,20 +1098,16 @@
       const controles = document.getElementById('controlesLeitor');
       const botao = document.getElementById('botaoLeituraTexto');
       
-      controles.classList.toggle('aberto');
+      // Abre os controles apenas (remove o toggle)
+      controles.classList.add('aberto');
       
       const menuAcessibilidade = document.getElementById('menuAcessibilidade');
       if (menuAcessibilidade.classList.contains('aberto')) {
         menuAcessibilidade.classList.remove('aberto');
       }
       
-      if (controles.classList.contains('aberto')) {
-        setTimeout(() => {
-          document.addEventListener('click', fecharControlesAoClicarFora);
-        }, 100);
-      } else {
-        document.removeEventListener('click', fecharControlesAoClicarFora);
-      }
+      // Remove o evento de fechar ao clicar fora
+      document.removeEventListener('click', fecharControlesAoClicarFora);
     }
 
     function fecharControlesAoClicarFora(event) {
@@ -1274,11 +1297,6 @@
       
       menu.classList.toggle('aberto');
       bolinha.classList.toggle('ativo');
-      
-      const controles = document.getElementById('controlesLeitor');
-      if (controles.classList.contains('aberto')) {
-        controles.classList.remove('aberto');
-      }
       
       if (menu.classList.contains('aberto')) {
         setTimeout(() => {
@@ -1512,5 +1530,4 @@
     });
   </script>
 </body>
-
 </html>
