@@ -18,7 +18,7 @@
     :root[data-tema="claro"] {
       --cor-primaria: #1DB954;
       --cor-primaria-escura: #17a745;
-      --cor-secundaria: #6c757d;
+      --cor-secundaria: #2d3748;
       --cor-fundo: #ffffff;
       --cor-fundo-secundario: #f8f9fa;
       --cor-texto: #2d3748;
@@ -56,7 +56,7 @@
     :root[data-tema="escuro"] {
       --cor-primaria: #1DB954;
       --cor-primaria-escura: #17a745;
-      --cor-secundaria: #6c757d;
+      --cor-secundaria: #e2e8f0;
       --cor-fundo: #1a202c;
       --cor-fundo-secundario: #2d3748;
       --cor-texto: #e2e8f0;
@@ -551,7 +551,7 @@
       right: 90px;
       width: 60px;
       height: 60px;
-      background: var(--gradiente-primario);
+      background: var(--cor-bolinha);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -567,21 +567,7 @@
 
     .bolinha-acessibilidade:hover {
       transform: scale(1.1);
-      background: var(--cor-primaria-escura);
-    }
-
-    .bolinha-acessibilidade.ativo {
-      background: var(--cor-primaria-escura);
-    }
-
-    .bolinha-acessibilidade.ativo::before {
-      content: "✕";
-      font-size: 28px;
-    }
-
-    .bolinha-acessibilidade:not(.ativo)::before {
-      content: "+";
-      font-size: 24px;
+      background: var(--cor-bolinha-hover);
     }
 
     /* Menu de Acessibilidade */
@@ -589,13 +575,12 @@
       position: fixed;
       bottom: 90px;
       right: 90px;
-      background: var(--cor-widget);
+      background: var(--cor-card);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 20px;
       z-index: 1000;
       box-shadow: 0 8px 30px var(--cor-sombra);
-      backdrop-filter: blur(10px);
       transform: scale(0.8);
       opacity: 0;
       visibility: hidden;
@@ -619,7 +604,7 @@
     .menu-titulo {
       font-size: 16px;
       font-weight: bold;
-      color: var(--cor-widget-texto);
+      color: var(--cor-texto);
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 10px;
@@ -639,7 +624,7 @@
       align-items: center;
       justify-content: center;
       padding: 12px 8px;
-      background: var(--gradiente-primario);
+      background: var(--cor-primaria);
       color: white;
       border: none;
       border-radius: 12px;
@@ -648,12 +633,11 @@
       transition: all 0.3s ease;
       min-height: 60px;
       gap: 5px;
-      box-shadow: 0 4px 10px rgba(42, 167, 69, 0.3);
     }
 
     .botao-acessibilidade:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(42, 167, 69, 0.4);
+      background: var(--cor-primaria-escura);
     }
 
     .botao-acessibilidade .icone {
@@ -673,7 +657,7 @@
       right: 160px;
       width: 60px;
       height: 60px;
-      background: var(--gradiente-primario);
+      background: var(--cor-primaria);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -726,7 +710,7 @@
       position: fixed;
       bottom: 90px;
       right: 160px;
-      background: var(--cor-widget);
+      background: var(--cor-card);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 15px;
@@ -745,43 +729,19 @@
       visibility: visible;
     }
 
-    .controles-leitor-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--cor-borda);
-    }
-
-    .controle-leitor-titulo {
-      font-size: 14px;
-      font-weight: bold;
-      color: var(--cor-widget-texto);
-      text-align: center;
-      flex: 1;
-    }
-
-    .controle-leitor-fechar {
-      background: none;
-      border: none;
-      color: var(--cor-widget-texto);
-      font-size: 20px;
-      cursor: pointer;
-      padding: 0 5px;
-      line-height: 1;
-      transition: color 0.3s ease;
-    }
-
-    .controle-leitor-fechar:hover {
-      color: #ff4757;
-    }
-
     .controles-leitor-conteudo {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 10px;
+    }
+
+    .controle-leitor-titulo {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--cor-texto);
+      margin-bottom: 5px;
+      text-align: center;
     }
 
     .controles-leitor-botoes {
@@ -795,7 +755,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--gradiente-primario);
+      background: var(--cor-primaria);
       border: none;
       color: white;
       cursor: pointer;
@@ -807,11 +767,12 @@
     }
 
     .controle-leitor-btn:hover {
+      background: var(--cor-primaria-escura);
       transform: scale(1.1);
     }
 
     .controle-leitor-btn:disabled {
-      background: var(--cor-secundaria);
+      background: var(--cor-texto-claro);
       cursor: not-allowed;
       transform: none;
     }
@@ -826,7 +787,7 @@
 
     .velocidade-leitor label {
       font-size: 12px;
-      color: var(--cor-widget-texto);
+      color: var(--cor-texto);
       white-space: nowrap;
     }
 
@@ -845,7 +806,7 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-bolinha);
+      background: var(--cor-primaria);
       cursor: pointer;
     }
 
@@ -853,14 +814,14 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-bolinha);
+      background: var(--cor-primaria);
       cursor: pointer;
       border: none;
     }
 
     .velocidade-valor {
       font-size: 12px;
-      color: var(--cor-widget-texto);
+      color: var(--cor-texto);
       min-width: 30px;
       text-align: center;
     }
@@ -955,15 +916,8 @@
       .bolinha-acessibilidade {
         width: 50px;
         height: 50px;
-        right: 70px;
-      }
-
-      .bolinha-acessibilidade.ativo::before {
-        font-size: 24px;
-      }
-
-      .bolinha-acessibilidade:not(.ativo)::before {
         font-size: 20px;
+        right: 70px;
       }
 
       .menu-acessibilidade {
@@ -1085,9 +1039,9 @@
     </div>
   </div>
 
-  <!-- Bolinha de Acessibilidade (muda para X quando aberto) -->
+  <!-- Bolinha de Acessibilidade -->
   <button class="bolinha-acessibilidade" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
-    <!-- O conteúdo é controlado por CSS pseudo-elementos -->
+    ♿
   </button>
 
   <!-- Botão de Leitura de Texto -->
@@ -1097,11 +1051,8 @@
 
   <!-- Controles do Leitor de Texto -->
   <div class="controles-leitor" id="controlesLeitor">
-    <div class="controles-leitor-header">
-      <div class="controle-leitor-titulo">Leitor de Texto</div>
-      <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
-    </div>
     <div class="controles-leitor-conteudo">
+      <div class="controle-leitor-titulo">Leitor de Texto</div>
       <div class="controles-leitor-botoes">
         <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
         <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
@@ -1175,24 +1126,24 @@
       <!-- ETAPA 1: Solicitar código -->
       <div id="etapaEmail">
         <div class="instrucoes">
-          <h4>Como funciona esta demonstração:</h4>
+          <h4>Redefinição de Senha Real:</h4>
           <ul>
-            <li><strong>1. Sistema simula envio de código por e-mail</strong></li>
-            <li><strong>2. Verificação do código de 6 dígitos</strong></li>
-            <li><strong>3. Alteração REAL da senha (simulada no navegador)</strong></li>
-            <li>Use qualquer e-mail para testar</li>
+            <li><strong>1. Digite seu e-mail cadastrado</strong></li>
+            <li><strong>2. Verifique o código de 6 dígitos</strong></li>
+            <li><strong>3. Crie uma nova senha</strong></li>
+            <li>A senha será alterada no banco de dados</li>
             <li>Você poderá fazer login com a nova senha</li>
           </ul>
         </div>
         
         <div class="input-group">
           <i class="fas fa-envelope"></i>
-          <input type="email" id="email" placeholder="Digite seu e-mail" required>
+          <input type="email" id="email" placeholder="Digite seu e-mail cadastrado" required>
         </div>
         
         <div class="mensagem-info">
           <i class="fas fa-envelope-open-text"></i> 
-          Em produção: Código seria enviado para este e-mail
+          Verificaremos se este e-mail existe no sistema
         </div>
         
         <div class="confirm-btn-container">
@@ -1210,13 +1161,13 @@
       <div id="etapaCodigo" class="hidden">
         <div class="mensagem-info">
           <i class="fas fa-info-circle"></i> 
-          Código gerado: <strong id="codigoAtual"></strong> (simulação de envio por e-mail)
+          Código gerado: <strong id="codigoAtual"></strong> (apenas para demonstração)
         </div>
         
         <div class="codigo-gerado">
-          <p><i class="fas fa-mobile-alt"></i> Insira o código de 6 dígitos que seria enviado para seu e-mail:</p>
-          <div class="codigo-display" id="codigoGeradoDisplay">123456</div>
-          <p><small>Digite este código nos campos abaixo para continuar</small></p>
+          <p><i class="fas fa-mobile-alt"></i> Insira o código de 6 dígitos enviado para seu e-mail:</p>
+          <div class="codigo-display" id="codigoGeradoDisplay">------</div>
+          <p><small>O código foi enviado para seu e-mail</small></p>
         </div>
         
         <div class="contador">
@@ -1274,6 +1225,7 @@
           <i class="fas fa-shield-alt"></i> Requisitos da senha:
           <ul style="text-align: left; margin-top: 10px;">
             <li>Mínimo 8 caracteres</li>
+            <li>A senha será alterada permanentemente no sistema</li>
           </ul>
         </div>
         
@@ -1297,10 +1249,10 @@
             <i class="fas fa-cog fa-spin"></i>
           </div>
           <h3 style="color: var(--cor-primaria); margin-bottom: 15px;">Processando alteração...</h3>
-          <p>Atualizando sua senha no sistema...</p>
+          <p>Atualizando sua senha no banco de dados...</p>
           <div class="progress-bar" style="margin: 20px 0;"></div>
           <p id="statusProcesso" style="font-size: 0.9rem; color: var(--cor-texto-claro);">
-            Iniciando processo de alteração de senha...
+            Conectando com o servidor...
           </p>
         </div>
       </div>
@@ -1317,12 +1269,12 @@
             <h4><i class="fas fa-info-circle"></i> Informações da alteração:</h4>
             <p><strong>E-mail:</strong> <span id="emailAlterado"></span></p>
             <p><strong>Data/Hora:</strong> <span id="dataAlteracao"></span></p>
-            <p><strong>Status:</strong> <span style="color: var(--cor-sucesso);">✓ Senha atualizada no sistema</span></p>
+            <p><strong>Status:</strong> <span style="color: var(--cor-sucesso);">✓ Senha atualizada no banco de dados</span></p>
           </div>
           
           <div class="demo-aviso" style="margin-top: 20px;">
-            <i class="fas fa-flask"></i> 
-            <strong>MODO DEMONSTRAÇÃO:</strong> Em produção, esta alteração seria salva no banco de dados
+            <i class="fas fa-database"></i> 
+            <strong>SENHA ALTERADA COM SUCESSO!</strong> Sua senha foi atualizada no sistema.
           </div>
         </div>
         
@@ -1335,7 +1287,7 @@
         </div>
         
         <button type="button" class="secondary-btn" onclick="reiniciarDemonstracao()">
-          <i class="fas fa-redo"></i> TESTAR NOVAMENTE
+          <i class="fas fa-redo"></i> REDEFINIR OUTRA SENHA
         </button>
       </div>
       
@@ -1420,35 +1372,70 @@
         return;
       }
       
-      // Gerar código de 6 dígitos
-      codigoGerado = gerarCodigo6Digitos();
+      // Mostrar carregamento
+      const btnEnviar = document.querySelector('#etapaEmail .confirm-btn');
+      const btnTextoOriginal = btnEnviar.innerHTML;
+      btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
+      btnEnviar.disabled = true;
       
-      // Mostrar código na tela
-      document.getElementById('codigoGeradoDisplay').textContent = codigoGerado;
-      document.getElementById('codigoAtual').textContent = codigoGerado;
-      
-      // Alternar etapas
-      document.getElementById('etapaEmail').classList.add('hidden');
-      document.getElementById('etapaCodigo').classList.remove('hidden');
-      
-      // Atualizar indicador de etapas
-      document.getElementById('etapa1').classList.remove('ativa');
-      document.getElementById('etapa1').classList.add('concluida');
-      document.getElementById('etapa2').classList.add('ativa');
-      
-      // Iniciar timer
-      iniciarTimer();
-      
-      // Mostrar mensagem de sucesso
-      mostrarMensagem(`Código de verificação gerado: ${codigoGerado}`, 'sucesso');
-      
-      // Focar no primeiro campo do código
-      setTimeout(() => {
-        document.querySelector('.codigo-input[data-index="0"]').focus();
-      }, 100);
+      // Enviar para o backend
+      fetch('{% url "esquecisenhaatalho" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({
+          acao: 'solicitar_codigo',
+          email: emailDigitado
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        btnEnviar.innerHTML = btnTextoOriginal;
+        btnEnviar.disabled = false;
+        
+        if (data.status === 'success') {
+          // Gerar código de 6 dígitos
+          codigoGerado = data.codigo;
+          
+          // Mostrar código na tela
+          document.getElementById('codigoGeradoDisplay').textContent = codigoGerado;
+          document.getElementById('codigoAtual').textContent = codigoGerado;
+          
+          // Alternar etapas
+          document.getElementById('etapaEmail').classList.add('hidden');
+          document.getElementById('etapaCodigo').classList.remove('hidden');
+          
+          // Atualizar indicador de etapas
+          document.getElementById('etapa1').classList.remove('ativa');
+          document.getElementById('etapa1').classList.add('concluida');
+          document.getElementById('etapa2').classList.add('ativa');
+          
+          // Iniciar timer
+          iniciarTimer();
+          
+          // Mostrar mensagem de sucesso
+          mostrarMensagem(data.mensagem, 'sucesso');
+          
+          // Focar no primeiro campo do código
+          setTimeout(() => {
+            document.querySelector('.codigo-input[data-index="0"]').focus();
+          }, 100);
+        } else {
+          mostrarMensagem(data.mensagem, 'erro');
+          emailInput.focus();
+        }
+      })
+      .catch(error => {
+        btnEnviar.innerHTML = btnTextoOriginal;
+        btnEnviar.disabled = false;
+        mostrarMensagem('Erro ao conectar com o servidor', 'erro');
+        console.error('Erro:', error);
+      });
     }
     
-    // Gerar código de 6 dígitos
+    // Gerar código de 6 dígitos localmente (fallback)
     function gerarCodigo6Digitos() {
       return Math.floor(100000 + Math.random() * 900000).toString();
     }
@@ -1567,62 +1554,126 @@
         codigoDigitado += inputs[i].value;
       }
       
-      if (codigoDigitado === codigoGerado) {
-        clearInterval(timerInterval);
+      // Mostrar carregamento
+      const btnVerificar = document.getElementById('btnVerificarCodigo');
+      const btnTextoOriginal = btnVerificar.innerHTML;
+      btnVerificar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> VERIFICANDO...';
+      btnVerificar.disabled = true;
+      
+      // Enviar para o backend
+      fetch('{% url "esquecisenhaatalho" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({
+          acao: 'verificar_codigo',
+          codigo: codigoDigitado
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        btnVerificar.innerHTML = btnTextoOriginal;
+        btnVerificar.disabled = false;
         
-        document.getElementById('etapaCodigo').classList.add('hidden');
-        document.getElementById('etapaNovaSenha').classList.remove('hidden');
-        
-        document.getElementById('etapa2').classList.remove('ativa');
-        document.getElementById('etapa2').classList.add('concluida');
-        document.getElementById('etapa3').classList.add('ativa');
-        
-        mostrarMensagem('Código verificado com sucesso!', 'sucesso');
-        
-        setTimeout(() => {
-          document.getElementById('novaSenha').focus();
-        }, 100);
-      } else {
-        mostrarMensagem('Código incorreto. Tente novamente.', 'erro');
-        
-        const inputs = document.querySelectorAll('.codigo-input');
-        inputs.forEach(input => {
-          input.classList.add('shake');
+        if (data.status === 'success') {
+          clearInterval(timerInterval);
+          
+          document.getElementById('etapaCodigo').classList.add('hidden');
+          document.getElementById('etapaNovaSenha').classList.remove('hidden');
+          
+          document.getElementById('etapa2').classList.remove('ativa');
+          document.getElementById('etapa2').classList.add('concluida');
+          document.getElementById('etapa3').classList.add('ativa');
+          
+          mostrarMensagem(data.mensagem, 'sucesso');
+          
           setTimeout(() => {
-            input.classList.remove('shake');
-          }, 500);
-        });
-        
-        setTimeout(() => {
+            document.getElementById('novaSenha').focus();
+          }, 100);
+        } else {
+          mostrarMensagem(data.mensagem, 'erro');
+          
+          const inputs = document.querySelectorAll('.codigo-input');
           inputs.forEach(input => {
-            input.value = '';
-            input.classList.remove('filled');
+            input.classList.add('shake');
+            setTimeout(() => {
+              input.classList.remove('shake');
+            }, 500);
           });
-          inputs[0].focus();
-          document.getElementById('btnVerificarCodigo').disabled = true;
-        }, 500);
-      }
+          
+          setTimeout(() => {
+            inputs.forEach(input => {
+              input.value = '';
+              input.classList.remove('filled');
+            });
+            inputs[0].focus();
+            document.getElementById('btnVerificarCodigo').disabled = true;
+          }, 500);
+        }
+      })
+      .catch(error => {
+        btnVerificar.innerHTML = btnTextoOriginal;
+        btnVerificar.disabled = false;
+        mostrarMensagem('Erro ao conectar com o servidor', 'erro');
+        console.error('Erro:', error);
+      });
     }
     
     // Reenviar código
     function reenviarCodigo() {
       if (processoAtivo) return;
       
-      codigoGerado = gerarCodigo6Digitos();
-      document.getElementById('codigoGeradoDisplay').textContent = codigoGerado;
-      document.getElementById('codigoAtual').textContent = codigoGerado;
+      // Mostrar carregamento
+      const btnReenviar = document.querySelector('#etapaCodigo .secondary-btn');
+      const btnTextoOriginal = btnReenviar.innerHTML;
+      btnReenviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> REENVIANDO...';
+      btnReenviar.disabled = true;
       
-      const inputs = document.querySelectorAll('.codigo-input');
-      inputs.forEach(input => {
-        input.value = '';
-        input.classList.remove('filled');
+      // Enviar para o backend
+      fetch('{% url "esquecisenhaatalho" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({
+          acao: 'solicitar_codigo',
+          email: emailDigitado
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        btnReenviar.innerHTML = btnTextoOriginal;
+        btnReenviar.disabled = false;
+        
+        if (data.status === 'success') {
+          codigoGerado = data.codigo;
+          document.getElementById('codigoGeradoDisplay').textContent = codigoGerado;
+          document.getElementById('codigoAtual').textContent = codigoGerado;
+          
+          const inputs = document.querySelectorAll('.codigo-input');
+          inputs.forEach(input => {
+            input.value = '';
+            input.classList.remove('filled');
+          });
+          
+          iniciarTimer();
+          document.getElementById('btnVerificarCodigo').disabled = true;
+          
+          mostrarMensagem(data.mensagem, 'sucesso');
+          inputs[0].focus();
+        } else {
+          mostrarMensagem(data.mensagem, 'erro');
+        }
+      })
+      .catch(error => {
+        btnReenviar.innerHTML = btnTextoOriginal;
+        btnReenviar.disabled = false;
+        mostrarMensagem('Erro ao conectar com o servidor', 'erro');
+        console.error('Erro:', error);
       });
-      
-      iniciarTimer();
-      document.getElementById('btnVerificarCodigo').disabled = true;
-      
-      mostrarMensagem(`Novo código enviado: ${codigoGerado}`, 'sucesso');
-      inputs[0].focus();
     }
     
     // Redefinir senha (Etapa 3 -> Etapa 4/5)
@@ -1666,35 +1717,53 @@
       document.getElementById('etapa3').classList.remove('ativa');
       document.getElementById('etapa3').classList.add('concluida');
       
-      // Simular processo de alteração
-      simularProcessoAlteracao();
-    }
-    
-    // Simular processo de alteração
-    function simularProcessoAlteracao() {
+      // Mostrar carregamento
       const statusElement = document.getElementById('statusProcesso');
-      let passo = 0;
+      statusElement.textContent = "Conectando com o servidor...";
       
-      const passos = [
-        "Verificando segurança da nova senha...",
-        "Criptografando nova senha...",
-        "Atualizando banco de dados...",
-        "Registrando alteração no log...",
-        "Enviando notificação por e-mail...",
-        "Finalizando processo..."
-      ];
-      
-      const intervalo = setInterval(() => {
-        if (passo < passos.length) {
-          statusElement.textContent = passos[passo];
-          passo++;
-        } else {
-          clearInterval(intervalo);
+      // Enviar para o backend
+      fetch('{% url "esquecisenhaatalho" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({
+          acao: 'redefinir_senha',
+          senha: novaSenha
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          statusElement.textContent = "Senha alterada com sucesso!";
+          
+          // Aguardar um pouco e mostrar sucesso
           setTimeout(() => {
             finalizarProcesso();
-          }, 1000);
+          }, 1500);
+        } else {
+          statusElement.textContent = `Erro: ${data.mensagem}`;
+          
+          // Mostrar etapa de erro
+          setTimeout(() => {
+            document.getElementById('etapaProcessando').classList.add('hidden');
+            document.getElementById('etapaErro').classList.remove('hidden');
+            document.getElementById('mensagemErroDetalhe').textContent = data.mensagem;
+            processoAtivo = false;
+          }, 1500);
         }
-      }, 800);
+      })
+      .catch(error => {
+        statusElement.textContent = "Erro de conexão com o servidor";
+        
+        setTimeout(() => {
+          document.getElementById('etapaProcessando').classList.add('hidden');
+          document.getElementById('etapaErro').classList.remove('hidden');
+          document.getElementById('mensagemErroDetalhe').textContent = "Não foi possível conectar ao servidor. Verifique sua internet.";
+          processoAtivo = false;
+        }, 1500);
+      });
     }
     
     // Finalizar processo com sucesso
@@ -1713,19 +1782,6 @@
       // Mostrar etapa de sucesso
       document.getElementById('etapaProcessando').classList.add('hidden');
       document.getElementById('etapaSucesso').classList.remove('hidden');
-      
-      // Salvar no localStorage para simulação (opcional)
-      try {
-        const alteracoes = JSON.parse(localStorage.getItem('senhas_alteradas') || '[]');
-        alteracoes.push({
-          email: emailDigitado,
-          data: new Date().toISOString(),
-          senha: novaSenhaArmazenada // Em produção NUNCA armazenar senhas assim!
-        });
-        localStorage.setItem('senhas_alteradas', JSON.stringify(alteracoes));
-      } catch (e) {
-        console.log('Não foi possível salvar no localStorage:', e);
-      }
       
       // Mostrar mensagem final
       mostrarMensagem('Senha alterada com sucesso! Você já pode fazer login com sua nova senha.', 'sucesso');
@@ -1927,16 +1983,20 @@
       const controles = document.getElementById('controlesLeitor');
       const botao = document.getElementById('botaoLeituraTexto');
       
-      // Abre os controles apenas (remove o toggle)
-      controles.classList.add('aberto');
+      controles.classList.toggle('aberto');
       
       const menuAcessibilidade = document.getElementById('menuAcessibilidade');
       if (menuAcessibilidade.classList.contains('aberto')) {
         menuAcessibilidade.classList.remove('aberto');
       }
       
-      // Remove o evento de fechar ao clicar fora
-      document.removeEventListener('click', fecharControlesAoClicarFora);
+      if (controles.classList.contains('aberto')) {
+        setTimeout(() => {
+          document.addEventListener('click', fecharControlesAoClicarFora);
+        }, 100);
+      } else {
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
     }
     
     function fecharControlesAoClicarFora(event) {
