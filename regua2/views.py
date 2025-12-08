@@ -15,9 +15,6 @@ from .models import Barbearia, Usuario,Agendamento
 def pag_principal(request):
     return render(request, 'principal.html')
 
-def esqueci_senha(request):
-    return render(request, 'esqueci_senha.html')
-
 def Home(request):
     if not request.session.get('logado'):
         return redirect('loginatalho')
@@ -145,21 +142,26 @@ def upload_foto_perfil(request):
         try:
             usuario = Usuario.objects.get(id=request.session['usuario_id'])
             
-            # Remove a foto antiga se existir
+            # Remove a foto antiga se existir (agora usando Cloudinary)
             if usuario.foto_perfil:
-                if os.path.isfile(usuario.foto_perfil.path):
-                    os.remove(usuario.foto_perfil.path)
+                # O Cloudinary gerencia automaticamente o armazenamento,
+                # então não precisamos nos preocupar em excluir arquivos físicos
+                pass
             
-            # Salva a nova foto
+            # Salva a nova foto diretamente no modelo
             foto = request.FILES['foto_perfil']
-            fs = FileSystemStorage()
-            filename = fs.save(f'perfil/user_{usuario.id}_{foto.name}', foto)
-            usuario.foto_perfil = filename
+            usuario.foto_perfil = foto
             usuario.save()
             
-            return JsonResponse({'status': 'success', 'foto_url': usuario.foto_perfil.url})
+            return JsonResponse({
+                'status': 'success', 
+                'foto_url': usuario.foto_perfil.url
+            })
         except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+            return JsonResponse({
+                'status': 'error', 
+                'message': str(e)
+            }, status=400)
     
     return JsonResponse({'status': 'error'}, status=400)
 
@@ -184,14 +186,14 @@ def atualizar_perfil(request):
             
             # Redirecionamento específico para barbeiros
             if usuario.tipo == 'barbearia':
-                return redirect('barbeiroatalho')  # Alterado para página do barbeiro
+                return redirect('barbeiroatalho')
             else:
-                return redirect('Homeatalho')  # Para clientes normais
+                return redirect('Homeatalho')
                 
         except Exception as e:
             messages.error(request, f'Erro ao atualizar perfil: {str(e)}')
-            if request.user.tipo == 'barbearia':
-                return redirect('perfil_barbeiro')
+            if usuario.tipo == 'barbearia':  # Corrigido: use 'usuario' em vez de 'request.user'
+                return redirect('perfil_barbeiroatalho')  # Use o nome correto da URL
             else:
                 return redirect('perfilatalho')
     
@@ -202,10 +204,8 @@ def deletar_conta(request):
         try:
             usuario = Usuario.objects.get(id=request.session['usuario_id'])
             
-            # Remove a foto de perfil se existir
-            if usuario.foto_perfil:
-                if os.path.isfile(usuario.foto_perfil.path):
-                    os.remove(usuario.foto_perfil.path)
+            # Com Cloudinary, não precisamos excluir arquivos manualmente
+            # O Cloudinary gerencia automaticamente o armazenamento
             
             usuario.delete()
             request.session.flush()
@@ -784,3 +784,4 @@ def resetar_acessibilidade(request):
         del request.session['config_acessibilidade']
     
     return JsonResponse({'status': 'success', 'message': 'Configurações resetadas!'})
+

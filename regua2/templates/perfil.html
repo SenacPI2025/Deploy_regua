@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br" data-tema="{{ config_acessibilidade.tema|default:'claro' }}" data-tamanho-fonte="{{ config_acessibilidade.tamanho_fonte|default:'medio' }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
             font-family: 'Unbounded', sans-serif;
         }
 
+        /* Variáveis CSS para temas */
         :root[data-tema="claro"] {
             --cor-fundo: #ffffff;
             --cor-texto: #333333;
@@ -31,11 +33,9 @@
             --cor-widget-texto: #333333;
             --cor-widget-hover: #f8f9fa;
             --gradiente-primario: linear-gradient(135deg, #2aa745, #34ce57);
-            --cor-bolinha: #1DB954;
-            --cor-bolinha-hover: #17a745;
+            --cor-bolinha: #2aa745;
+            --cor-bolinha-hover: #228c3a;
             --cor-sombra: rgba(0, 0, 0, 0.1);
-            --cor-leitor-texto: rgba(29, 185, 84, 0.1);
-            --cor-leitor-borda: #1DB954;
         }
 
         :root[data-tema="escuro"] {
@@ -55,13 +55,12 @@
             --cor-widget-texto: #ffffff;
             --cor-widget-hover: #3d3d3d;
             --gradiente-primario: linear-gradient(135deg, #2aa745, #28a745);
-            --cor-bolinha: #1DB954;
-            --cor-bolinha-hover: #17a745;
+            --cor-bolinha: #2aa745;
+            --cor-bolinha-hover: #34ce57;
             --cor-sombra: rgba(0, 0, 0, 0.3);
-            --cor-leitor-texto: rgba(29, 185, 84, 0.2);
-            --cor-leitor-borda: #1DB954;
         }
 
+        /* Tamanhos de fonte */
         :root[data-tamanho-fonte="pequeno"] {
             --tamanho-fonte: 12px;
             --tamanho-h1: 1.5rem;
@@ -99,14 +98,9 @@
             color: var(--cor-texto);
             font-size: var(--tamanho-fonte);
             transition: all 0.3s ease;
-            user-select: text;
         }
 
-        ::selection {
-            background-color: var(--cor-leitor-texto);
-            color: var(--cor-texto);
-        }
-
+        /* NAVBAR - Estilo do home.html */
         nav {
             background-color: var(--cor-navbar);
             color: var(--cor-navbar-texto);
@@ -146,6 +140,7 @@
             color: var(--cor-navbar-texto);
         }
 
+        /* Dropdown Button */
         .dropbtn {
             background-color: transparent;
             color: var(--cor-navbar-texto);
@@ -157,11 +152,13 @@
             font-family: 'Unbounded', sans-serif;
         }
 
+        /* Dropdown container */
         .dropdown {
             position: relative;
             display: inline-block;
         }
 
+        /* Dropdown Content */
         .dropdown-content {
             display: none;
             position: absolute;
@@ -172,6 +169,7 @@
             z-index: 1;
         }
 
+        /* Links inside the dropdown */
         .dropdown-content a {
             color: var(--cor-dropdown-texto);
             padding: 12px 16px;
@@ -181,14 +179,17 @@
             font-size: var(--tamanho-p);
         }
 
+        /* Change color of dropdown links on hover */
         .dropdown-content a:hover {
             background-color: var(--cor-dropdown-hover);
         }
 
+        /* Show the dropdown menu on hover */
         .dropdown:hover .dropdown-content {
             display: block;
         }
 
+        /* Ícone de perfil na navbar */
         .profile-icon {
             margin-left: 1.5rem;
         }
@@ -236,6 +237,7 @@
             display: none;
         }
 
+        /* CORPO DA PÁGINA */
         .profile-container {
             max-width: 600px;
             margin: 2rem auto;
@@ -400,6 +402,7 @@
             transform: translateY(-3px);
         }
 
+        /* Diálogo de confirmação */
         .confirmation-dialog {
             display: none;
             position: fixed;
@@ -433,10 +436,11 @@
             color: #1DB954;
         }
 
+        /* Bolinha de Acessibilidade */
         .bolinha-acessibilidade {
             position: fixed;
             bottom: 20px;
-            right: 90px;
+            right: 20px;
             width: 60px;
             height: 60px;
             background: var(--cor-bolinha);
@@ -464,10 +468,11 @@
             background: var(--cor-bolinha-hover);
         }
 
+        /* Menu de Acessibilidade */
         .menu-acessibilidade {
             position: fixed;
             bottom: 90px;
-            right: 90px;
+            right: 20px;
             background: var(--cor-widget);
             border: 1px solid var(--cor-borda);
             border-radius: 15px;
@@ -545,231 +550,6 @@
             text-align: center;
         }
 
-        .botao-leitura-texto {
-            position: fixed;
-            bottom: 20px;
-            right: 160px;
-            width: 60px;
-            height: 60px;
-            background: var(--cor-bolinha);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1001;
-            box-shadow: 0 4px 20px var(--cor-sombra);
-            transition: all 0.3s ease;
-            border: none;
-            color: white;
-            font-size: 24px;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-        }
-
-        .botao-leitura-texto.ativo {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .botao-leitura-texto:hover {
-            transform: scale(1.1);
-            background: var(--cor-bolinha-hover);
-        }
-
-        .botao-leitura-texto.ouvindo {
-            animation: pulsar 1.5s infinite;
-            background: #ff4757;
-        }
-
-        @keyframes pulsar {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
-            }
-            70% {
-                transform: scale(1.05);
-                box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
-            }
-        }
-
-        .controles-leitor {
-            position: fixed;
-            bottom: 90px;
-            right: 160px;
-            background: var(--cor-widget);
-            border: 1px solid var(--cor-borda);
-            border-radius: 15px;
-            padding: 15px;
-            z-index: 1000;
-            box-shadow: 0 8px 30px var(--cor-sombra);
-            transform: scale(0.8);
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            min-width: 200px;
-        }
-
-        .controles-leitor.aberto {
-            transform: scale(1);
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .controles-leitor-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--cor-borda);
-        }
-
-        .controle-leitor-titulo {
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--cor-widget-texto);
-            text-align: center;
-            flex: 1;
-        }
-
-        .controle-leitor-fechar {
-            background: none;
-            border: none;
-            color: var(--cor-widget-texto);
-            font-size: 20px;
-            cursor: pointer;
-            padding: 0 5px;
-            line-height: 1;
-            transition: color 0.3s ease;
-        }
-
-        .controle-leitor-fechar:hover {
-            color: #ff4757;
-        }
-
-        .controles-leitor-conteudo {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .controles-leitor-botoes {
-            display: flex;
-            gap: 8px;
-            width: 100%;
-            justify-content: center;
-        }
-
-        .controle-leitor-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--gradiente-primario);
-            border: none;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            font-size: 16px;
-        }
-
-        .controle-leitor-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .controle-leitor-btn:disabled {
-            background: var(--cor-secundaria);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .velocidade-leitor {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            margin-top: 5px;
-        }
-
-        .velocidade-leitor label {
-            font-size: 12px;
-            color: var(--cor-widget-texto);
-            white-space: nowrap;
-        }
-
-        .velocidade-leitor input {
-            flex: 1;
-            width: 100%;
-            height: 5px;
-            background: var(--cor-borda);
-            border-radius: 10px;
-            outline: none;
-            -webkit-appearance: none;
-        }
-
-        .velocidade-leitor input::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background: var(--cor-bolinha);
-            cursor: pointer;
-        }
-
-        .velocidade-leitor input::-moz-range-thumb {
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background: var(--cor-bolinha);
-            cursor: pointer;
-            border: none;
-        }
-
-        .velocidade-valor {
-            font-size: 12px;
-            color: var(--cor-widget-texto);
-            min-width: 30px;
-            text-align: center;
-        }
-
-        .vw-plugin-top-wrapper {
-            z-index: 9999 !important;
-        }
-        
-        div[vw] {
-            z-index: 9999 !important;
-        }
-        
-        div[vw] .vw-access-button {
-            background-color: var(--cor-bolinha) !important;
-            border-radius: 50% !important;
-            width: 50px !important;
-            height: 50px !important;
-            bottom: 20px !important;
-            left: 20px !important;
-            box-shadow: 0 4px 20px var(--cor-sombra) !important;
-            transition: all 0.3s ease !important;
-        }
-        
-        div[vw] .vw-access-button:hover {
-            transform: scale(1.1) !important;
-            background-color: var(--cor-bolinha-hover) !important;
-        }
-        
-        div[vw] .vw-access-button img {
-            filter: brightness(0) invert(1) !important;
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -786,10 +566,12 @@
             100% { transform: scale(1); }
         }
 
+        /* Efeito de pulso na bolinha */
         .bolinha-acessibilidade.pulsando {
             animation: pulse 2s infinite;
         }
 
+        /* Menu Mobile */
         .mobile-menu {
             display: none;
             position: fixed;
@@ -912,29 +694,20 @@
                 max-width: 100%;
             }
 
+            /* Ajustes para a bolinha de acessibilidade em mobile */
             .bolinha-acessibilidade {
-                width: 50px;
-                height: 50px;
-                right: 70px;
-                font-size: 20px;
+                width: 70px;
+                height: 70px;
+                bottom: 25px;
+                right: 25px;
+                font-size: 28px;
             }
 
             .menu-acessibilidade {
-                bottom: 80px;
-                right: 70px;
+                bottom: 110px;
+                right: 25px;
                 min-width: 180px;
-            }
-
-            .botao-leitura-texto {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
-                right: 130px;
-            }
-
-            .controles-leitor {
-                right: 130px;
-                bottom: 80px;
+                padding: 15px;
             }
 
             .menu-botoes {
@@ -957,100 +730,42 @@
             .botao-acessibilidade .texto {
                 font-size: 12px;
             }
-
-            div[vw] .vw-access-button {
-                width: 45px !important;
-                height: 45px !important;
-                bottom: 20px !important;
-                left: 15px !important;
-            }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 500px) {
             .bolinha-acessibilidade {
-                width: 45px;
-                height: 45px;
-                right: 60px;
+                width: 65px;
+                height: 65px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 26px;
             }
 
             .menu-acessibilidade {
-                right: 60px;
-            }
-
-            .botao-leitura-texto {
-                width: 45px;
-                height: 45px;
-                right: 115px;
-            }
-
-            .controles-leitor {
-                right: 115px;
-            }
-
-            div[vw] .vw-access-button {
-                width: 40px !important;
-                height: 40px !important;
-                bottom: 20px !important;
-                left: 10px !important;
+                bottom: 100px;
+                right: 20px;
+                min-width: 170px;
             }
         }
 
+        /* Para telas muito pequenas */
         @media (max-width: 360px) {
-            .bolinha-acessibilidade {
-                right: 50px;
-            }
-
             .menu-acessibilidade {
-                right: 50px;
-            }
-
-            .botao-leitura-texto {
-                right: 100px;
-            }
-
-            .controles-leitor {
-                right: 100px;
+                right: 10px;
+                left: 10px;
+                min-width: auto;
             }
         }
     </style>
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 </head>
 
 <body>
-    <div vw class="enabled">
-        <div vw-access-button class="active"></div>
-        <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
-        </div>
-    </div>
-
+    <!-- Bolinha de Acessibilidade -->
     <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
         ♿
     </button>
 
-    <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
-        🔊
-    </button>
-
-    <div class="controles-leitor" id="controlesLeitor">
-        <div class="controles-leitor-header">
-            <div class="controle-leitor-titulo">Leitor de Texto</div>
-            <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
-        </div>
-        <div class="controles-leitor-conteudo">
-            <div class="controles-leitor-botoes">
-                <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
-                <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
-                <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
-            </div>
-            <div class="velocidade-leitor">
-                <label for="velocidadeLeitor">Velocidade:</label>
-                <input type="range" id="velocidadeLeitor" min="0.5" max="2" step="0.1" value="1" oninput="atualizarVelocidade(this.value)">
-                <span class="velocidade-valor" id="velocidadeValor">1x</span>
-            </div>
-        </div>
-    </div>
-
+    <!-- Menu de Acessibilidade -->
     <div class="menu-acessibilidade" id="menuAcessibilidade">
         <div class="menu-conteudo">
             <div class="menu-titulo">Acessibilidade</div>
@@ -1067,10 +782,6 @@
                     <span class="icone">A-</span>
                     <span class="texto">Diminuir Fonte</span>
                 </button>
-                <button class="botao-acessibilidade" onclick="ativarLeitorTexto()">
-                    <span class="icone">🔊</span>
-                    <span class="texto">Leitor</span>
-                </button>
                 <button class="botao-acessibilidade" onclick="resetarAcessibilidade()">
                     <span class="icone">↻</span>
                     <span class="texto">Resetar</span>
@@ -1079,6 +790,7 @@
         </div>
     </div>
 
+    <!-- Menu Mobile -->
     <div class="mobile-menu" id="mobileMenu">
         <div class="mobile-menu-header">
             <div class="logo">
@@ -1093,6 +805,7 @@
             <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
         </div>
         
+        <!-- Perfil clicável na parte inferior -->
         <a href="{% url 'perfilatalho' %}" class="mobile-profile" onclick="fecharMenuMobile()">
             <div class="mobile-profile-pic" id="mobileProfilePic" 
                 {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
@@ -1107,6 +820,7 @@
         </a>
     </div>
 
+    <!-- NAVBAR - Estilo do home.html -->
     <nav>
         <div class="logo">
             <a href="{% url 'Homeatalho' %}" style="text-decoration: none; color: inherit;">
@@ -1123,6 +837,7 @@
                     <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
                 </div>
             </div>
+            <!-- Ícone de perfil -->
             <a href="{% url 'perfilatalho' %}" class="profile-icon">
                 <div class="profile-pic-nav" id="profile-pic-nav"></div>
             </a>
@@ -1131,6 +846,7 @@
         <button class="menu-icon" id="menuIcon" onclick="abrirMenuMobile()">☰</button>
     </nav>
 
+    <!-- CORPO DA PÁGINA -->
     <div class="profile-container">
         <div class="profile-header">
             <h1>PERFIL</h1>
@@ -1142,36 +858,43 @@
         <form class="profile-form" id="profileForm" method="post">
             {% csrf_token %}
 
+            <!-- Nome -->
             <div class="form-group">
                 <label for="nome">Nome</label>
                 <input type="text" id="nome" name="nome" placeholder="" maxlength="50">
             </div>
 
+            <!-- Sobrenome -->
             <div class="form-group">
                 <label for="sobrenome">Sobrenome</label>
                 <input type="text" id="sobrenome" name="sobrenome" placeholder="" maxlength="50">
             </div>
 
+            <!-- Email -->
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" placeholder="" maxlength="100">
             </div>
 
+            <!-- Senha -->
             <div class="form-group">
                 <label for="senha">Senha (deixe em branco para não alterar)</label>
                 <input type="password" id="senha" name="senha" placeholder="" maxlength="50">
             </div>
 
+            <!-- Telefone -->
             <div class="form-group">
                 <label for="telefone">Telefone <span class="optional">(opcional)</span></label>
                 <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" maxlength="15">
             </div>
 
+            <!-- CPF -->
             <div class="form-group">
                 <label for="cpf">CPF <span class="optional">(opcional)</span></label>
                 <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" maxlength="14">
             </div>
 
+            <!-- Botões de ação -->
             <div class="form-actions">
                 <button type="button" class="btn btn-cancel" id="cancel-btn">CANCELAR</button>
                 <button type="button" class="btn btn-delete" id="delete-account">EXCLUIR CONTA</button>
@@ -1180,6 +903,7 @@
         </form>
     </div>
 
+    <!-- Diálogo de confirmação para excluir conta -->
     <div class="confirmation-dialog" id="confirmation-dialog">
         <div class="confirmation-box">
             <h3>Confirmar Exclusão</h3>
@@ -1192,290 +916,23 @@
     </div>
 
     <script>
-        let synth = window.speechSynthesis;
-        let utterance = null;
-        let isSpeaking = false;
-        let isPaused = false;
-        let speechRate = 1;
-        let selectedText = '';
-        let leitorAtivo = false;
-
-        window.addEventListener('DOMContentLoaded', function() {
-            if (typeof VLibras !== 'undefined') {
-                new window.VLibras.Widget('https://vlibras.gov.br/app');
-            }
-            document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
-            document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
-        });
-
-        document.addEventListener('mouseup', function() {
-            const textoSelecionado = window.getSelection().toString().trim();
-            
-            if (textoSelecionado && textoSelecionado.length > 0) {
-                selectedText = textoSelecionado;
-                
-                if (leitorAtivo) {
-                    mostrarBotaoLeitura();
-                }
-                
-                highlightSelectedText();
-            } else {
-                esconderBotaoLeitura();
-                clearHighlight();
-            }
-        });
-
-        document.addEventListener('keyup', function(e) {
-            if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt') {
-                const textoSelecionado = window.getSelection().toString().trim();
-                
-                if (textoSelecionado && textoSelecionado.length > 0) {
-                    selectedText = textoSelecionado;
-                    
-                    if (leitorAtivo) {
-                        mostrarBotaoLeitura();
-                    }
-                    
-                    highlightSelectedText();
-                } else {
-                    esconderBotaoLeitura();
-                    clearHighlight();
-                }
-            }
-        });
-
-        function ativarLeitorTexto() {
-            leitorAtivo = !leitorAtivo;
-            
-            if (leitorAtivo) {
-                mostrarBotaoLeitura();
-                document.getElementById('botaoLeituraTexto').title = "Leitor de texto ativado. Selecione texto para ler.";
-                
-                const textoSelecionado = window.getSelection().toString().trim();
-                if (textoSelecionado) {
-                    selectedText = textoSelecionado;
-                    mostrarBotaoLeitura();
-                }
-            } else {
-                esconderBotaoLeitura();
-                fecharControlesLeitor();
-                pararLeitura();
-                document.getElementById('botaoLeituraTexto').title = "Leitor de texto desativado";
-            }
-            
-            toggleMenuAcessibilidade();
-        }
-
-        function mostrarBotaoLeitura() {
-            const botao = document.getElementById('botaoLeituraTexto');
-            botao.classList.add('ativo');
-        }
-
-        function esconderBotaoLeitura() {
-            const botao = document.getElementById('botaoLeituraTexto');
-            botao.classList.remove('ativo');
-        }
-
-        function toggleControlesLeitor() {
-            const controles = document.getElementById('controlesLeitor');
-            const botao = document.getElementById('botaoLeituraTexto');
-            
-            // Abre os controles apenas (remove o toggle) - IGUAL barbearias.html
-            controles.classList.add('aberto');
-            
-            const menuAcessibilidade = document.getElementById('menuAcessibilidade');
-            if (menuAcessibilidade.classList.contains('aberto')) {
-                menuAcessibilidade.classList.remove('aberto');
-            }
-            
-            // Remove o evento de fechar ao clicar fora
-            document.removeEventListener('click', fecharControlesAoClicarFora);
-        }
-
-        function fecharControlesLeitor() {
-            const controles = document.getElementById('controlesLeitor');
-            controles.classList.remove('aberto');
-            document.removeEventListener('click', fecharControlesAoClicarFora);
-        }
-
-        function lerTextoSelecionado() {
-            if (!selectedText || selectedText.length === 0) {
-                const textoSelecionado = window.getSelection().toString().trim();
-                if (textoSelecionado) {
-                    selectedText = textoSelecionado;
-                } else {
-                    alert('Por favor, selecione algum texto para ler.');
-                    return;
-                }
-            }
-            
-            if (isSpeaking && !isPaused) {
-                synth.cancel();
-            }
-            
-            utterance = new SpeechSynthesisUtterance(selectedText);
-            utterance.lang = 'pt-BR';
-            utterance.rate = speechRate;
-            utterance.pitch = 1;
-            utterance.volume = 1;
-            
-            utterance.onstart = function() {
-                isSpeaking = true;
-                isPaused = false;
-                atualizarBotoesLeitor();
-                document.getElementById('botaoLeituraTexto').classList.add('ouvindo');
-            };
-            
-            utterance.onend = function() {
-                isSpeaking = false;
-                isPaused = false;
-                atualizarBotoesLeitor();
-                document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
-            };
-            
-            utterance.onerror = function(event) {
-                console.error('Erro no leitor de texto:', event);
-                isSpeaking = false;
-                isPaused = false;
-                atualizarBotoesLeitor();
-                document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
-                
-                if (event.error === 'not-allowed') {
-                    alert('Permissão para usar síntese de voz não concedida. Por favor, verifique as configurações do seu navegador.');
-                }
-            };
-            
-            synth.speak(utterance);
-        }
-
-        function pausarLeitura() {
-            if (isSpeaking && !isPaused) {
-                synth.pause();
-                isPaused = true;
-                atualizarBotoesLeitor();
-                document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
-            } else if (isSpeaking && isPaused) {
-                synth.resume();
-                isPaused = false;
-                atualizarBotoesLeitor();
-                document.getElementById('botaoLeituraTexto').classList.add('ouvindo');
-            }
-        }
-
-        function pararLeitura() {
-            synth.cancel();
-            isSpeaking = false;
-            isPaused = false;
-            atualizarBotoesLeitor();
-            document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
-        }
-
-        function atualizarVelocidade(valor) {
-            speechRate = parseFloat(valor);
-            document.getElementById('velocidadeValor').textContent = valor + 'x';
-            
-            if (utterance && isSpeaking) {
-                synth.cancel();
-                utterance.rate = speechRate;
-                synth.speak(utterance);
-            }
-        }
-
-        function atualizarBotoesLeitor() {
-            const btnPlay = document.getElementById('btnPlay');
-            const btnPause = document.getElementById('btnPause');
-            const btnStop = document.getElementById('btnStop');
-            
-            if (isSpeaking && !isPaused) {
-                btnPlay.disabled = true;
-                btnPause.disabled = false;
-                btnStop.disabled = false;
-                btnPause.title = "Pausar leitura";
-            } else if (isSpeaking && isPaused) {
-                btnPlay.disabled = true;
-                btnPause.disabled = false;
-                btnStop.disabled = false;
-                btnPause.title = "Continuar leitura";
-            } else {
-                btnPlay.disabled = false;
-                btnPause.disabled = true;
-                btnStop.disabled = true;
-                btnPause.title = "Pausar";
-            }
-        }
-
-        function highlightSelectedText() {
-            clearHighlight();
-            
-            const selection = window.getSelection();
-            if (selection.rangeCount > 0) {
-                const range = selection.getRangeAt(0);
-                const span = document.createElement('span');
-                span.style.backgroundColor = 'var(--cor-leitor-texto)';
-                span.style.border = '2px solid var(--cor-leitor-borda)';
-                span.style.borderRadius = '3px';
-                span.style.padding = '2px 0';
-                span.className = 'texto-selecionado-leitor';
-                
-                try {
-                    range.surroundContents(span);
-                } catch(e) {
-                    console.log('Não foi possível destacar o texto:', e);
-                }
-            }
-        }
-
-        function clearHighlight() {
-            const highlights = document.querySelectorAll('.texto-selecionado-leitor');
-            highlights.forEach(span => {
-                const parent = span.parentNode;
-                while (span.firstChild) {
-                    parent.insertBefore(span.firstChild, span);
-                }
-                parent.removeChild(span);
-            });
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.altKey && e.key === 'l') {
-                e.preventDefault();
-                ativarLeitorTexto();
-            }
-            
-            if (e.ctrlKey && e.altKey && e.key === 's') {
-                e.preventDefault();
-                if (leitorAtivo && selectedText) {
-                    lerTextoSelecionado();
-                }
-            }
-            
-            if (e.ctrlKey && e.altKey && e.key === 'p') {
-                e.preventDefault();
-                if (isSpeaking) {
-                    pausarLeitura();
-                }
-            }
-            
-            if (e.ctrlKey && e.altKey && e.key === 't') {
-                e.preventDefault();
-                pararLeitura();
-            }
-        });
-
+        // Funções do Menu Mobile
         function abrirMenuMobile() {
             document.getElementById('mobileMenu').classList.add('aberto');
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; // Previne scroll quando menu está aberto
         }
 
         function fecharMenuMobile() {
             document.getElementById('mobileMenu').classList.remove('aberto');
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = 'auto'; // Restaura scroll
         }
 
+        // Fecha o menu mobile ao clicar em um link
         document.querySelectorAll('.mobile-menu-links a').forEach(link => {
             link.addEventListener('click', fecharMenuMobile);
         });
 
+        // Controle do menu de acessibilidade
         function toggleMenuAcessibilidade() {
             const menu = document.getElementById('menuAcessibilidade');
             const bolinha = document.querySelector('.bolinha-acessibilidade');
@@ -1484,11 +941,7 @@
             bolinha.classList.toggle('ativo');
             bolinha.classList.remove('pulsando');
             
-            const controles = document.getElementById('controlesLeitor');
-            if (controles.classList.contains('aberto')) {
-                controles.classList.remove('aberto');
-            }
-            
+            // Fecha o menu se clicar fora dele
             if (menu.classList.contains('aberto')) {
                 setTimeout(() => {
                     document.addEventListener('click', fecharMenuAoClicarFora);
@@ -1509,6 +962,175 @@
             }
         }
 
+        // Upload de foto de perfil
+        document.getElementById('change-photo').addEventListener('click', function () {
+            document.getElementById('photo-input').click();
+        });
+
+        document.getElementById('photo-input').addEventListener('change', function (e) {
+            if (e.target.files && e.target.files[0]) {
+                const formData = new FormData();
+                formData.append('foto_perfil', e.target.files[0]);
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+                fetch('{% url "upload_foto_perfil" %}', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            // Atualiza todas as fotos do site
+                            document.querySelectorAll('.profile-pic, .profile-pic-nav, .mobile-profile-pic').forEach(pic => {
+                                pic.style.backgroundImage = `url(${data.foto_url})`;
+                                pic.classList.add('has-photo');
+                            });
+                        } else {
+                            alert('Erro ao enviar foto: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Erro ao enviar foto');
+                    });
+            }
+        });
+
+        // Redirecionamento para home
+        document.getElementById('cancel-btn').addEventListener('click', function () {
+            window.location.href = "{% url 'barbeiroatalho' %}";
+        });
+
+        // Form submit
+        document.getElementById('profileForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Remove formatação antes de enviar
+            const telefoneInput = document.getElementById('telefone');
+            const cpfInput = document.getElementById('cpf');
+            
+            telefoneInput.value = telefoneInput.value.replace(/\D/g, '');
+            cpfInput.value = cpfInput.value.replace(/\D/g, '');
+
+            const formData = new FormData(this);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            fetch('{% url "atualizar_perfil" %}', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Erro ao salvar alterações');
+                });
+        });
+
+        // Função para formatar telefone
+        function formatarTelefone(telefone) {
+            // Remove tudo que não é dígito
+            const numeros = telefone.replace(/\D/g, '');
+            
+            // Limita a 11 dígitos
+            const numerosLimitados = numeros.substring(0, 11);
+            
+            // Aplica a formatação
+            if (numerosLimitados.length <= 10) {
+                // Formato para telefone fixo: (XX) XXXX-XXXX
+                return numerosLimitados.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+            } else {
+                // Formato para celular: (XX) XXXXX-XXXX
+                return numerosLimitados.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+            }
+        }
+
+        // Função para formatar CPF
+        function formatarCPF(cpf) {
+            // Remove tudo que não é dígito
+            const numeros = cpf.replace(/\D/g, '');
+            
+            // Limita a 11 dígitos
+            const numerosLimitados = numeros.substring(0, 11);
+            
+            // Aplica a formatação: XXX.XXX.XXX-XX
+            return numerosLimitados.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
+        }
+
+        // Event listeners para formatação automática
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            const input = e.target;
+            const valorFormatado = formatarTelefone(input.value);
+            input.value = valorFormatado;
+        });
+
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            const input = e.target;
+            const valorFormatado = formatarCPF(input.value);
+            input.value = valorFormatado;
+        });
+
+        // Carrega dados do usuário ao abrir a página
+        document.addEventListener('DOMContentLoaded', function () {
+            // Preenche os campos do formulário
+            document.getElementById('nome').value = '{{ usuario.nome|escapejs }}';
+            document.getElementById('sobrenome').value = '{{ usuario.sobrenome|escapejs }}';
+            document.getElementById('email').value = '{{ usuario.email|escapejs }}';
+            
+            // Formata telefone e CPF ao carregar
+            const telefone = '{{ usuario.telefone|escapejs }}';
+            const cpf = '{{ usuario.cpf|escapejs }}';
+            
+            if (telefone) {
+                document.getElementById('telefone').value = formatarTelefone(telefone);
+            }
+            
+            if (cpf) {
+                document.getElementById('cpf').value = formatarCPF(cpf);
+            }
+
+            // Carrega foto de perfil se existir
+            {% if usuario.foto_perfil %}
+            document.querySelectorAll('.profile-pic, .profile-pic-nav, .mobile-profile-pic').forEach(pic => {
+                pic.style.backgroundImage = 'url({{ usuario.foto_perfil.url }})';
+                pic.classList.add('has-photo');
+            });
+            {% endif %}
+
+            // Controle do diálogo de exclusão
+            document.getElementById('delete-account').addEventListener('click', function () {
+                document.getElementById('confirmation-dialog').style.display = 'flex';
+            });
+
+            document.getElementById('cancel-delete').addEventListener('click', function () {
+                document.getElementById('confirmation-dialog').style.display = 'none';
+            });
+
+            document.getElementById('confirm-delete').addEventListener('click', function () {
+                fetch('{% url "deletar_conta" %}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                })
+                    .then(response => {
+                        if (response.redirected) {
+                            window.location.href = response.url;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Erro ao excluir conta');
+                    });
+            });
+        });
+
+        // Funções de acessibilidade
         function alternarTema() {
             const temaAtual = document.documentElement.getAttribute('data-tema');
             const novoTema = temaAtual === 'claro' ? 'escuro' : 'claro';
@@ -1528,6 +1150,7 @@
                 }
             });
             
+            // Fecha o menu após a ação
             toggleMenuAcessibilidade();
         }
 
@@ -1577,13 +1200,10 @@
                 if (data.status === 'success') {
                     document.documentElement.setAttribute('data-tema', 'claro');
                     document.documentElement.setAttribute('data-tamanho-fonte', 'medio');
-                    leitorAtivo = false;
-                    esconderBotaoLeitura();
-                    fecharControlesLeitor();
-                    pararLeitura();
                 }
             });
             
+            // Fecha o menu após a ação
             toggleMenuAcessibilidade();
         }
 
@@ -1603,150 +1223,7 @@
             return cookieValue;
         }
 
-        document.getElementById('change-photo').addEventListener('click', function () {
-            document.getElementById('photo-input').click();
-        });
-
-        document.getElementById('photo-input').addEventListener('change', function (e) {
-            if (e.target.files && e.target.files[0]) {
-                const formData = new FormData();
-                formData.append('foto_perfil', e.target.files[0]);
-                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-
-                fetch('{% url "upload_foto_perfil" %}', {
-                    method: 'POST',
-                    body: formData
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            document.querySelectorAll('.profile-pic, .profile-pic-nav, .mobile-profile-pic').forEach(pic => {
-                                pic.style.backgroundImage = `url(${data.foto_url})`;
-                                pic.classList.add('has-photo');
-                            });
-                        } else {
-                            alert('Erro ao enviar foto: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Erro ao enviar foto');
-                    });
-            }
-        });
-
-        document.getElementById('cancel-btn').addEventListener('click', function () {
-            window.location.href = "{% url 'barbeiroatalho' %}";
-        });
-
-        document.getElementById('profileForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const telefoneInput = document.getElementById('telefone');
-            const cpfInput = document.getElementById('cpf');
-            
-            telefoneInput.value = telefoneInput.value.replace(/\D/g, '');
-            cpfInput.value = cpfInput.value.replace(/\D/g, '');
-
-            const formData = new FormData(this);
-            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-
-            fetch('{% url "atualizar_perfil" %}', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => {
-                    if (response.redirected) {
-                        window.location.href = response.url;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Erro ao salvar alterações');
-                });
-        });
-
-        function formatarTelefone(telefone) {
-            const numeros = telefone.replace(/\D/g, '');
-            const numerosLimitados = numeros.substring(0, 11);
-            
-            if (numerosLimitados.length <= 10) {
-                return numerosLimitados.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
-            } else {
-                return numerosLimitados.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
-            }
-        }
-
-        function formatarCPF(cpf) {
-            const numeros = cpf.replace(/\D/g, '');
-            const numerosLimitados = numeros.substring(0, 11);
-            return numerosLimitados.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
-        }
-
-        document.getElementById('telefone').addEventListener('input', function(e) {
-            const input = e.target;
-            const valorFormatado = formatarTelefone(input.value);
-            input.value = valorFormatado;
-        });
-
-        document.getElementById('cpf').addEventListener('input', function(e) {
-            const input = e.target;
-            const valorFormatado = formatarCPF(input.value);
-            input.value = valorFormatado;
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('nome').value = '{{ usuario.nome|escapejs }}';
-            document.getElementById('sobrenome').value = '{{ usuario.sobrenome|escapejs }}';
-            document.getElementById('email').value = '{{ usuario.email|escapejs }}';
-            
-            const telefone = '{{ usuario.telefone|escapejs }}';
-            const cpf = '{{ usuario.cpf|escapejs }}';
-            
-            if (telefone) {
-                document.getElementById('telefone').value = formatarTelefone(telefone);
-            }
-            
-            if (cpf) {
-                document.getElementById('cpf').value = formatarCPF(cpf);
-            }
-
-            {% if usuario.foto_perfil %}
-            document.querySelectorAll('.profile-pic, .profile-pic-nav, .mobile-profile-pic').forEach(pic => {
-                pic.style.backgroundImage = 'url({{ usuario.foto_perfil.url }})';
-                pic.classList.add('has-photo');
-            });
-            {% endif %}
-
-            document.getElementById('delete-account').addEventListener('click', function () {
-                document.getElementById('confirmation-dialog').style.display = 'flex';
-            });
-
-            document.getElementById('cancel-delete').addEventListener('click', function () {
-                document.getElementById('confirmation-dialog').style.display = 'none';
-            });
-
-            document.getElementById('confirm-delete').addEventListener('click', function () {
-                fetch('{% url "deletar_conta" %}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({})
-                })
-                    .then(response => {
-                        if (response.redirected) {
-                            window.location.href = response.url;
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Erro ao excluir conta');
-                    });
-            });
-        });
-
+        // Para de pulsar a bolinha depois de 10 segundos
         setTimeout(() => {
             const bolinha = document.querySelector('.bolinha-acessibilidade');
             if (bolinha) {
@@ -1754,5 +1231,7 @@
             }
         }, 10000);
     </script>
+
 </body>
+
 </html>
