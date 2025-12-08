@@ -12,7 +12,6 @@
       padding: 0;
       box-sizing: border-box;
       font-family: 'Unbounded', sans-serif;
-      -webkit-tap-highlight-color: transparent; /* Remove highlight azul no mobile */
     }
 
     /* Variáveis CSS para temas */
@@ -118,27 +117,12 @@
       line-height: 1.6;
       transition: all 0.3s ease;
       user-select: text;
-      -webkit-user-select: text; /* Para iOS/Safari */
-      -webkit-touch-callout: default; /* Para iOS - permite seleção */
-      touch-action: manipulation; /* Melhora a resposta ao toque */
     }
 
     /* Estilo para texto selecionado */
     ::selection {
       background-color: var(--cor-leitor-texto);
       color: var(--cor-texto);
-    }
-
-    /* Classes para elementos que devem permitir seleção de texto */
-    .texto-selecionavel, 
-    .hero-content,
-    .feature-card,
-    .barbearia-content,
-    .section-title,
-    .footer-content {
-      user-select: text;
-      -webkit-user-select: text;
-      cursor: text;
     }
 
     /* NAVBAR - Estilo do perfil.html */
@@ -1079,9 +1063,9 @@
     <div class="controles-leitor-conteudo">
       <div class="controle-leitor-titulo">Leitor de Texto</div>
       <div class="controles-leitor-botoes">
-        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
-        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
-        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
+        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">play</button>
+        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>pause</button>
+        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>parar</button>
       </div>
       <div class="velocidade-leitor">
         <label for="velocidadeLeitor">Velocidade:</label>
@@ -1180,7 +1164,7 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <div class="hero-content texto-selecionavel">
+    <div class="hero-content">
       <h1>Encontre a barbearia perfeita para o seu estilo</h1>
       <p>Agende cortes, barbas e tratamentos com os melhores profissionais da sua região</p>
       <a href="{% url 'barbeariaatalho' %}" class="btn-primary">Encontrar Barbearias</a>
@@ -1190,25 +1174,25 @@
   <!-- Features Section -->
   <section class="features">
     <div class="container">
-      <div class="section-title texto-selecionavel">
+      <div class="section-title">
         <h2>Como funciona</h2>
         <p>Descubra como é fácil encontrar e agendar horários nas melhores barbearias</p>
       </div>
       
       <div class="features-grid">
-        <div class="feature-card texto-selecionavel">
+        <div class="feature-card">
           <div class="feature-icon">🔍</div>
           <h3>Encontre</h3>
           <p>Busque barbearias próximas a você</p>
         </div>
         
-        <div class="feature-card texto-selecionavel">
+        <div class="feature-card">
           <div class="feature-icon">📅</div>
           <h3>Agende</h3>
           <p>Reserve seu horário de forma rápida e prática, sem necessidade de ligações</p>
         </div>
         
-        <div class="feature-card texto-selecionavel">
+        <div class="feature-card">
           <div class="feature-icon">✂️</div>
           <h3>Aproveite</h3>
           <p>Chegue no horário marcado e seja atendido pelos melhores profissionais</p>
@@ -1220,7 +1204,7 @@
   <!-- Barbearias Section -->
   <section class="barbearias">
     <div class="container">
-      <div class="section-title texto-selecionavel">
+      <div class="section-title">
         <h2>Barbearias em Destaque</h2>
         <p>Conheça algumas das barbearias que já utilizam nossa plataforma</p>
       </div>
@@ -1228,7 +1212,7 @@
       <div class="barbearias-grid">
         <div class="barbearia-card">
           <div class="barbearia-img" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpXaeDzTz9QQtUydHZmWMc6dbxs4He2wh3Eg&s')"></div>
-          <div class="barbearia-content texto-selecionavel">
+          <div class="barbearia-content">
             <h3>Barbearia Classic</h3>
             <p>Cortes clássicos e modernos com profissionais experientes</p>
             <a href="{% url 'barbeariaatalho' %}" class="btn-secondary">Ver Detalhes</a>
@@ -1237,7 +1221,7 @@
         
         <div class="barbearia-card">
           <div class="barbearia-img" style="background-image: url('https://www.shutterstock.com/image-vector/barbershop-logo-barber-pole-razor-260nw-2535695615.jpg')"></div>
-          <div class="barbearia-content texto-selecionavel">
+          <div class="barbearia-content">
             <h3>Studio Barber</h3>
             <p>Ambiente premium com serviços especializados em barba</p>
             <a href="{% url 'barbeariaatalho' %}" class="btn-secondary">Ver Detalhes</a>
@@ -1246,7 +1230,7 @@
         
         <div class="barbearia-card">
           <div class="barbearia-img" style="background-image: url('https://static.vecteezy.com/ti/vetor-gratis/p1/19495567-design-de-logotipo-de-barbearia-e-maquina-de-barbear-vetor.jpg')"></div>
-          <div class="barbearia-content texto-selecionavel">
+          <div class="barbearia-content">
             <h3>Urban Barber</h3>
             <p>Estilo urbano e contemporâneo para homens modernos</p>
             <a href="{% url 'barbeariaatalho' %}" class="btn-secondary">Ver Detalhes</a>
@@ -1262,7 +1246,7 @@
 
   <!-- Footer -->
   <footer>
-    <div class="footer-content texto-selecionavel">
+    <div class="footer-content">
       <div class="footer-logo">
         <span class="R">R</span>egua
       </div>
@@ -1287,8 +1271,6 @@
     let speechRate = 1;
     let selectedText = '';
     let leitorAtivo = false;
-    let isSelecting = false;
-    let selectionStart = null;
 
     // Inicializa o VLibras
     window.addEventListener('DOMContentLoaded', function() {
@@ -1301,287 +1283,45 @@
       document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
     });
 
-    // Sistema melhorado de seleção para mobile
-    function setupMobileTextSelection() {
-      // Adiciona classes de selecionável a todos os elementos de texto importantes
-      const textElements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, span, div');
-      textElements.forEach(el => {
-        if (el.textContent && el.textContent.trim().length > 10 && !el.classList.contains('texto-selecionavel')) {
-          el.classList.add('texto-selecionavel');
-        }
-      });
-
-      // Evento para iniciar seleção (toque longo)
-      let touchTimer;
-      document.addEventListener('touchstart', function(e) {
-        const target = e.target;
-        if (target.classList.contains('texto-selecionavel') || 
-            target.closest('.texto-selecionavel')) {
-          
-          touchTimer = setTimeout(() => {
-            iniciarSelecaoMobile(target);
-          }, 500); // Toque longo de 500ms
-        }
-      }, { passive: true });
-
-      document.addEventListener('touchend', function() {
-        clearTimeout(touchTimer);
-      }, { passive: true });
-
-      // Evento para arrastar a seleção
-      document.addEventListener('touchmove', function(e) {
-        if (isSelecting) {
-          e.preventDefault();
-          atualizarSelecaoMobile(e.touches[0]);
-        }
-      }, { passive: false });
-
-      // Evento para finalizar seleção
-      document.addEventListener('touchend', function(e) {
-        if (isSelecting) {
-          finalizarSelecaoMobile();
-        }
-      }, { passive: true });
-    }
-
-    function iniciarSelecaoMobile(element) {
-      isSelecting = true;
-      clearHighlight();
+    // Detectar seleção de texto
+    document.addEventListener('mouseup', function() {
+      const textoSelecionado = window.getSelection().toString().trim();
       
-      // Cria um overlay para facilitar a seleção
-      const overlay = document.createElement('div');
-      overlay.id = 'selection-overlay';
-      overlay.style.position = 'fixed';
-      overlay.style.top = '0';
-      overlay.style.left = '0';
-      overlay.style.width = '100%';
-      overlay.style.height = '100%';
-      overlay.style.zIndex = '9998';
-      overlay.style.backgroundColor = 'rgba(29, 185, 84, 0.05)';
-      overlay.style.touchAction = 'none';
-      overlay.style.userSelect = 'none';
-      overlay.style.webkitUserSelect = 'none';
-      document.body.appendChild(overlay);
-      
-      // Remove seleção anterior do navegador
-      window.getSelection().removeAllRanges();
-      
-      // Inicia nova seleção
-      const range = document.createRange();
-      selectionStart = {
-        element: element,
-        x: event.touches ? event.touches[0].clientX : event.clientX,
-        y: event.touches ? event.touches[0].clientY : event.clientY
-      };
-      
-      // Mostra instruções
-      mostrarInstrucaoSelecao();
-    }
-
-    function atualizarSelecaoMobile(touch) {
-      if (!selectionStart) return;
-      
-      // Cria um retângulo de seleção visual
-      const selectionBox = document.getElementById('selection-box');
-      if (!selectionBox) {
-        const box = document.createElement('div');
-        box.id = 'selection-box';
-        box.style.position = 'fixed';
-        box.style.border = '2px solid var(--cor-primaria)';
-        box.style.backgroundColor = 'rgba(29, 185, 84, 0.1)';
-        box.style.zIndex = '9999';
-        box.style.pointerEvents = 'none';
-        document.body.appendChild(box);
-      }
-      
-      const box = document.getElementById('selection-box');
-      const startX = Math.min(selectionStart.x, touch.clientX);
-      const startY = Math.min(selectionStart.y, touch.clientY);
-      const width = Math.abs(touch.clientX - selectionStart.x);
-      const height = Math.abs(touch.clientY - selectionStart.y);
-      
-      box.style.left = startX + 'px';
-      box.style.top = startY + 'px';
-      box.style.width = width + 'px';
-      box.style.height = height + 'px';
-      
-      // Tenta selecionar texto dentro do retângulo
-      selecionarTextoNaArea(startX, startY, width, height);
-    }
-
-    function finalizarSelecaoMobile() {
-      isSelecting = false;
-      
-      // Remove overlays
-      const overlay = document.getElementById('selection-overlay');
-      if (overlay) overlay.remove();
-      
-      const box = document.getElementById('selection-box');
-      if (box) box.remove();
-      
-      // Remove instruções
-      removerInstrucaoSelecao();
-      
-      // Verifica se tem texto selecionado
-      const selection = window.getSelection();
-      const texto = selection.toString().trim();
-      
-      if (texto && texto.length > 0) {
-        selectedText = texto;
+      if (textoSelecionado && textoSelecionado.length > 0) {
+        selectedText = textoSelecionado;
         
+        // Mostra o botão de leitura se o leitor estiver ativo
         if (leitorAtivo) {
           mostrarBotaoLeitura();
         }
         
+        // Destacar texto selecionado
         highlightSelectedText();
       } else {
+        // Esconde o botão se não há texto selecionado
         esconderBotaoLeitura();
+        clearHighlight();
       }
-      
-      selectionStart = null;
-    }
+    });
 
-    function selecionarTextoNaArea(x, y, width, height) {
-      const elements = document.querySelectorAll('.texto-selecionavel');
-      let foundText = '';
-      
-      elements.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        
-        // Verifica se o elemento está dentro ou intersecta a área de seleção
-        if (rect.left < x + width && rect.right > x &&
-            rect.top < y + height && rect.bottom > y) {
-          
-          // Tenta selecionar o texto dentro do elemento
-          const range = document.createRange();
-          const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
-          let node;
-          let startOffset = -1;
-          let endOffset = -1;
-          
-          while (node = walker.nextNode()) {
-            // Aqui simplificamos - em um caso real, precisaríamos de cálculo mais complexo
-            if (startOffset === -1) {
-              startOffset = 0;
-            }
-            endOffset = node.textContent.length;
-          }
-          
-          if (startOffset !== -1 && endOffset !== -1) {
-            try {
-              range.setStart(el, startOffset);
-              range.setEnd(el, endOffset);
-              window.getSelection().removeAllRanges();
-              window.getSelection().addRange(range);
-              foundText = window.getSelection().toString();
-            } catch(e) {
-              // Fallback: seleciona todo o texto do elemento
-              el.style.userSelect = 'text';
-              el.style.webkitUserSelect = 'text';
-            }
-          }
-        }
-      });
-      
-      return foundText;
-    }
-
-    function mostrarInstrucaoSelecao() {
-      const instrucao = document.createElement('div');
-      instrucao.id = 'instrucao-selecao';
-      instrucao.style.position = 'fixed';
-      instrucao.style.top = '50%';
-      instrucao.style.left = '50%';
-      instrucao.style.transform = 'translate(-50%, -50%)';
-      instrucao.style.backgroundColor = 'var(--cor-card)';
-      instrucao.style.color = 'var(--cor-texto)';
-      instrucao.style.padding = '15px';
-      instrucao.style.borderRadius = '10px';
-      instrucao.style.zIndex = '10000';
-      instrucao.style.boxShadow = '0 5px 20px var(--cor-sombra)';
-      instrucao.style.textAlign = 'center';
-      instrucao.style.fontSize = '14px';
-      instrucao.innerHTML = `
-        <strong>Seleção de Texto</strong><br>
-        Arraste para selecionar texto<br>
-        <small>Solte para finalizar</small>
-      `;
-      document.body.appendChild(instrucao);
-      
-      // Remove automaticamente após 3 segundos
-      setTimeout(() => {
-        removerInstrucaoSelecao();
-      }, 3000);
-    }
-
-    function removerInstrucaoSelecao() {
-      const instrucao = document.getElementById('instrucao-selecao');
-      if (instrucao) instrucao.remove();
-    }
-
-    // Eventos de seleção padrão (para desktop e mobile básico)
-    document.addEventListener('selectionchange', function() {
-      // Usa um pequeno timeout para garantir que a seleção foi concluída
-      setTimeout(function() {
-        const selection = window.getSelection();
-        const textoSelecionado = selection.toString().trim();
+    // Detectar seleção via teclado
+    document.addEventListener('keyup', function(e) {
+      if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt') {
+        const textoSelecionado = window.getSelection().toString().trim();
         
         if (textoSelecionado && textoSelecionado.length > 0) {
           selectedText = textoSelecionado;
           
-          // Mostra o botão de leitura se o leitor estiver ativo
           if (leitorAtivo) {
             mostrarBotaoLeitura();
           }
           
-          // Destacar texto selecionado
           highlightSelectedText();
         } else {
-          // Esconde o botão se não há texto selecionado
           esconderBotaoLeitura();
           clearHighlight();
         }
-      }, 100);
-    });
-
-    // Evento de clique para limpar seleção
-    document.addEventListener('click', function(e) {
-      if (!e.target.classList.contains('texto-selecionavel') && 
-          !e.target.closest('.texto-selecionavel') &&
-          !e.target.classList.contains('botao-leitura-texto') &&
-          !e.target.closest('.controles-leitor')) {
-        esconderBotaoLeitura();
-        clearHighlight();
-        window.getSelection().removeAllRanges();
       }
-    });
-
-    // Detectar seleção via teclado (para desktop)
-    document.addEventListener('keyup', function(e) {
-      if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' || e.key === 'Meta') {
-        setTimeout(function() {
-          const selection = window.getSelection();
-          const textoSelecionado = selection.toString().trim();
-          
-          if (textoSelecionado && textoSelecionado.length > 0) {
-            selectedText = textoSelecionado;
-            
-            if (leitorAtivo) {
-              mostrarBotaoLeitura();
-            }
-            
-            highlightSelectedText();
-          } else {
-            esconderBotaoLeitura();
-            clearHighlight();
-          }
-        }, 50);
-      }
-    });
-
-    // Inicializa seleção mobile
-    document.addEventListener('DOMContentLoaded', function() {
-      setupMobileTextSelection();
     });
 
     // Funções do leitor de texto
@@ -1589,27 +1329,20 @@
       leitorAtivo = !leitorAtivo;
       
       if (leitorAtivo) {
+        mostrarBotaoLeitura();
+        document.getElementById('botaoLeituraTexto').title = "Leitor de texto ativado. Selecione texto para ler.";
+        
         // Verifica se já tem texto selecionado
-        const selection = window.getSelection();
-        const textoSelecionado = selection.toString().trim();
+        const textoSelecionado = window.getSelection().toString().trim();
         if (textoSelecionado) {
           selectedText = textoSelecionado;
           mostrarBotaoLeitura();
-        } else {
-          // Se não tem texto, mostra o botão mas com indicação de que precisa selecionar
-          mostrarBotaoLeitura();
-          document.getElementById('botaoLeituraTexto').title = "Leitor ativado. Selecione texto para ler.";
-          
-          // Mostra instrução para mobile
-          if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            mostrarInstrucaoSelecao();
-          }
         }
       } else {
         esconderBotaoLeitura();
         fecharControlesLeitor();
         pararLeitura();
-        document.getElementById('botaoLeituraTexto').title = "Leitor de texto";
+        document.getElementById('botaoLeituraTexto').title = "Leitor de texto desativado";
       }
       
       toggleMenuAcessibilidade();
@@ -1618,13 +1351,11 @@
     function mostrarBotaoLeitura() {
       const botao = document.getElementById('botaoLeituraTexto');
       botao.classList.add('ativo');
-      botao.title = "Ler texto selecionado: " + (selectedText.length > 50 ? selectedText.substring(0, 47) + "..." : selectedText);
     }
 
     function esconderBotaoLeitura() {
       const botao = document.getElementById('botaoLeituraTexto');
       botao.classList.remove('ativo');
-      botao.title = "Ler texto selecionado";
     }
 
     function toggleControlesLeitor() {
@@ -1666,18 +1397,15 @@
     }
 
     function lerTextoSelecionado() {
-      // Verifica se há texto selecionado no momento, não usa o cached
-      const selection = window.getSelection();
-      const textoAtual = selection.toString().trim();
-      
-      if (textoAtual && textoAtual.length > 0) {
-        // Usa o texto atual da seleção
-        selectedText = textoAtual;
-      }
-      
       if (!selectedText || selectedText.length === 0) {
-        alert('Por favor, selecione algum texto para ler.');
-        return;
+        // Se não há texto selecionado, tenta selecionar automaticamente
+        const textoSelecionado = window.getSelection().toString().trim();
+        if (textoSelecionado) {
+          selectedText = textoSelecionado;
+        } else {
+          alert('Por favor, selecione algum texto para ler.');
+          return;
+        }
       }
       
       // Para qualquer leitura em andamento
@@ -1827,7 +1555,7 @@
       // Ctrl + Alt + S para ler texto selecionado
       if (e.ctrlKey && e.altKey && e.key === 's') {
         e.preventDefault();
-        if (leitorAtivo) {
+        if (leitorAtivo && selectedText) {
           lerTextoSelecionado();
         }
       }
@@ -2005,4 +1733,6 @@
     });
   </script>
 </body>
+
 </html>
+
