@@ -730,19 +730,46 @@
       visibility: visible;
     }
 
-    .controles-leitor-conteudo {
+    .controle-leitor-cabecalho {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      width: 100%;
+      margin-bottom: 10px;
     }
 
     .controle-leitor-titulo {
       font-size: 14px;
       font-weight: bold;
       color: var(--cor-texto);
-      margin-bottom: 5px;
       text-align: center;
+    }
+
+    .controle-leitor-fechar {
+      background: none;
+      border: none;
+      color: var(--cor-texto);
+      font-size: 20px;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .controle-leitor-fechar:hover {
+      background-color: var(--cor-dropdown-hover);
+      transform: scale(1.1);
+    }
+
+    .controles-leitor-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
 
     .controles-leitor-botoes {
@@ -1061,11 +1088,14 @@
   <!-- Controles do Leitor de Texto -->
   <div class="controles-leitor" id="controlesLeitor">
     <div class="controles-leitor-conteudo">
-      <div class="controle-leitor-titulo">Leitor de Texto</div>
+      <div class="controle-leitor-cabecalho">
+        <div class="controle-leitor-titulo">Leitor de Texto</div>
+        <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
+      </div>
       <div class="controles-leitor-botoes">
-        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">play</button>
-        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>pause</button>
-        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>parar</button>
+        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
+        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
+        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
       </div>
       <div class="velocidade-leitor">
         <label for="velocidadeLeitor">Velocidade:</label>
@@ -1370,30 +1400,13 @@
         menuAcessibilidade.classList.remove('aberto');
       }
       
-      // Fecha controles se clicar fora
-      if (controles.classList.contains('aberto')) {
-        setTimeout(() => {
-          document.addEventListener('click', fecharControlesAoClicarFora);
-        }, 100);
-      } else {
-        document.removeEventListener('click', fecharControlesAoClicarFora);
-      }
-    }
-
-    function fecharControlesAoClicarFora(event) {
-      const controles = document.getElementById('controlesLeitor');
-      const botao = document.getElementById('botaoLeituraTexto');
-      
-      if (!controles.contains(event.target) && !botao.contains(event.target)) {
-        controles.classList.remove('aberto');
-        document.removeEventListener('click', fecharControlesAoClicarFora);
-      }
+      // Remove o evento de fechar ao clicar fora
+      document.removeEventListener('click', fecharControlesAoClicarFora);
     }
 
     function fecharControlesLeitor() {
       const controles = document.getElementById('controlesLeitor');
       controles.classList.remove('aberto');
-      document.removeEventListener('click', fecharControlesAoClicarFora);
     }
 
     function lerTextoSelecionado() {
@@ -1733,6 +1746,4 @@
     });
   </script>
 </body>
-
 </html>
-
