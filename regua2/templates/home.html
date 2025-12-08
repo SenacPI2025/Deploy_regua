@@ -673,6 +673,8 @@
       opacity: 0;
       visibility: hidden;
       transform: translateY(20px);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
 
     .botao-leitura-texto.ativo {
@@ -706,7 +708,7 @@
       }
     }
 
-    /* Controles do Leitor de Texto */
+    /* Controles do Leitor de Texto - ESTILOS CORRIGIDOS */
     .controles-leitor {
       position: fixed;
       bottom: 90px;
@@ -765,6 +767,12 @@
       justify-content: center;
       transition: all 0.3s ease;
       font-size: 16px;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
     }
 
     .controle-leitor-btn:hover {
@@ -778,15 +786,11 @@
       transform: none;
     }
 
-    .controle-leitor-btn.sem-texto {
-      background: var(--cor-texto-claro);
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .controle-leitor-btn.sem-texto:hover {
-      transform: none;
-      background: var(--cor-texto-claro);
+    /* Estilo específico para prevenir seleção de texto nos botões */
+    .controle-leitor-btn::selection,
+    .botao-leitura-texto::selection,
+    .bolinha-acessibilidade::selection {
+      background: transparent;
     }
 
     .velocidade-leitor {
@@ -1065,7 +1069,7 @@
   </button>
 
   <!-- Botão de Leitura de Texto -->
-  <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
+  <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="iniciarLeituraBotaoPrincipal()">
     🔊
   </button>
 
@@ -1074,7 +1078,7 @@
     <div class="controles-leitor-conteudo">
       <div class="controle-leitor-titulo">Leitor de Texto</div>
       <div class="controles-leitor-botoes">
-        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto selecionado" disabled>▶️</button>
+        <button class="controle-leitor-btn" id="btnPlay" onclick="executarLerTextoSelecionado()" title="Ler texto">▶️</button>
         <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
         <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
       </div>
@@ -1282,6 +1286,7 @@
     let speechRate = 1;
     let selectedText = '';
     let leitorAtivo = false;
+    let ultimoTextoSelecionado = '';
 
     // Inicializa o VLibras
     window.addEventListener('DOMContentLoaded', function() {
@@ -1292,22 +1297,57 @@
       // Inicializa variáveis CSS para leitor
       document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
       document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
+
+      // Prevenir seleção de texto nos botões de controle
+      document.querySelectorAll('.controle-leitor-btn, .botao-leitura-texto, .bolinha-acessibilidade').forEach(btn => {
+        btn.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+        });
+        
+        btn.addEventListener('touchstart', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+        });
+      });
     });
 
-    // Detectar seleção de texto
-    document.addEventListener('mouseup', function() {
+    // Detectar seleção de texto - REVISADO PARA MOBILE
+    document.addEventListener('mouseup', function(e) {
+      // Se o clique foi em um botão de controle, não faz nada
+      if (e.target.closest('.controle-leitor-btn') || 
+          e.target.closest('.botao-leitura-texto') ||
+          e.target.closest('.bolinha-acessibilidade')) {
+        return;
+      }
+      
+      processarSelecaoTexto();
+    });
+
+    // Para touch devices
+    document.addEventListener('touchend', function(e) {
+      // Se o toque foi em um botão de controle, não faz nada
+      if (e.target.closest('.controle-leitor-btn') || 
+          e.target.closest('.botao-leitura-texto') ||
+          e.target.closest('.bolinha-acessibilidade')) {
+        return;
+      }
+      
+      // Pequeno delay para permitir que a seleção ocorra
+      setTimeout(processarSelecaoTexto, 100);
+    });
+
+    function processarSelecaoTexto() {
       const textoSelecionado = window.getSelection().toString().trim();
       
       if (textoSelecionado && textoSelecionado.length > 0) {
         selectedText = textoSelecionado;
+        ultimoTextoSelecionado = textoSelecionado;
         
         // Mostra o botão de leitura se o leitor estiver ativo
         if (leitorAtivo) {
           mostrarBotaoLeitura();
         }
-        
-        // Habilita o botão de play
-        atualizarBotoesLeitor();
         
         // Destacar texto selecionado
         highlightSelectedText();
@@ -1315,10 +1355,8 @@
         // Esconde o botão se não há texto selecionado
         esconderBotaoLeitura();
         clearHighlight();
-        // Desabilita o botão de play
-        atualizarBotoesLeitor();
       }
-    });
+    }
 
     // Detectar seleção via teclado
     document.addEventListener('keyup', function(e) {
@@ -1327,23 +1365,41 @@
         
         if (textoSelecionado && textoSelecionado.length > 0) {
           selectedText = textoSelecionado;
+          ultimoTextoSelecionado = textoSelecionado;
           
           if (leitorAtivo) {
             mostrarBotaoLeitura();
           }
           
-          // Habilita o botão de play
-          atualizarBotoesLeitor();
-          
           highlightSelectedText();
         } else {
           esconderBotaoLeitura();
           clearHighlight();
-          // Desabilita o botão de play
-          atualizarBotoesLeitor();
         }
       }
     });
+
+    // NOVA FUNÇÃO: Iniciar leitura pelo botão principal
+    function iniciarLeituraBotaoPrincipal() {
+      // Primeiro verifica se há texto selecionado atualmente
+      const selecaoAtual = window.getSelection().toString().trim();
+      
+      if (selecaoAtual && selecaoAtual.length > 0) {
+        // Se há texto selecionado, usa ele
+        selectedText = selecaoAtual;
+        ultimoTextoSelecionado = selecaoAtual;
+      } else if (ultimoTextoSelecionado && ultimoTextoSelecionado.length > 0) {
+        // Se não há texto selecionado mas havia um texto anterior, usa o último
+        selectedText = ultimoTextoSelecionado;
+      } else {
+        // Se não há texto algum, mostra mensagem
+        alert('Por favor, selecione algum texto para ler.');
+        return;
+      }
+      
+      // Executa a leitura
+      executarLerTextoSelecionado();
+    }
 
     // Funções do leitor de texto
     function ativarLeitorTexto() {
@@ -1357,15 +1413,14 @@
         const textoSelecionado = window.getSelection().toString().trim();
         if (textoSelecionado) {
           selectedText = textoSelecionado;
+          ultimoTextoSelecionado = textoSelecionado;
           mostrarBotaoLeitura();
-          atualizarBotoesLeitor();
         }
       } else {
         esconderBotaoLeitura();
         fecharControlesLeitor();
         pararLeitura();
         document.getElementById('botaoLeituraTexto').title = "Leitor de texto desativado";
-        atualizarBotoesLeitor();
       }
       
       toggleMenuAcessibilidade();
@@ -1419,11 +1474,16 @@
       document.removeEventListener('click', fecharControlesAoClicarFora);
     }
 
-    function lerTextoSelecionado() {
-      // Verifica se há texto selecionado
+    // FUNÇÃO PRINCIPAL DE LEITURA - REVISADA
+    function executarLerTextoSelecionado() {
       if (!selectedText || selectedText.length === 0) {
-        alert('Por favor, selecione algum texto para ler.');
-        return;
+        // Tenta usar o último texto selecionado
+        if (ultimoTextoSelecionado && ultimoTextoSelecionado.length > 0) {
+          selectedText = ultimoTextoSelecionado;
+        } else {
+          alert('Por favor, selecione algum texto para ler.');
+          return;
+        }
       }
       
       // Para qualquer leitura em andamento
@@ -1431,7 +1491,7 @@
         synth.cancel();
       }
       
-      // Cria nova utterance apenas com o texto atual
+      // Cria nova utterance
       utterance = new SpeechSynthesisUtterance(selectedText);
       
       // Configurações
@@ -1470,6 +1530,11 @@
       
       // Inicia a leitura
       synth.speak(utterance);
+    }
+
+    // Mantida para compatibilidade (chamada pelos controles)
+    function lerTextoSelecionado() {
+      executarLerTextoSelecionado();
     }
 
     function pausarLeitura() {
@@ -1511,17 +1576,6 @@
       const btnPause = document.getElementById('btnPause');
       const btnStop = document.getElementById('btnStop');
       
-      // Verifica se há texto selecionado
-      if (!selectedText || selectedText.length === 0) {
-        btnPlay.disabled = true;
-        btnPlay.classList.add('sem-texto');
-        btnPlay.title = "Selecione texto primeiro";
-      } else {
-        btnPlay.disabled = false;
-        btnPlay.classList.remove('sem-texto');
-        btnPlay.title = "Ler texto selecionado";
-      }
-      
       if (isSpeaking && !isPaused) {
         btnPlay.disabled = true;
         btnPause.disabled = false;
@@ -1533,6 +1587,7 @@
         btnStop.disabled = false;
         btnPause.title = "Continuar leitura";
       } else {
+        btnPlay.disabled = false;
         btnPause.disabled = true;
         btnStop.disabled = true;
         btnPause.title = "Pausar";
@@ -1584,7 +1639,7 @@
       if (e.ctrlKey && e.altKey && e.key === 's') {
         e.preventDefault();
         if (leitorAtivo && selectedText) {
-          lerTextoSelecionado();
+          executarLerTextoSelecionado();
         }
       }
       
@@ -1725,11 +1780,11 @@
           document.documentElement.setAttribute('data-tamanho-fonte', 'medio');
           // Desativa o leitor de texto também
           leitorAtivo = false;
-          selectedText = '';
           esconderBotaoLeitura();
           fecharControlesLeitor();
           pararLeitura();
-          atualizarBotoesLeitor();
+          selectedText = '';
+          ultimoTextoSelecionado = '';
         }
       });
       
@@ -1760,9 +1815,6 @@
         pic.classList.add('has-photo');
       });
       {% endif %}
-      
-      // Inicializa os botões do leitor
-      atualizarBotoesLeitor();
     });
   </script>
 </body>
