@@ -117,6 +117,8 @@
       line-height: 1.6;
       transition: all 0.3s ease;
       user-select: text;
+      -webkit-user-select: text; /* Para iOS/Safari */
+      -webkit-touch-callout: text; /* Para iOS */
     }
 
     /* Estilo para texto selecionado */
@@ -545,7 +547,7 @@
       text-align: center;
     }
 
-    /* Bolinha de Acessibilidade - ESTILOS CORRIGIDOS PARA MOBILE */
+    /* Bolinha de Acessibilidade */
     .bolinha-acessibilidade {
       position: fixed;
       bottom: 20px;
@@ -564,30 +566,11 @@
       border: none;
       color: white;
       font-size: 24px;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
     }
 
     .bolinha-acessibilidade:hover {
       transform: scale(1.1);
       background: var(--cor-bolinha-hover);
-    }
-
-    /* Melhorar clicabilidade no mobile */
-    @media (hover: none) and (pointer: coarse) {
-      .bolinha-acessibilidade {
-        min-width: 50px;
-        min-height: 50px;
-      }
-      
-      .bolinha-acessibilidade:active {
-        transform: scale(0.95);
-        background: var(--cor-primaria-escura);
-      }
     }
 
     /* Menu de Acessibilidade */
@@ -653,9 +636,6 @@
       transition: all 0.3s ease;
       min-height: 60px;
       gap: 5px;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      user-select: none;
     }
 
     .botao-acessibilidade:hover {
@@ -695,8 +675,6 @@
       opacity: 0;
       visibility: hidden;
       transform: translateY(20px);
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
     }
 
     .botao-leitura-texto.ativo {
@@ -730,7 +708,7 @@
       }
     }
 
-    /* Controles do Leitor de Texto - ESTILOS CORRIGIDOS */
+    /* Controles do Leitor de Texto */
     .controles-leitor {
       position: fixed;
       bottom: 90px;
@@ -789,12 +767,6 @@
       justify-content: center;
       transition: all 0.3s ease;
       font-size: 16px;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      user-select: none;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
     }
 
     .controle-leitor-btn:hover {
@@ -806,13 +778,6 @@
       background: var(--cor-texto-claro);
       cursor: not-allowed;
       transform: none;
-    }
-
-    /* Estilo específico para prevenir seleção de texto nos botões */
-    .controle-leitor-btn::selection,
-    .botao-leitura-texto::selection,
-    .bolinha-acessibilidade::selection {
-      background: transparent;
     }
 
     .velocidade-leitor {
@@ -1006,15 +971,6 @@
         bottom: 20px !important;
         left: 15px !important;
       }
-      
-      /* Melhorar área de toque no mobile */
-      .bolinha-acessibilidade,
-      .botao-leitura-texto,
-      .controle-leitor-btn,
-      .botao-acessibilidade {
-        min-width: 44px;
-        min-height: 44px;
-      }
     }
 
     @media (max-width: 480px) {
@@ -1095,12 +1051,12 @@
   </div>
 
   <!-- Bolinha de Acessibilidade -->
-  <button class="bolinha-acessibilidade" id="bolinhaAcessibilidade" title="Acessibilidade">
+  <button class="bolinha-acessibilidade" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
     ♿
   </button>
 
   <!-- Botão de Leitura de Texto -->
-  <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado">
+  <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
     🔊
   </button>
 
@@ -1109,13 +1065,13 @@
     <div class="controles-leitor-conteudo">
       <div class="controle-leitor-titulo">Leitor de Texto</div>
       <div class="controles-leitor-botoes">
-        <button class="controle-leitor-btn" id="btnPlay" title="Ler texto">▶️</button>
-        <button class="controle-leitor-btn" id="btnPause" title="Pausar" disabled>⏸️</button>
-        <button class="controle-leitor-btn" id="btnStop" title="Parar" disabled>⏹️</button>
+        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
+        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
+        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
       </div>
       <div class="velocidade-leitor">
         <label for="velocidadeLeitor">Velocidade:</label>
-        <input type="range" id="velocidadeLeitor" min="0.5" max="2" step="0.1" value="1">
+        <input type="range" id="velocidadeLeitor" min="0.5" max="2" step="0.1" value="1" oninput="atualizarVelocidade(this.value)">
         <span class="velocidade-valor" id="velocidadeValor">1x</span>
       </div>
     </div>
@@ -1126,23 +1082,23 @@
     <div class="menu-conteudo">
       <div class="menu-titulo">Acessibilidade</div>
       <div class="menu-botoes">
-        <button class="botao-acessibilidade" id="btnTema">
+        <button class="botao-acessibilidade" onclick="alternarTema()">
           <span class="icone">🌓</span>
           <span class="texto">Tema</span>
         </button>
-        <button class="botao-acessibilidade" id="btnAumentarFonte">
+        <button class="botao-acessibilidade" onclick="aumentarFonte()">
           <span class="icone">A+</span>
           <span class="texto">Aumentar Fonte</span>
         </button>
-        <button class="botao-acessibilidade" id="btnDiminuirFonte">
+        <button class="botao-acessibilidade" onclick="diminuirFonte()">
           <span class="icone">A-</span>
           <span class="texto">Diminuir Fonte</span>
         </button>
-        <button class="botao-acessibilidade" id="btnLeitor">
+        <button class="botao-acessibilidade" onclick="ativarLeitorTexto()">
           <span class="icone">🔊</span>
           <span class="texto">Leitor</span>
         </button>
-        <button class="botao-acessibilidade" id="btnResetar">
+        <button class="botao-acessibilidade" onclick="resetarAcessibilidade()">
           <span class="icone">↻</span>
           <span class="texto">Resetar</span>
         </button>
@@ -1205,7 +1161,7 @@
       </a>
     </div>
 
-    <button class="menu-icon" id="menuIcon">☰</button>
+    <button class="menu-icon" id="menuIcon" onclick="abrirMenuMobile()">☰</button>
   </nav>
 
   <!-- Hero Section -->
@@ -1317,7 +1273,7 @@
     let speechRate = 1;
     let selectedText = '';
     let leitorAtivo = false;
-    let ultimoTextoSelecionado = '';
+    let mobileSelectionTimeout = null;
 
     // Inicializa o VLibras
     window.addEventListener('DOMContentLoaded', function() {
@@ -1328,236 +1284,141 @@
       // Inicializa variáveis CSS para leitor
       document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
       document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
-
-      // Configurar eventos para o botão de acessibilidade - FUNCIONA EM MOBILE
-      const bolinhaAcessibilidade = document.getElementById('bolinhaAcessibilidade');
-      
-      // Evento para click (desktop) e touch (mobile)
-      bolinhaAcessibilidade.addEventListener('click', toggleMenuAcessibilidade);
-      bolinhaAcessibilidade.addEventListener('touchend', function(e) {
-        e.preventDefault();
-        toggleMenuAcessibilidade();
-      });
-
-      // Configurar eventos para o botão de leitura de texto
-      const botaoLeituraTexto = document.getElementById('botaoLeituraTexto');
-      botaoLeituraTexto.addEventListener('click', iniciarLeituraBotaoPrincipal);
-      botaoLeituraTexto.addEventListener('touchend', function(e) {
-        e.preventDefault();
-        iniciarLeituraBotaoPrincipal();
-      });
-
-      // Configurar eventos para os botões do leitor
-      document.getElementById('btnPlay').addEventListener('click', executarLerTextoSelecionado);
-      document.getElementById('btnPlay').addEventListener('touchend', function(e) {
-        e.preventDefault();
-        executarLerTextoSelecionado();
-      });
-
-      document.getElementById('btnPause').addEventListener('click', pausarLeitura);
-      document.getElementById('btnPause').addEventListener('touchend', function(e) {
-        e.preventDefault();
-        pausarLeitura();
-      });
-
-      document.getElementById('btnStop').addEventListener('click', pararLeitura);
-      document.getElementById('btnStop').addEventListener('touchend', function(e) {
-        e.preventDefault();
-        pararLeitura();
-      });
-
-      // Configurar evento para o controle de velocidade
-      const velocidadeLeitor = document.getElementById('velocidadeLeitor');
-      velocidadeLeitor.addEventListener('input', function(e) {
-        atualizarVelocidade(e.target.value);
-      });
-      velocidadeLeitor.addEventListener('touchend', function(e) {
-        atualizarVelocidade(e.target.value);
-      });
-
-      // Configurar eventos para os botões do menu de acessibilidade
-      document.getElementById('btnTema').addEventListener('click', alternarTema);
-      document.getElementById('btnTema').addEventListener('touchend', function(e) {
-        e.preventDefault();
-        alternarTema();
-      });
-
-      document.getElementById('btnAumentarFonte').addEventListener('click', aumentarFonte);
-      document.getElementById('btnAumentarFonte').addEventListener('touchend', function(e) {
-        e.preventDefault();
-        aumentarFonte();
-      });
-
-      document.getElementById('btnDiminuirFonte').addEventListener('click', diminuirFonte);
-      document.getElementById('btnDiminuirFonte').addEventListener('touchend', function(e) {
-        e.preventDefault();
-        diminuirFonte();
-      });
-
-      document.getElementById('btnLeitor').addEventListener('click', ativarLeitorTexto);
-      document.getElementById('btnLeitor').addEventListener('touchend', function(e) {
-        e.preventDefault();
-        ativarLeitorTexto();
-      });
-
-      document.getElementById('btnResetar').addEventListener('click', resetarAcessibilidade);
-      document.getElementById('btnResetar').addEventListener('touchend', function(e) {
-        e.preventDefault();
-        resetarAcessibilidade();
-      });
-
-      // Configurar menu mobile
-      document.getElementById('menuIcon').addEventListener('click', abrirMenuMobile);
-      document.getElementById('menuIcon').addEventListener('touchend', function(e) {
-        e.preventDefault();
-        abrirMenuMobile();
-      });
-
-      // Prevenir seleção de texto nos botões de controle
-      document.querySelectorAll('.controle-leitor-btn, .botao-leitura-texto, .bolinha-acessibilidade, .botao-acessibilidade').forEach(btn => {
-        btn.addEventListener('mousedown', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-        });
-        
-        btn.addEventListener('touchstart', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-        });
-      });
-
-      // Configurar eventos para fechar menus ao tocar fora (mobile)
-      document.addEventListener('touchstart', function(e) {
-        const menu = document.getElementById('menuAcessibilidade');
-        const bolinha = document.getElementById('bolinhaAcessibilidade');
-        const controles = document.getElementById('controlesLeitor');
-        const botaoLeitura = document.getElementById('botaoLeituraTexto');
-        
-        if (menu.classList.contains('aberto')) {
-          if (!menu.contains(e.target) && !bolinha.contains(e.target)) {
-            fecharMenuAcessibilidade();
-          }
-        }
-        
-        if (controles.classList.contains('aberto')) {
-          if (!controles.contains(e.target) && !botaoLeitura.contains(e.target)) {
-            fecharControlesLeitor();
-          }
-        }
-      });
     });
 
-    // Detectar seleção de texto - REVISADO PARA MOBILE
-    document.addEventListener('mouseup', function(e) {
-      // Se o clique foi em um botão de controle, não faz nada
-      if (e.target.closest('.controle-leitor-btn') || 
-          e.target.closest('.botao-leitura-texto') ||
-          e.target.closest('.bolinha-acessibilidade') ||
-          e.target.closest('.botao-acessibilidade')) {
-        return;
+    // Detectar seleção de texto - VERSÃO CORRIGIDA PARA MOBILE
+    document.addEventListener('selectionchange', function() {
+      // Limpa timeout anterior se existir
+      if (mobileSelectionTimeout) {
+        clearTimeout(mobileSelectionTimeout);
       }
       
-      processarSelecaoTexto();
-    });
-
-    // Para touch devices
-    document.addEventListener('touchend', function(e) {
-      // Se o toque foi em um botão de controle, não faz nada
-      if (e.target.closest('.controle-leitor-btn') || 
-          e.target.closest('.botao-leitura-texto') ||
-          e.target.closest('.bolinha-acessibilidade') ||
-          e.target.closest('.botao-acessibilidade')) {
-        return;
-      }
-      
-      // Pequeno delay para permitir que a seleção ocorra
-      setTimeout(processarSelecaoTexto, 100);
-    });
-
-    function processarSelecaoTexto() {
-      const textoSelecionado = window.getSelection().toString().trim();
-      
-      if (textoSelecionado && textoSelecionado.length > 0) {
-        selectedText = textoSelecionado;
-        ultimoTextoSelecionado = textoSelecionado;
-        
-        // Mostra o botão de leitura se o leitor estiver ativo
-        if (leitorAtivo) {
-          mostrarBotaoLeitura();
-        }
-        
-        // Destacar texto selecionado
-        highlightSelectedText();
-      } else {
-        // Esconde o botão se não há texto selecionado
-        esconderBotaoLeitura();
-        clearHighlight();
-      }
-    }
-
-    // Detectar seleção via teclado
-    document.addEventListener('keyup', function(e) {
-      if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt') {
-        const textoSelecionado = window.getSelection().toString().trim();
+      // Usa um pequeno timeout para garantir que a seleção foi concluída
+      mobileSelectionTimeout = setTimeout(function() {
+        const selection = window.getSelection();
+        const textoSelecionado = selection.toString().trim();
         
         if (textoSelecionado && textoSelecionado.length > 0) {
           selectedText = textoSelecionado;
-          ultimoTextoSelecionado = textoSelecionado;
+          
+          // Mostra o botão de leitura se o leitor estiver ativo
+          if (leitorAtivo) {
+            mostrarBotaoLeitura();
+          }
+          
+          // Destacar texto selecionado
+          highlightSelectedText();
+        } else {
+          // Esconde o botão se não há texto selecionado
+          esconderBotaoLeitura();
+          clearHighlight();
+        }
+      }, 100);
+    });
+
+    // Também monitora eventos de toque para melhor suporte mobile
+    document.addEventListener('touchstart', function(e) {
+      // Reseta a seleção quando toca em outro lugar
+      if (!isTextSelectionElement(e.target)) {
+        esconderBotaoLeitura();
+        clearHighlight();
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchend', function(e) {
+      // Pequeno delay para permitir que a seleção seja processada
+      setTimeout(function() {
+        const selection = window.getSelection();
+        const textoSelecionado = selection.toString().trim();
+        
+        if (textoSelecionado && textoSelecionado.length > 0) {
+          selectedText = textoSelecionado;
           
           if (leitorAtivo) {
             mostrarBotaoLeitura();
           }
           
           highlightSelectedText();
-        } else {
-          esconderBotaoLeitura();
-          clearHighlight();
         }
+      }, 300);
+    }, { passive: true });
+
+    // Função auxiliar para verificar se o elemento permite seleção de texto
+    function isTextSelectionElement(element) {
+      const tagName = element.tagName.toLowerCase();
+      const textSelectableTags = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'span', 'div', 'li', 'td', 'th'];
+      const textSelectableClasses = ['feature-card', 'barbearia-content', 'hero-content', 'section-title'];
+      
+      // Verifica tag
+      if (textSelectableTags.includes(tagName)) {
+        return true;
+      }
+      
+      // Verifica classes
+      for (const className of textSelectableClasses) {
+        if (element.classList.contains(className)) {
+          return true;
+        }
+      }
+      
+      // Verifica pais
+      let parent = element.parentElement;
+      while (parent) {
+        for (const className of textSelectableClasses) {
+          if (parent.classList.contains(className)) {
+            return true;
+          }
+        }
+        parent = parent.parentElement;
+      }
+      
+      return false;
+    }
+
+    // Detectar seleção via teclado (para desktop)
+    document.addEventListener('keyup', function(e) {
+      if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' || e.key === 'Meta') {
+        setTimeout(function() {
+          const selection = window.getSelection();
+          const textoSelecionado = selection.toString().trim();
+          
+          if (textoSelecionado && textoSelecionado.length > 0) {
+            selectedText = textoSelecionado;
+            
+            if (leitorAtivo) {
+              mostrarBotaoLeitura();
+            }
+            
+            highlightSelectedText();
+          } else {
+            esconderBotaoLeitura();
+            clearHighlight();
+          }
+        }, 50);
       }
     });
 
-    // NOVA FUNÇÃO: Iniciar leitura pelo botão principal
-    function iniciarLeituraBotaoPrincipal() {
-      // Primeiro verifica se há texto selecionado atualmente
-      const selecaoAtual = window.getSelection().toString().trim();
-      
-      if (selecaoAtual && selecaoAtual.length > 0) {
-        // Se há texto selecionado, usa ele
-        selectedText = selecaoAtual;
-        ultimoTextoSelecionado = selecaoAtual;
-      } else if (ultimoTextoSelecionado && ultimoTextoSelecionado.length > 0) {
-        // Se não há texto selecionado mas havia um texto anterior, usa o último
-        selectedText = ultimoTextoSelecionado;
-      } else {
-        // Se não há texto algum, mostra mensagem
-        alert('Por favor, selecione algum texto para ler.');
-        return;
-      }
-      
-      // Executa a leitura
-      executarLerTextoSelecionado();
-    }
-
-    // Funções do leitor de texto
+    // Funções do leitor de texto - VERSÃO CORRIGIDA
     function ativarLeitorTexto() {
       leitorAtivo = !leitorAtivo;
       
       if (leitorAtivo) {
-        mostrarBotaoLeitura();
-        document.getElementById('botaoLeituraTexto').title = "Leitor de texto ativado. Selecione texto para ler.";
-        
         // Verifica se já tem texto selecionado
-        const textoSelecionado = window.getSelection().toString().trim();
+        const selection = window.getSelection();
+        const textoSelecionado = selection.toString().trim();
         if (textoSelecionado) {
           selectedText = textoSelecionado;
-          ultimoTextoSelecionado = textoSelecionado;
           mostrarBotaoLeitura();
+        } else {
+          // Se não tem texto, mostra o botão mas com indicação de que precisa selecionar
+          mostrarBotaoLeitura();
+          document.getElementById('botaoLeituraTexto').title = "Leitor ativado. Selecione texto para ler.";
         }
       } else {
         esconderBotaoLeitura();
         fecharControlesLeitor();
         pararLeitura();
-        document.getElementById('botaoLeituraTexto').title = "Leitor de texto desativado";
+        document.getElementById('botaoLeituraTexto').title = "Leitor de texto";
       }
       
       toggleMenuAcessibilidade();
@@ -1611,16 +1472,19 @@
       document.removeEventListener('click', fecharControlesAoClicarFora);
     }
 
-    // FUNÇÃO PRINCIPAL DE LEITURA - REVISADA
-    function executarLerTextoSelecionado() {
+    function lerTextoSelecionado() {
+      // Verifica se há texto selecionado no momento, não usa o cached
+      const selection = window.getSelection();
+      const textoAtual = selection.toString().trim();
+      
+      if (textoAtual && textoAtual.length > 0) {
+        // Usa o texto atual da seleção
+        selectedText = textoAtual;
+      }
+      
       if (!selectedText || selectedText.length === 0) {
-        // Tenta usar o último texto selecionado
-        if (ultimoTextoSelecionado && ultimoTextoSelecionado.length > 0) {
-          selectedText = ultimoTextoSelecionado;
-        } else {
-          alert('Por favor, selecione algum texto para ler.');
-          return;
-        }
+        alert('Por favor, selecione algum texto para ler.');
+        return;
       }
       
       // Para qualquer leitura em andamento
@@ -1667,11 +1531,6 @@
       
       // Inicia a leitura
       synth.speak(utterance);
-    }
-
-    // Mantida para compatibilidade (chamada pelos controles)
-    function lerTextoSelecionado() {
-      executarLerTextoSelecionado();
     }
 
     function pausarLeitura() {
@@ -1775,8 +1634,8 @@
       // Ctrl + Alt + S para ler texto selecionado
       if (e.ctrlKey && e.altKey && e.key === 's') {
         e.preventDefault();
-        if (leitorAtivo && selectedText) {
-          executarLerTextoSelecionado();
+        if (leitorAtivo) {
+          lerTextoSelecionado();
         }
       }
       
@@ -1809,16 +1668,12 @@
     // Fecha o menu mobile ao clicar em um link
     document.querySelectorAll('.mobile-menu-links a').forEach(link => {
       link.addEventListener('click', fecharMenuMobile);
-      link.addEventListener('touchend', function(e) {
-        e.preventDefault();
-        fecharMenuMobile();
-      });
     });
 
-    // Controle do menu de acessibilidade - FUNÇÕES REVISADAS
+    // Controle do menu de acessibilidade
     function toggleMenuAcessibilidade() {
       const menu = document.getElementById('menuAcessibilidade');
-      const bolinha = document.getElementById('bolinhaAcessibilidade');
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
       
       menu.classList.toggle('aberto');
       bolinha.classList.toggle('ativo');
@@ -1833,39 +1688,20 @@
       if (menu.classList.contains('aberto')) {
         setTimeout(() => {
           document.addEventListener('click', fecharMenuAoClicarFora);
-          document.addEventListener('touchstart', fecharMenuAoTocarFora);
         }, 100);
       } else {
         document.removeEventListener('click', fecharMenuAoClicarFora);
-        document.removeEventListener('touchstart', fecharMenuAoTocarFora);
       }
-    }
-
-    function fecharMenuAcessibilidade() {
-      const menu = document.getElementById('menuAcessibilidade');
-      const bolinha = document.getElementById('bolinhaAcessibilidade');
-      
-      menu.classList.remove('aberto');
-      bolinha.classList.remove('ativo');
-      document.removeEventListener('click', fecharMenuAoClicarFora);
-      document.removeEventListener('touchstart', fecharMenuAoTocarFora);
     }
 
     function fecharMenuAoClicarFora(event) {
       const menu = document.getElementById('menuAcessibilidade');
-      const bolinha = document.getElementById('bolinhaAcessibilidade');
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
       
       if (!menu.contains(event.target) && !bolinha.contains(event.target)) {
-        fecharMenuAcessibilidade();
-      }
-    }
-
-    function fecharMenuAoTocarFora(event) {
-      const menu = document.getElementById('menuAcessibilidade');
-      const bolinha = document.getElementById('bolinhaAcessibilidade');
-      
-      if (!menu.contains(event.target) && !bolinha.contains(event.target)) {
-        fecharMenuAcessibilidade();
+        menu.classList.remove('aberto');
+        bolinha.classList.remove('ativo');
+        document.removeEventListener('click', fecharMenuAoClicarFora);
       }
     }
 
@@ -1943,8 +1779,6 @@
           esconderBotaoLeitura();
           fecharControlesLeitor();
           pararLeitura();
-          selectedText = '';
-          ultimoTextoSelecionado = '';
         }
       });
       
