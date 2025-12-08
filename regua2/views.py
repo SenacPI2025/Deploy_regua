@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from .models import Usuario
 from django.core.files.storage import FileSystemStorage
 import os
+import random
 from django.contrib.auth.hashers import make_password
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timedelta
@@ -903,6 +904,7 @@ def esqueci_senha(request):
             }, status=500)
     
     return render(request, 'esqueci_senha.html')
+
 
 
 
