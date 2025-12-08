@@ -778,6 +778,17 @@
       transform: none;
     }
 
+    .controle-leitor-btn.sem-texto {
+      background: var(--cor-texto-claro);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .controle-leitor-btn.sem-texto:hover {
+      transform: none;
+      background: var(--cor-texto-claro);
+    }
+
     .velocidade-leitor {
       display: flex;
       align-items: center;
@@ -1063,9 +1074,9 @@
     <div class="controles-leitor-conteudo">
       <div class="controle-leitor-titulo">Leitor de Texto</div>
       <div class="controles-leitor-botoes">
-        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">play</button>
-        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>pause</button>
-        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>parar</button>
+        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto selecionado" disabled>▶️</button>
+        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
+        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
       </div>
       <div class="velocidade-leitor">
         <label for="velocidadeLeitor">Velocidade:</label>
@@ -1295,12 +1306,17 @@
           mostrarBotaoLeitura();
         }
         
+        // Habilita o botão de play
+        atualizarBotoesLeitor();
+        
         // Destacar texto selecionado
         highlightSelectedText();
       } else {
         // Esconde o botão se não há texto selecionado
         esconderBotaoLeitura();
         clearHighlight();
+        // Desabilita o botão de play
+        atualizarBotoesLeitor();
       }
     });
 
@@ -1316,10 +1332,15 @@
             mostrarBotaoLeitura();
           }
           
+          // Habilita o botão de play
+          atualizarBotoesLeitor();
+          
           highlightSelectedText();
         } else {
           esconderBotaoLeitura();
           clearHighlight();
+          // Desabilita o botão de play
+          atualizarBotoesLeitor();
         }
       }
     });
@@ -1337,12 +1358,14 @@
         if (textoSelecionado) {
           selectedText = textoSelecionado;
           mostrarBotaoLeitura();
+          atualizarBotoesLeitor();
         }
       } else {
         esconderBotaoLeitura();
         fecharControlesLeitor();
         pararLeitura();
         document.getElementById('botaoLeituraTexto').title = "Leitor de texto desativado";
+        atualizarBotoesLeitor();
       }
       
       toggleMenuAcessibilidade();
@@ -1397,15 +1420,10 @@
     }
 
     function lerTextoSelecionado() {
+      // Verifica se há texto selecionado
       if (!selectedText || selectedText.length === 0) {
-        // Se não há texto selecionado, tenta selecionar automaticamente
-        const textoSelecionado = window.getSelection().toString().trim();
-        if (textoSelecionado) {
-          selectedText = textoSelecionado;
-        } else {
-          alert('Por favor, selecione algum texto para ler.');
-          return;
-        }
+        alert('Por favor, selecione algum texto para ler.');
+        return;
       }
       
       // Para qualquer leitura em andamento
@@ -1413,7 +1431,7 @@
         synth.cancel();
       }
       
-      // Cria nova utterance
+      // Cria nova utterance apenas com o texto atual
       utterance = new SpeechSynthesisUtterance(selectedText);
       
       // Configurações
@@ -1493,6 +1511,17 @@
       const btnPause = document.getElementById('btnPause');
       const btnStop = document.getElementById('btnStop');
       
+      // Verifica se há texto selecionado
+      if (!selectedText || selectedText.length === 0) {
+        btnPlay.disabled = true;
+        btnPlay.classList.add('sem-texto');
+        btnPlay.title = "Selecione texto primeiro";
+      } else {
+        btnPlay.disabled = false;
+        btnPlay.classList.remove('sem-texto');
+        btnPlay.title = "Ler texto selecionado";
+      }
+      
       if (isSpeaking && !isPaused) {
         btnPlay.disabled = true;
         btnPause.disabled = false;
@@ -1504,7 +1533,6 @@
         btnStop.disabled = false;
         btnPause.title = "Continuar leitura";
       } else {
-        btnPlay.disabled = false;
         btnPause.disabled = true;
         btnStop.disabled = true;
         btnPause.title = "Pausar";
@@ -1697,9 +1725,11 @@
           document.documentElement.setAttribute('data-tamanho-fonte', 'medio');
           // Desativa o leitor de texto também
           leitorAtivo = false;
+          selectedText = '';
           esconderBotaoLeitura();
           fecharControlesLeitor();
           pararLeitura();
+          atualizarBotoesLeitor();
         }
       });
       
@@ -1730,9 +1760,10 @@
         pic.classList.add('has-photo');
       });
       {% endif %}
+      
+      // Inicializa os botões do leitor
+      atualizarBotoesLeitor();
     });
   </script>
 </body>
-
 </html>
-
