@@ -33,6 +33,8 @@
       --cor-bolinha: #2aa745;
       --cor-bolinha-hover: #228c3a;
       --cor-sombra: rgba(0, 0, 0, 0.1);
+      --cor-leitor-texto: rgba(29, 185, 84, 0.1);
+      --cor-leitor-borda: #1DB954;
     }
 
     :root[data-tema="escuro"] {
@@ -55,6 +57,8 @@
       --cor-bolinha: #2aa745;
       --cor-bolinha-hover: #34ce57;
       --cor-sombra: rgba(0, 0, 0, 0.3);
+      --cor-leitor-texto: rgba(29, 185, 84, 0.2);
+      --cor-leitor-borda: #1DB954;
     }
 
     /* Tamanhos de fonte */
@@ -96,6 +100,12 @@
       color: var(--cor-texto);
       font-size: var(--tamanho-fonte);
       transition: all 0.3s ease;
+      user-select: text;
+    }
+
+    ::selection {
+      background-color: var(--cor-leitor-texto);
+      color: var(--cor-texto);
     }
 
     nav {
@@ -121,7 +131,6 @@
       color: #1DB954;
     }
 
-    /* Alert Messages Styles - MOVED TO LEFT */
     .alert-messages {
         position: fixed;
         top: 70px;
@@ -263,7 +272,6 @@
       transform: scale(1.1);
     }
 
-    /* Menu Mobile */
     .mobile-menu {
       display: none;
       position: fixed;
@@ -357,11 +365,10 @@
       font-family: 'Unbounded', sans-serif;
     }
 
-    /* Bolinha de Acessibilidade */
     .bolinha-acessibilidade {
       position: fixed;
       bottom: 20px;
-      right: 20px;
+      right: 90px;
       width: 60px;
       height: 60px;
       background: var(--cor-bolinha);
@@ -389,11 +396,10 @@
       background: var(--cor-bolinha-hover);
     }
 
-    /* Menu de Acessibilidade */
     .menu-acessibilidade {
       position: fixed;
       bottom: 90px;
-      right: 20px;
+      right: 90px;
       background: var(--cor-widget);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
@@ -477,9 +483,200 @@
       100% { transform: scale(1); }
     }
 
-    /* Efeito de pulso na bolinha */
     .bolinha-acessibilidade.pulsando {
       animation: pulse 2s infinite;
+    }
+
+    .botao-leitura-texto {
+      position: fixed;
+      bottom: 20px;
+      right: 160px;
+      width: 60px;
+      height: 60px;
+      background: var(--cor-bolinha);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: 0 4px 20px var(--cor-sombra);
+      transition: all 0.3s ease;
+      border: none;
+      color: white;
+      font-size: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+    }
+
+    .botao-leitura-texto.ativo {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .botao-leitura-texto:hover {
+      transform: scale(1.1);
+      background: var(--cor-bolinha-hover);
+    }
+
+    .botao-leitura-texto.ouvindo {
+      animation: pulsar 1.5s infinite;
+      background: #ff4757;
+    }
+
+    @keyframes pulsar {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+    }
+
+    .controles-leitor {
+      position: fixed;
+      bottom: 90px;
+      right: 160px;
+      background: var(--cor-widget);
+      border: 1px solid var(--cor-borda);
+      border-radius: 15px;
+      padding: 15px;
+      z-index: 1000;
+      box-shadow: 0 8px 30px var(--cor-sombra);
+      transform: scale(0.8);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      min-width: 180px;
+    }
+
+    .controles-leitor.aberto {
+      transform: scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .controles-leitor-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .controle-leitor-titulo {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--cor-widget-texto);
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    .controles-leitor-botoes {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .controle-leitor-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gradiente-primario);
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .controle-leitor-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .controle-leitor-btn:disabled {
+      background: var(--cor-secundaria);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .velocidade-leitor {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    .velocidade-leitor label {
+      font-size: 12px;
+      color: var(--cor-widget-texto);
+      white-space: nowrap;
+    }
+
+    .velocidade-leitor input {
+      flex: 1;
+      width: 100%;
+      height: 5px;
+      background: var(--cor-borda);
+      border-radius: 10px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .velocidade-leitor input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--cor-bolinha);
+      cursor: pointer;
+    }
+
+    .velocidade-leitor input::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--cor-bolinha);
+      cursor: pointer;
+      border: none;
+    }
+
+    .velocidade-valor {
+      font-size: 12px;
+      color: var(--cor-widget-texto);
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .vw-plugin-top-wrapper {
+      z-index: 9999 !important;
+    }
+    
+    div[vw] {
+      z-index: 9999 !important;
+    }
+    
+    div[vw] .vw-access-button {
+      background-color: var(--cor-bolinha) !important;
+      border-radius: 50% !important;
+      width: 50px !important;
+      height: 50px !important;
+      bottom: 20px !important;
+      left: 20px !important;
+      box-shadow: 0 4px 20px var(--cor-sombra) !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    div[vw] .vw-access-button:hover {
+      transform: scale(1.1) !important;
+      background-color: var(--cor-bolinha-hover) !important;
+    }
+    
+    div[vw] .vw-access-button img {
+      filter: brightness(0) invert(1) !important;
     }
 
     @media (max-width: 768px) {
@@ -495,18 +692,17 @@
         display: flex;
       }
 
-      /* Ajustes para a bolinha de acessibilidade em mobile */
       .bolinha-acessibilidade {
         width: 70px;
         height: 70px;
         bottom: 25px;
-        right: 25px;
+        right: 80px;
         font-size: 28px;
       }
 
       .menu-acessibilidade {
         bottom: 110px;
-        right: 25px;
+        right: 80px;
         min-width: 180px;
         padding: 15px;
       }
@@ -532,11 +728,29 @@
         font-size: 12px;
       }
 
-      /* Ajuste para alertas em mobile */
       .alert-messages {
         left: 10px;
         right: 10px;
         max-width: none;
+      }
+
+      .botao-leitura-texto {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        right: 140px;
+      }
+
+      .controles-leitor {
+        right: 140px;
+        bottom: 105px;
+      }
+
+      div[vw] .vw-access-button {
+        width: 45px !important;
+        height: 45px !important;
+        bottom: 20px !important;
+        left: 15px !important;
       }
     }
 
@@ -545,27 +759,54 @@
         width: 65px;
         height: 65px;
         bottom: 20px;
-        right: 20px;
+        right: 70px;
         font-size: 26px;
       }
 
       .menu-acessibilidade {
         bottom: 100px;
-        right: 20px;
+        right: 70px;
         min-width: 170px;
+      }
+
+      .botao-leitura-texto {
+        width: 45px;
+        height: 45px;
+        right: 125px;
+      }
+
+      .controles-leitor {
+        right: 125px;
       }
     }
 
-    /* Para telas muito pequenas */
     @media (max-width: 360px) {
       .menu-acessibilidade {
         right: 10px;
         left: 10px;
         min-width: auto;
       }
+
+      .bolinha-acessibilidade {
+        right: 60px;
+      }
+
+      .botao-leitura-texto {
+        right: 110px;
+      }
+
+      .controles-leitor {
+        right: 110px;
+      }
+
+      div[vw] .vw-access-button {
+        width: 40px !important;
+        height: 40px !important;
+        bottom: 20px !important;
+        left: 10px !important;
+      }
     }
 
-    /* Main Content Styles */
     main {
       max-width: 1200px;
       margin: 2rem auto;
@@ -602,7 +843,6 @@
       box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
     }
 
-    /* Barbearias Grid */
     .barbearias-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -777,7 +1017,6 @@
       line-height: 1.3;
     }
 
-    /* Modal de Confirmação */
     .modal {
       display: none;
       position: fixed;
@@ -835,7 +1074,6 @@
       color: white;
     }
 
-    /* Responsividade */
     @media (max-width: 768px) {
       .barbearias-grid {
         grid-template-columns: 1fr;
@@ -847,14 +1085,40 @@
       }
     }
   </style>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 </head>
 <body>
-  <!-- Bolinha de Acessibilidade -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+
   <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
     ♿
   </button>
 
-  <!-- Menu de Acessibilidade -->
+  <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
+    🔊
+  </button>
+
+  <div class="controles-leitor" id="controlesLeitor">
+    <div class="controles-leitor-conteudo">
+      <div class="controle-leitor-titulo">Leitor de Texto</div>
+      <div class="controles-leitor-botoes">
+        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">play</button>
+        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>pause</button>
+        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>parar</button>
+      </div>
+      <div class="velocidade-leitor">
+        <label for="velocidadeLeitor">Velocidade:</label>
+        <input type="range" id="velocidadeLeitor" min="0.5" max="2" step="0.1" value="1" oninput="atualizarVelocidade(this.value)">
+        <span class="velocidade-valor" id="velocidadeValor">1x</span>
+      </div>
+    </div>
+  </div>
+
   <div class="menu-acessibilidade" id="menuAcessibilidade">
     <div class="menu-conteudo">
       <div class="menu-titulo">Acessibilidade</div>
@@ -871,6 +1135,10 @@
           <span class="icone">A-</span>
           <span class="texto">Diminuir Fonte</span>
         </button>
+        <button class="botao-acessibilidade" onclick="ativarLeitorTexto()">
+          <span class="icone">🔊</span>
+          <span class="texto">Leitor</span>
+        </button>
         <button class="botao-acessibilidade" onclick="resetarAcessibilidade()">
           <span class="icone">↻</span>
           <span class="texto">Resetar</span>
@@ -879,7 +1147,6 @@
     </div>
   </div>
 
-  <!-- Menu Mobile -->
   <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
       <div class="logo">
@@ -894,7 +1161,6 @@
       <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
     </div>
     
-    <!-- Perfil clicável na parte inferior -->
     <a href="{% url 'perfilatalho' %}" class="mobile-profile" onclick="fecharMenuMobile()">
       <div class="mobile-profile-pic" id="mobileProfilePic" 
         {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
@@ -909,7 +1175,6 @@
     </a>
   </div>
 
-  <!-- Header (igual ao home.html) -->
   <nav>
     <div class="logo">
       <a href="{% url 'Homeatalho' %}" style="text-decoration: none; color: inherit;">
@@ -967,7 +1232,6 @@
           <h3 class="barbearia-nome">{{ barbearia.nome_barbearia }}</h3>
           <p class="barbearia-endereco">{{ barbearia.cidade }}, {{ barbearia.estado }}</p>
           
-          <!-- Endereço completo adicionado aqui -->
           <p class="barbearia-endereco-completo">
             {% if barbearia.endereco %}
               {{ barbearia.endereco }}
@@ -1000,7 +1264,6 @@
     </div>
   </main>
 
-  <!-- Modal de Confirmação -->
   <div class="modal" id="modalConfirmacao">
     <div class="modal-content">
       <div class="modal-icon">✓</div>
@@ -1013,23 +1276,304 @@
   </div>
 
   <script>
-    // Funções do Menu Mobile
+    let synth = window.speechSynthesis;
+    let utterance = null;
+    let isSpeaking = false;
+    let isPaused = false;
+    let speechRate = 1;
+    let selectedText = '';
+    let leitorAtivo = false;
+
+    window.addEventListener('DOMContentLoaded', function() {
+      if (typeof VLibras !== 'undefined') {
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+      }
+      document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
+      document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
+    });
+
+    document.addEventListener('mouseup', function() {
+      const textoSelecionado = window.getSelection().toString().trim();
+      
+      if (textoSelecionado && textoSelecionado.length > 0) {
+        selectedText = textoSelecionado;
+        
+        if (leitorAtivo) {
+          mostrarBotaoLeitura();
+        }
+        
+        highlightSelectedText();
+      } else {
+        esconderBotaoLeitura();
+        clearHighlight();
+      }
+    });
+
+    document.addEventListener('keyup', function(e) {
+      if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt') {
+        const textoSelecionado = window.getSelection().toString().trim();
+        
+        if (textoSelecionado && textoSelecionado.length > 0) {
+          selectedText = textoSelecionado;
+          
+          if (leitorAtivo) {
+            mostrarBotaoLeitura();
+          }
+          
+          highlightSelectedText();
+        } else {
+          esconderBotaoLeitura();
+          clearHighlight();
+        }
+      }
+    });
+
+    function ativarLeitorTexto() {
+      leitorAtivo = !leitorAtivo;
+      
+      if (leitorAtivo) {
+        mostrarBotaoLeitura();
+        document.getElementById('botaoLeituraTexto').title = "Leitor de texto ativado. Selecione texto para ler.";
+        
+        const textoSelecionado = window.getSelection().toString().trim();
+        if (textoSelecionado) {
+          selectedText = textoSelecionado;
+          mostrarBotaoLeitura();
+        }
+      } else {
+        esconderBotaoLeitura();
+        fecharControlesLeitor();
+        pararLeitura();
+        document.getElementById('botaoLeituraTexto').title = "Leitor de texto desativado";
+      }
+      
+      toggleMenuAcessibilidade();
+    }
+
+    function mostrarBotaoLeitura() {
+      const botao = document.getElementById('botaoLeituraTexto');
+      botao.classList.add('ativo');
+    }
+
+    function esconderBotaoLeitura() {
+      const botao = document.getElementById('botaoLeituraTexto');
+      botao.classList.remove('ativo');
+    }
+
+    function toggleControlesLeitor() {
+      const controles = document.getElementById('controlesLeitor');
+      const botao = document.getElementById('botaoLeituraTexto');
+      
+      controles.classList.toggle('aberto');
+      
+      const menuAcessibilidade = document.getElementById('menuAcessibilidade');
+      if (menuAcessibilidade.classList.contains('aberto')) {
+        menuAcessibilidade.classList.remove('aberto');
+      }
+      
+      if (controles.classList.contains('aberto')) {
+        setTimeout(() => {
+          document.addEventListener('click', fecharControlesAoClicarFora);
+        }, 100);
+      } else {
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
+    }
+
+    function fecharControlesAoClicarFora(event) {
+      const controles = document.getElementById('controlesLeitor');
+      const botao = document.getElementById('botaoLeituraTexto');
+      
+      if (!controles.contains(event.target) && !botao.contains(event.target)) {
+        controles.classList.remove('aberto');
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
+    }
+
+    function fecharControlesLeitor() {
+      const controles = document.getElementById('controlesLeitor');
+      controles.classList.remove('aberto');
+      document.removeEventListener('click', fecharControlesAoClicarFora);
+    }
+
+    function lerTextoSelecionado() {
+      if (!selectedText || selectedText.length === 0) {
+        const textoSelecionado = window.getSelection().toString().trim();
+        if (textoSelecionado) {
+          selectedText = textoSelecionado;
+        } else {
+          alert('Por favor, selecione algum texto para ler.');
+          return;
+        }
+      }
+      
+      if (isSpeaking && !isPaused) {
+        synth.cancel();
+      }
+      
+      utterance = new SpeechSynthesisUtterance(selectedText);
+      utterance.lang = 'pt-BR';
+      utterance.rate = speechRate;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      
+      utterance.onstart = function() {
+        isSpeaking = true;
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.add('ouvindo');
+      };
+      
+      utterance.onend = function() {
+        isSpeaking = false;
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+      };
+      
+      utterance.onerror = function(event) {
+        console.error('Erro no leitor de texto:', event);
+        isSpeaking = false;
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+        
+        if (event.error === 'not-allowed') {
+          alert('Permissão para usar síntese de voz não concedida. Por favor, verifique as configurações do seu navegador.');
+        }
+      };
+      
+      synth.speak(utterance);
+    }
+
+    function pausarLeitura() {
+      if (isSpeaking && !isPaused) {
+        synth.pause();
+        isPaused = true;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+      } else if (isSpeaking && isPaused) {
+        synth.resume();
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.add('ouvindo');
+      }
+    }
+
+    function pararLeitura() {
+      synth.cancel();
+      isSpeaking = false;
+      isPaused = false;
+      atualizarBotoesLeitor();
+      document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+    }
+
+    function atualizarVelocidade(valor) {
+      speechRate = parseFloat(valor);
+      document.getElementById('velocidadeValor').textContent = valor + 'x';
+      
+      if (utterance && isSpeaking) {
+        synth.cancel();
+        utterance.rate = speechRate;
+        synth.speak(utterance);
+      }
+    }
+
+    function atualizarBotoesLeitor() {
+      const btnPlay = document.getElementById('btnPlay');
+      const btnPause = document.getElementById('btnPause');
+      const btnStop = document.getElementById('btnStop');
+      
+      if (isSpeaking && !isPaused) {
+        btnPlay.disabled = true;
+        btnPause.disabled = false;
+        btnStop.disabled = false;
+        btnPause.title = "Pausar leitura";
+      } else if (isSpeaking && isPaused) {
+        btnPlay.disabled = true;
+        btnPause.disabled = false;
+        btnStop.disabled = false;
+        btnPause.title = "Continuar leitura";
+      } else {
+        btnPlay.disabled = false;
+        btnPause.disabled = true;
+        btnStop.disabled = true;
+        btnPause.title = "Pausar";
+      }
+    }
+
+    function highlightSelectedText() {
+      clearHighlight();
+      
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        const span = document.createElement('span');
+        span.style.backgroundColor = 'var(--cor-leitor-texto)';
+        span.style.border = '2px solid var(--cor-leitor-borda)';
+        span.style.borderRadius = '3px';
+        span.style.padding = '2px 0';
+        span.className = 'texto-selecionado-leitor';
+        
+        try {
+          range.surroundContents(span);
+        } catch(e) {
+          console.log('Não foi possível destacar o texto:', e);
+        }
+      }
+    }
+
+    function clearHighlight() {
+      const highlights = document.querySelectorAll('.texto-selecionado-leitor');
+      highlights.forEach(span => {
+        const parent = span.parentNode;
+        while (span.firstChild) {
+          parent.insertBefore(span.firstChild, span);
+        }
+        parent.removeChild(span);
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.altKey && e.key === 'l') {
+        e.preventDefault();
+        ativarLeitorTexto();
+      }
+      
+      if (e.ctrlKey && e.altKey && e.key === 's') {
+        e.preventDefault();
+        if (leitorAtivo && selectedText) {
+          lerTextoSelecionado();
+        }
+      }
+      
+      if (e.ctrlKey && e.altKey && e.key === 'p') {
+        e.preventDefault();
+        if (isSpeaking) {
+          pausarLeitura();
+        }
+      }
+      
+      if (e.ctrlKey && e.altKey && e.key === 't') {
+        e.preventDefault();
+        pararLeitura();
+      }
+    });
+
     function abrirMenuMobile() {
       document.getElementById('mobileMenu').classList.add('aberto');
-      document.body.style.overflow = 'hidden'; // Previne scroll quando menu está aberto
+      document.body.style.overflow = 'hidden';
     }
 
     function fecharMenuMobile() {
       document.getElementById('mobileMenu').classList.remove('aberto');
-      document.body.style.overflow = 'auto'; // Restaura scroll
+      document.body.style.overflow = 'auto';
     }
 
-    // Fecha o menu mobile ao clicar em um link
     document.querySelectorAll('.mobile-menu-links a').forEach(link => {
       link.addEventListener('click', fecharMenuMobile);
     });
 
-    // Search functionality
     document.getElementById('searchInput').addEventListener('input', function(e) {
       const searchTerm = e.target.value.toLowerCase();
       const cards = document.querySelectorAll('.barbearia-card');
@@ -1049,15 +1593,12 @@
       });
     });
 
-    // Variável global para controlar agendamentos ativos
     let usuarioPossuiAgendamento = false;
 
-    // Verificar se usuário já tem agendamento ativo ao carregar a página
     function verificarAgendamentoAtivoInicial() {
       fetch('{% url "verificar_agendamento_ativo" %}')
         .then(response => {
           if (response.status === 401) {
-            // Usuário não autenticado, redirecionar para login
             window.location.href = "{% url 'loginatalho' %}";
             return;
           }
@@ -1074,7 +1615,6 @@
         });
     }
 
-    // Atualizar visual dos botões de agendamento
     function atualizarBotoesAgendamento() {
       const botoesAgendar = document.querySelectorAll('.btn-agendar');
       
@@ -1085,7 +1625,6 @@
           botao.classList.add('btn-ja-agendado');
           botao.onclick = null;
           
-          // Adicionar aviso visual
           const card = botao.closest('.barbearia-card');
           let aviso = card.querySelector('.already-scheduled-notice');
           if (!aviso) {
@@ -1098,7 +1637,6 @@
       });
     }
 
-    // Check for existing appointments before allowing new ones
     function verificarAgendamento(barbeariaId, barbeariaNome) {
       if (usuarioPossuiAgendamento) {
         alert('já possui um agendamento ativo. Por favor, cancele ou conclua seu agendamento atual antes de fazer um novo.');
@@ -1163,11 +1701,9 @@
 
     function fecharModal() {
       document.getElementById('modalConfirmacao').style.display = 'none';
-      // Redirecionar para página de agendamentos após sucesso
       window.location.href = "{% url 'agendamento_clienteatalho' %}";
     }
 
-    // Profile photo update check
     function checkForProfilePhotoUpdates() {
       fetch('{% url "perfilatalho" %}')
         .then(response => response.text())
@@ -1183,7 +1719,6 @@
         });
     }
 
-    // Funções de acessibilidade
     function toggleMenuAcessibilidade() {
       const menu = document.getElementById('menuAcessibilidade');
       const bolinha = document.querySelector('.bolinha-acessibilidade');
@@ -1192,7 +1727,6 @@
       bolinha.classList.toggle('ativo');
       bolinha.classList.remove('pulsando');
       
-      // Fecha o menu se clicar fora dele
       if (menu.classList.contains('aberto')) {
         setTimeout(() => {
           document.addEventListener('click', fecharMenuAoClicarFora);
@@ -1232,7 +1766,6 @@
         }
       });
       
-      // Fecha o menu após a ação
       toggleMenuAcessibilidade();
     }
 
@@ -1282,10 +1815,13 @@
         if (data.status === 'success') {
           document.documentElement.setAttribute('data-tema', 'claro');
           document.documentElement.setAttribute('data-tamanho-fonte', 'medio');
+          leitorAtivo = false;
+          esconderBotaoLeitura();
+          fecharControlesLeitor();
+          pararLeitura();
         }
       });
       
-      // Fecha o menu após a ação
       toggleMenuAcessibilidade();
     }
 
@@ -1305,15 +1841,12 @@
       return cookieValue;
     }
 
-    // Verificar agendamento ativo ao carregar a página
     document.addEventListener('DOMContentLoaded', function() {
       verificarAgendamentoAtivoInicial();
     });
     
-    // Check for photo updates every 30 seconds
     setInterval(checkForProfilePhotoUpdates, 30000);
 
-    // Para de pulsar a bolinha depois de 10 segundos
     setTimeout(() => {
       const bolinha = document.querySelector('.bolinha-acessibilidade');
       if (bolinha) {
@@ -1330,4 +1863,5 @@
     }, 8000);
   </script>
 </body>
+
 </html>
