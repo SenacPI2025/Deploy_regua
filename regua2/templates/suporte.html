@@ -503,6 +503,7 @@
       text-decoration: none;
       font-weight: bold;
       font-size: var(--tamanho-h3);
+      transition: all 0.3s ease;
     }
 
     .contato-email a:hover {
@@ -892,6 +893,11 @@
       color: var(--cor-footer-texto);
     }
 
+    /* Estilo para email responsivo - CORREÇÃO DO PROBLEMA NO MOBILE */
+    .contato-email a {
+      transition: all 0.3s ease;
+    }
+
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -971,6 +977,21 @@
         gap: 1rem;
       }
 
+      /* CORREÇÃO PARA EMAIL NO MOBILE */
+      .contato-email {
+        padding: 1.5rem;
+        margin: 1rem 0;
+      }
+      
+      .contato-email a {
+        word-break: break-all;
+        display: inline-block;
+        max-width: 100%;
+        overflow-wrap: break-word;
+        font-size: var(--tamanho-p);
+        line-height: 1.4;
+      }
+
       div[vw] .vw-access-button {
         width: 45px !important;
         height: 45px !important;
@@ -1019,6 +1040,16 @@
       .controles-leitor {
         right: 125px;
         min-width: 170px;
+      }
+
+      /* CORREÇÃO ADICIONAL PARA EMAIL EM TELAS PEQUENAS */
+      .contato-email a {
+        font-size: calc(var(--tamanho-p) * 0.9);
+        word-break: break-word;
+      }
+      
+      .contato-section {
+        padding: 3rem 1rem;
       }
 
       div[vw] .vw-access-button {
