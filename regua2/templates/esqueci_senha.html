@@ -650,7 +650,7 @@
       text-align: center;
     }
 
-    /* Botão de Leitura de Texto */
+    /* Botão de Leitura de Texto - Estilo igual ao barbearias.html */
     .botao-leitura-texto {
       position: fixed;
       bottom: 20px;
@@ -705,7 +705,7 @@
       }
     }
 
-    /* Controles do Leitor de Texto */
+    /* Controles do Leitor de Texto - Estilo igual ao barbearias.html */
     .controles-leitor {
       position: fixed;
       bottom: 90px;
@@ -720,7 +720,7 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      min-width: 180px;
+      min-width: 200px;
     }
 
     .controles-leitor.aberto {
@@ -729,19 +729,43 @@
       visibility: visible;
     }
 
-    .controles-leitor-conteudo {
+    .controles-leitor-header {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--cor-borda);
     }
 
     .controle-leitor-titulo {
       font-size: 14px;
       font-weight: bold;
       color: var(--cor-texto);
-      margin-bottom: 5px;
       text-align: center;
+      flex: 1;
+    }
+
+    .controle-leitor-fechar {
+      background: none;
+      border: none;
+      color: var(--cor-texto);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 5px;
+      line-height: 1;
+      transition: color 0.3s ease;
+    }
+
+    .controle-leitor-fechar:hover {
+      color: #ff4757;
+    }
+
+    .controles-leitor-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
     }
 
     .controles-leitor-botoes {
@@ -755,7 +779,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--cor-primaria);
+      background: var(--gradiente-primario);
       border: none;
       color: white;
       cursor: pointer;
@@ -767,7 +791,6 @@
     }
 
     .controle-leitor-btn:hover {
-      background: var(--cor-primaria-escura);
       transform: scale(1.1);
     }
 
@@ -936,6 +959,7 @@
       .controles-leitor {
         right: 130px;
         bottom: 80px;
+        min-width: 180px;
       }
 
       /* VLibras Mobile */
@@ -996,6 +1020,7 @@
 
       .controles-leitor {
         right: 115px;
+        min-width: 170px;
       }
 
       /* VLibras Mobile Pequeno */
@@ -1022,6 +1047,7 @@
 
       .controles-leitor {
         right: 100px;
+        min-width: 160px;
       }
     }
   </style>
@@ -1044,15 +1070,18 @@
     ♿
   </button>
 
-  <!-- Botão de Leitura de Texto -->
+  <!-- Botão de Leitura de Texto - Igual ao barbearias.html -->
   <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
     🔊
   </button>
 
-  <!-- Controles do Leitor de Texto -->
+  <!-- Controles do Leitor de Texto - Igual ao barbearias.html -->
   <div class="controles-leitor" id="controlesLeitor">
-    <div class="controles-leitor-conteudo">
+    <div class="controles-leitor-header">
       <div class="controle-leitor-titulo">Leitor de Texto</div>
+      <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
+    </div>
+    <div class="controles-leitor-conteudo">
       <div class="controles-leitor-botoes">
         <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
         <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
@@ -1979,34 +2008,20 @@
       botao.classList.remove('ativo');
     }
     
+    // Função toggleControlesLeitor atualizada igual ao barbearias.html
     function toggleControlesLeitor() {
       const controles = document.getElementById('controlesLeitor');
-      const botao = document.getElementById('botaoLeituraTexto');
       
-      controles.classList.toggle('aberto');
+      // Abre os controles apenas (remove o toggle)
+      controles.classList.add('aberto');
       
       const menuAcessibilidade = document.getElementById('menuAcessibilidade');
       if (menuAcessibilidade.classList.contains('aberto')) {
         menuAcessibilidade.classList.remove('aberto');
       }
       
-      if (controles.classList.contains('aberto')) {
-        setTimeout(() => {
-          document.addEventListener('click', fecharControlesAoClicarFora);
-        }, 100);
-      } else {
-        document.removeEventListener('click', fecharControlesAoClicarFora);
-      }
-    }
-    
-    function fecharControlesAoClicarFora(event) {
-      const controles = document.getElementById('controlesLeitor');
-      const botao = document.getElementById('botaoLeituraTexto');
-      
-      if (!controles.contains(event.target) && !botao.contains(event.target)) {
-        controles.classList.remove('aberto');
-        document.removeEventListener('click', fecharControlesAoClicarFora);
-      }
+      // Remove o evento de fechar ao clicar fora
+      document.removeEventListener('click', fecharControlesAoClicarFora);
     }
     
     function fecharControlesLeitor() {
