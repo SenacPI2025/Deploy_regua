@@ -4,10 +4,11 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from regua2.views import pag_principal, Home, perfil, barbearia, cadastro, login, limpar_sessao_sucesso,buscar_meu_horario_estimado, logout, atualizar_perfil, deletar_conta, upload_foto_perfil, barbeiro_pag, cadastro_barbearia, minha_barbearia, perfil_barb, criar_agendamento, buscar_horarios, meus_agendamentos, cancelar_agendamento
-from regua2.views import agendamentos_barbeiro, esqueci_senha, alterar_tema, alterar_tamanho_fonte, resetar_acessibilidade,  confirmar_agendamento, cancelar_agendamento_barbeiro, verificar_status_barbearia, salvar_horario_estimado, verificar_agendamento_ativo, cancelar_agendamento_barbeiro
+from regua2.views import agendamentos_barbeiro, suporte, esqueci_senha, alterar_tema, alterar_tamanho_fonte, resetar_acessibilidade,  confirmar_agendamento, cancelar_agendamento_barbeiro, verificar_status_barbearia, salvar_horario_estimado, verificar_agendamento_ativo, cancelar_agendamento_barbeiro
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', pag_principal, name='pag_inicial_atalho'),
+    path('suporte', suporte, name='suporteatalho'),
     path('esqueci_senha', esqueci_senha, name='esquecisenhaatalho'),
     path('Home/', Home, name='Homeatalho'),
     path('perfil/', perfil, name='perfilatalho'),
