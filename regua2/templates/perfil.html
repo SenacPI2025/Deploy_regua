@@ -613,7 +613,7 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
-            min-width: 200px;
+            min-width: 180px;
         }
 
         .controles-leitor.aberto {
@@ -622,43 +622,19 @@
             visibility: visible;
         }
 
-        .controles-leitor-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--cor-borda);
-        }
-
-        .controle-leitor-titulo {
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--cor-widget-texto);
-            text-align: center;
-            flex: 1;
-        }
-
-        .controle-leitor-fechar {
-            background: none;
-            border: none;
-            color: var(--cor-widget-texto);
-            font-size: 20px;
-            cursor: pointer;
-            padding: 0 5px;
-            line-height: 1;
-            transition: color 0.3s ease;
-        }
-
-        .controle-leitor-fechar:hover {
-            color: #ff4757;
-        }
-
         .controles-leitor-conteudo {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 10px;
+        }
+
+        .controle-leitor-titulo {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--cor-texto);
+            margin-bottom: 5px;
+            text-align: center;
         }
 
         .controles-leitor-botoes {
@@ -672,7 +648,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: var(--gradiente-primario);
+            background: var(--cor-bolinha);
             border: none;
             color: white;
             cursor: pointer;
@@ -684,6 +660,7 @@
         }
 
         .controle-leitor-btn:hover {
+            background: var(--cor-bolinha-hover);
             transform: scale(1.1);
         }
 
@@ -703,7 +680,7 @@
 
         .velocidade-leitor label {
             font-size: 12px;
-            color: var(--cor-widget-texto);
+            color: var(--cor-texto);
             white-space: nowrap;
         }
 
@@ -737,7 +714,7 @@
 
         .velocidade-valor {
             font-size: 12px;
-            color: var(--cor-widget-texto);
+            color: var(--cor-texto);
             min-width: 30px;
             text-align: center;
         }
@@ -1025,7 +1002,7 @@
     </div>
 
     <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
-        +
+        ♿
     </button>
 
     <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
@@ -1033,11 +1010,8 @@
     </button>
 
     <div class="controles-leitor" id="controlesLeitor">
-        <div class="controles-leitor-header">
-            <div class="controle-leitor-titulo">Leitor de Texto</div>
-            <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
-        </div>
         <div class="controles-leitor-conteudo">
+            <div class="controle-leitor-titulo">Leitor de Texto</div>
             <div class="controles-leitor-botoes">
                 <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
                 <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
@@ -1095,11 +1069,11 @@
         
         <a href="{% url 'perfilatalho' %}" class="mobile-profile" onclick="fecharMenuMobile()">
             <div class="mobile-profile-pic" id="mobileProfilePic" 
-                {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
+                {% if usuario.foto_perfil %}style="background-image: url('{{ usuario.foto_perfil }}')"{% endif %}>
             </div>
             <div class="mobile-profile-name">
-                {% if user.first_name %}
-                    {{ user.first_name }} {{ user.last_name }}
+                {% if usuario.nome %}
+                    {{ usuario.nome }} {{ usuario.sobrenome }}
                 {% else %}
                     Meu Perfil
                 {% endif %}
@@ -1120,12 +1094,13 @@
                 <div class="dropdown-content">
                     <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
                     <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
-                    <a href="{% url 'suporteatalho' %}">Suporte</a>
                     <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
                 </div>
             </div>
             <a href="{% url 'perfilatalho' %}" class="profile-icon">
-                <div class="profile-pic-nav" id="profile-pic-nav"></div>
+                <div class="profile-pic-nav" id="profile-pic-nav"
+                     {% if usuario.foto_perfil %}style="background-image: url('{{ usuario.foto_perfil }}')"{% endif %}>
+                </div>
             </a>
         </div>
 
@@ -1135,7 +1110,9 @@
     <div class="profile-container">
         <div class="profile-header">
             <h1>PERFIL</h1>
-            <div class="profile-pic" id="profile-pic"></div>
+            <div class="profile-pic" id="profile-pic"
+                 {% if usuario.foto_perfil %}style="background-image: url('{{ usuario.foto_perfil }}')"{% endif %}>
+            </div>
             <button class="btn-change-photo" id="change-photo">ALTERAR FOTO</button>
             <input type="file" id="photo-input" accept="image/*" style="display: none;">
         </div>
@@ -1145,17 +1122,17 @@
 
             <div class="form-group">
                 <label for="nome">Nome</label>
-                <input type="text" id="nome" name="nome" placeholder="" maxlength="50">
+                <input type="text" id="nome" name="nome" placeholder="" maxlength="50" value="{{ usuario.nome|default:'' }}">
             </div>
 
             <div class="form-group">
                 <label for="sobrenome">Sobrenome</label>
-                <input type="text" id="sobrenome" name="sobrenome" placeholder="" maxlength="50">
+                <input type="text" id="sobrenome" name="sobrenome" placeholder="" maxlength="50" value="{{ usuario.sobrenome|default:'' }}">
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="" maxlength="100">
+                <input type="email" id="email" name="email" placeholder="" maxlength="100" value="{{ usuario.email|default:'' }}">
             </div>
 
             <div class="form-group">
@@ -1165,12 +1142,12 @@
 
             <div class="form-group">
                 <label for="telefone">Telefone <span class="optional">(opcional)</span></label>
-                <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" maxlength="15">
+                <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" maxlength="15" value="{{ usuario.telefone|default:'' }}">
             </div>
 
             <div class="form-group">
                 <label for="cpf">CPF <span class="optional">(opcional)</span></label>
-                <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" maxlength="14">
+                <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" maxlength="14" value="{{ usuario.cpf|default:'' }}">
             </div>
 
             <div class="form-actions">
@@ -1207,6 +1184,15 @@
             }
             document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
             document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
+            
+            // Verificar se o usuário tem foto de perfil
+            const fotoPerfil = '{{ usuario.foto_perfil|safe }}';
+            if (fotoPerfil && fotoPerfil !== 'None') {
+                document.querySelectorAll('.profile-pic, .profile-pic-nav, .mobile-profile-pic').forEach(pic => {
+                    pic.style.backgroundImage = `url('${fotoPerfil}')`;
+                    pic.classList.add('has-photo');
+                });
+            }
         });
 
         document.addEventListener('mouseup', function() {
@@ -1281,16 +1267,30 @@
             const controles = document.getElementById('controlesLeitor');
             const botao = document.getElementById('botaoLeituraTexto');
             
-            // Abre os controles apenas (remove o toggle) - IGUAL barbearias.html
-            controles.classList.add('aberto');
+            controles.classList.toggle('aberto');
             
             const menuAcessibilidade = document.getElementById('menuAcessibilidade');
             if (menuAcessibilidade.classList.contains('aberto')) {
                 menuAcessibilidade.classList.remove('aberto');
             }
             
-            // Remove o evento de fechar ao clicar fora
-            document.removeEventListener('click', fecharControlesAoClicarFora);
+            if (controles.classList.contains('aberto')) {
+                setTimeout(() => {
+                    document.addEventListener('click', fecharControlesAoClicarFora);
+                }, 100);
+            } else {
+                document.removeEventListener('click', fecharControlesAoClicarFora);
+            }
+        }
+
+        function fecharControlesAoClicarFora(event) {
+            const controles = document.getElementById('controlesLeitor');
+            const botao = document.getElementById('botaoLeituraTexto');
+            
+            if (!controles.contains(event.target) && !botao.contains(event.target)) {
+                controles.classList.remove('aberto');
+                document.removeEventListener('click', fecharControlesAoClicarFora);
+            }
         }
 
         function fecharControlesLeitor() {
@@ -1315,6 +1315,7 @@
             }
             
             utterance = new SpeechSynthesisUtterance(selectedText);
+            
             utterance.lang = 'pt-BR';
             utterance.rate = speechRate;
             utterance.pitch = 1;
@@ -1610,9 +1611,31 @@
 
         document.getElementById('photo-input').addEventListener('change', function (e) {
             if (e.target.files && e.target.files[0]) {
+                const file = e.target.files[0];
+                
+                // Validação do arquivo
+                const maxSize = 5 * 1024 * 1024; // 5MB
+                const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+                
+                if (file.size > maxSize) {
+                    alert('A imagem deve ter no máximo 5MB.');
+                    return;
+                }
+                
+                if (!allowedTypes.includes(file.type)) {
+                    alert('Por favor, selecione uma imagem no formato JPG, PNG ou GIF.');
+                    return;
+                }
+                
                 const formData = new FormData();
-                formData.append('foto_perfil', e.target.files[0]);
+                formData.append('foto_perfil', file);
                 formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+                // Mostrar indicador de carregamento
+                const changePhotoBtn = document.getElementById('change-photo');
+                const originalText = changePhotoBtn.textContent;
+                changePhotoBtn.textContent = 'ENVIANDO...';
+                changePhotoBtn.disabled = true;
 
                 fetch('{% url "upload_foto_perfil" %}', {
                     method: 'POST',
@@ -1621,23 +1644,30 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'success') {
+                            // Atualiza todas as fotos de perfil na página
                             document.querySelectorAll('.profile-pic, .profile-pic-nav, .mobile-profile-pic').forEach(pic => {
-                                pic.style.backgroundImage = `url(${data.foto_url})`;
+                                pic.style.backgroundImage = `url('${data.foto_url}')`;
                                 pic.classList.add('has-photo');
                             });
+                            alert('Foto de perfil atualizada com sucesso!');
                         } else {
                             alert('Erro ao enviar foto: ' + data.message);
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('Erro ao enviar foto');
+                        alert('Erro ao enviar foto. Por favor, tente novamente.');
+                    })
+                    .finally(() => {
+                        // Restaura o botão
+                        changePhotoBtn.textContent = originalText;
+                        changePhotoBtn.disabled = false;
                     });
             }
         });
 
         document.getElementById('cancel-btn').addEventListener('click', function () {
-            window.location.href = "{% url 'barbeiroatalho' %}";
+            window.location.href = "{% url 'Homeatalho' %}";
         });
 
         document.getElementById('profileForm').addEventListener('submit', function (e) {
@@ -1659,6 +1689,8 @@
                 .then(response => {
                     if (response.redirected) {
                         window.location.href = response.url;
+                    } else if (response.ok) {
+                        window.location.href = "{% url 'Homeatalho' %}";
                     }
                 })
                 .catch(error => {
@@ -1697,28 +1729,9 @@
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('nome').value = '{{ usuario.nome|escapejs }}';
-            document.getElementById('sobrenome').value = '{{ usuario.sobrenome|escapejs }}';
-            document.getElementById('email').value = '{{ usuario.email|escapejs }}';
+            // Os valores já estão preenchidos diretamente nos inputs via Django template
+            // Removemos a prévia configuração de foto pois já foi feita no load inicial
             
-            const telefone = '{{ usuario.telefone|escapejs }}';
-            const cpf = '{{ usuario.cpf|escapejs }}';
-            
-            if (telefone) {
-                document.getElementById('telefone').value = formatarTelefone(telefone);
-            }
-            
-            if (cpf) {
-                document.getElementById('cpf').value = formatarCPF(cpf);
-            }
-
-            {% if usuario.foto_perfil %}
-            document.querySelectorAll('.profile-pic, .profile-pic-nav, .mobile-profile-pic').forEach(pic => {
-                pic.style.backgroundImage = 'url({{ usuario.foto_perfil.url }})';
-                pic.classList.add('has-photo');
-            });
-            {% endif %}
-
             document.getElementById('delete-account').addEventListener('click', function () {
                 document.getElementById('confirmation-dialog').style.display = 'flex';
             });
