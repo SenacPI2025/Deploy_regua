@@ -16,6 +16,12 @@ from .models import Barbearia, Usuario,Agendamento
 def pag_principal(request):
     return render(request, 'principal.html')
 
+def suporte(request):
+    return render(request, 'suporte.html')
+
+def suporte_barb(request):
+    return render(request, 'suporte_barb.html')
+
 def Home(request):
     if not request.session.get('logado'):
         return redirect('loginatalho')
@@ -904,6 +910,8 @@ def esqueci_senha(request):
             }, status=500)
     
     return render(request, 'esqueci_senha.html')
+
+
 
 
 
