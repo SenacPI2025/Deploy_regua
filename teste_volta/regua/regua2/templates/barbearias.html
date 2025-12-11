@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-tema="{{ config_acessibilidade.tema|default:'claro' }}" data-tamanho-fonte="{{ config_acessibilidade.tamanho_fonte|default:'medio' }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Barbearias | Regua</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Variáveis CSS para temas */
+    :root[data-tema="claro"] {
+      --cor-fundo: #ffffff;
+      --cor-texto: #333333;
+      --cor-primaria: #007bff;
+      --cor-secundaria: #6c757d;
+      --cor-borda: #dee2e6;
+      --cor-navbar: #ffffff;
+      --cor-navbar-texto: #000000;
+      --cor-card: rgba(0, 0, 20, 0.7);
+      --cor-overlay: rgba(0, 0, 0, 0.7);
+      --cor-dropdown: #ffffff;
+      --cor-dropdown-texto: #000000;
+      --cor-dropdown-hover: #f1f1f1;
+      --cor-widget: #ffffff;
+      --cor-widget-texto: #333333;
+      --cor-widget-hover: #f8f9fa;
+      --gradiente-primario: linear-gradient(135deg, #2aa745, #34ce57);
+      --cor-bolinha: #2aa745;
+      --cor-bolinha-hover: #228c3a;
+      --cor-sombra: rgba(0, 0, 0, 0.1);
+      --cor-leitor-texto: rgba(29, 185, 84, 0.1);
+      --cor-leitor-borda: #1DB954;
+    }
+
+    :root[data-tema="escuro"] {
+      --cor-fundo: #1a1a1a;
+      --cor-texto: #ffffff;
+      --cor-primaria: #0d6efd;
+      --cor-secundaria: #6c757d;
+      --cor-borda: #495057;
+      --cor-navbar: #2d2d2d;
+      --cor-navbar-texto: #ffffff;
+      --cor-card: rgba(30, 30, 60, 0.8);
+      --cor-overlay: rgba(0, 0, 0, 0.8);
+      --cor-dropdown: #2d2d2d;
+      --cor-dropdown-texto: #ffffff;
+      --cor-dropdown-hover: #3d3d3d;
+      --cor-widget: #2d2d2d;
+      --cor-widget-texto: #ffffff;
+      --cor-widget-hover: #3d3d3d;
+      --gradiente-primario: linear-gradient(135deg, #2aa745, #28a745);
+      --cor-bolinha: #2aa745;
+      --cor-bolinha-hover: #34ce57;
+      --cor-sombra: rgba(0, 0, 0, 0.3);
+      --cor-leitor-texto: rgba(29, 185, 84, 0.2);
+      --cor-leitor-borda: #1DB954;
+    }
+
+    /* Tamanhos de fonte */
+    :root[data-tamanho-fonte="pequeno"] {
+      --tamanho-fonte: 12px;
+      --tamanho-h1: 1.5rem;
+      --tamanho-h2: 1.3rem;
+      --tamanho-h3: 1.1rem;
+      --tamanho-p: 0.9rem;
+    }
+
+    :root[data-tamanho-fonte="medio"] {
+      --tamanho-fonte: 16px;
+      --tamanho-h1: 2rem;
+      --tamanho-h2: 1.5rem;
+      --tamanho-h3: 1.2rem;
+      --tamanho-p: 0.95rem;
+    }
+
+    :root[data-tamanho-fonte="grande"] {
+      --tamanho-fonte: 20px;
+      --tamanho-h1: 2.5rem;
+      --tamanho-h2: 2rem;
+      --tamanho-h3: 1.5rem;
+      --tamanho-p: 1.1rem;
+    }
+
+    :root[data-tamanho-fonte="muito_grande"] {
+      --tamanho-fonte: 24px;
+      --tamanho-h1: 3rem;
+      --tamanho-h2: 2.5rem;
+      --tamanho-h3: 1.8rem;
+      --tamanho-p: 1.3rem;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--cor-fundo);
+      color: var(--cor-texto);
+      font-size: var(--tamanho-fonte);
+      transition: all 0.3s ease;
+      user-select: text;
+    }
+
+    ::selection {
+      background-color: var(--cor-leitor-texto);
+      color: var(--cor-texto);
+    }
+
+    nav {
+      background-color: var(--cor-navbar);
+      color: var(--cor-navbar-texto);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: var(--tamanho-h2);
+      color: var(--cor-navbar-texto);
+      font-weight: bold;
+      font-family: 'Unbounded', sans-serif;
+    }
+
+    .R {
+      color: #1DB954;
+    }
+
+    .alert-messages {
+        position: fixed;
+        top: 70px;
+        left: 20px;
+        z-index: 1000;
+        max-width: 400px;
+    }
+
+    .alert {
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        animation: fadeIn 0.5s;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .alert-warning {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+
+    .alert-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-out {
+        animation: fadeOut 0.5s forwards;
+    }
+
+    @keyframes fadeOut {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-20px); }
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--cor-navbar-texto);
+      text-decoration: none;
+      font-weight: bold;
+      font-family: 'Unbounded', sans-serif;
+    }
+
+    .menu-icon {
+      font-size: var(--tamanho-h2);
+      display: none;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--cor-navbar-texto);
+    }
+
+    .dropbtn {
+      background-color: transparent;
+      color: var(--cor-navbar-texto);
+      padding: 0.5rem 1rem;
+      font-size: var(--tamanho-p);
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: 'Unbounded', sans-serif;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: var(--cor-dropdown);
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: var(--cor-dropdown-texto);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+      font-size: var(--tamanho-p);
+      font-family: 'Unbounded', sans-serif;
+    }
+
+    .dropdown-content a:hover {
+      background-color: var(--cor-dropdown-hover);
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .profile-icon {
+      margin-left: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .profile-pic-nav {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #ddd;
+      position: relative;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-pic-nav:hover {
+      transform: scale(1.1);
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--cor-navbar);
+      z-index: 999;
+      flex-direction: column;
+      padding: 2rem;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-menu.aberto {
+      transform: translateX(0);
+    }
+
+    .mobile-menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--cor-borda);
+    }
+
+    .mobile-menu-close {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: var(--cor-navbar-texto);
+      cursor: pointer;
+    }
+
+    .mobile-menu-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .mobile-menu-links a {
+      color: var(--cor-navbar-texto);
+      text-decoration: none;
+      font-size: var(--tamanho-h3);
+      padding: 1rem;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+      font-family: 'Unbounded', sans-serif;
+    }
+
+    .mobile-menu-links a:hover {
+      background-color: var(--cor-dropdown-hover);
+    }
+
+    .mobile-profile {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-top: 1px solid var(--cor-borda);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .mobile-profile:hover {
+      background-color: var(--cor-dropdown-hover);
+    }
+
+    .mobile-profile-pic {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #ddd;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-profile:hover .mobile-profile-pic {
+      transform: scale(1.1);
+    }
+
+    .mobile-profile-name {
+      color: var(--cor-navbar-texto);
+      font-size: var(--tamanho-p);
+      font-family: 'Unbounded', sans-serif;
+    }
+
+    .bolinha-acessibilidade {
+      position: fixed;
+      bottom: 20px;
+      right: 90px;
+      width: 60px;
+      height: 60px;
+      background: var(--cor-bolinha);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: 0 4px 20px var(--cor-sombra);
+      transition: all 0.3s ease;
+      border: none;
+      color: white;
+      font-size: 24px;
+    }
+
+    .bolinha-acessibilidade:hover {
+      transform: scale(1.1);
+      background: var(--cor-bolinha-hover);
+      box-shadow: 0 6px 25px var(--cor-sombra);
+    }
+
+    .bolinha-acessibilidade.ativo {
+      transform: rotate(45deg);
+      background: var(--cor-bolinha-hover);
+    }
+
+    .menu-acessibilidade {
+      position: fixed;
+      bottom: 90px;
+      right: 90px;
+      background: var(--cor-widget);
+      border: 1px solid var(--cor-borda);
+      border-radius: 15px;
+      padding: 20px;
+      z-index: 1000;
+      box-shadow: 0 8px 30px var(--cor-sombra);
+      backdrop-filter: blur(10px);
+      transform: scale(0.8);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      min-width: 200px;
+    }
+
+    .menu-acessibilidade.aberto {
+      transform: scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .menu-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .menu-titulo {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--cor-widget-texto);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .menu-botoes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+
+    .botao-acessibilidade {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 8px;
+      background: var(--gradiente-primario);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      min-height: 60px;
+      gap: 5px;
+      box-shadow: 0 4px 10px rgba(42, 167, 69, 0.3);
+    }
+
+    .botao-acessibilidade:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(42, 167, 69, 0.4);
+    }
+
+    .botao-acessibilidade .icone {
+      font-size: 18px;
+    }
+
+    .botao-acessibilidade .texto {
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .bolinha-acessibilidade.pulsando {
+      animation: pulse 2s infinite;
+    }
+
+    .botao-leitura-texto {
+      position: fixed;
+      bottom: 20px;
+      right: 160px;
+      width: 60px;
+      height: 60px;
+      background: var(--cor-bolinha);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: 0 4px 20px var(--cor-sombra);
+      transition: all 0.3s ease;
+      border: none;
+      color: white;
+      font-size: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+    }
+
+    .botao-leitura-texto.ativo {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .botao-leitura-texto:hover {
+      transform: scale(1.1);
+      background: var(--cor-bolinha-hover);
+    }
+
+    .botao-leitura-texto.ouvindo {
+      animation: pulsar 1.5s infinite;
+      background: #ff4757;
+    }
+
+    @keyframes pulsar {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
+      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+    }
+
+    .controles-leitor {
+      position: fixed;
+      bottom: 90px;
+      right: 160px;
+      background: var(--cor-widget);
+      border: 1px solid var(--cor-borda);
+      border-radius: 15px;
+      padding: 15px;
+      z-index: 1000;
+      box-shadow: 0 8px 30px var(--cor-sombra);
+      transform: scale(0.8);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      min-width: 180px;
+    }
+
+    .controles-leitor.aberto {
+      transform: scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .controles-leitor-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .controle-leitor-titulo {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--cor-widget-texto);
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    .controles-leitor-botoes {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .controle-leitor-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gradiente-primario);
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .controle-leitor-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .controle-leitor-btn:disabled {
+      background: var(--cor-secundaria);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .velocidade-leitor {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    .velocidade-leitor label {
+      font-size: 12px;
+      color: var(--cor-widget-texto);
+      white-space: nowrap;
+    }
+
+    .velocidade-leitor input {
+      flex: 1;
+      width: 100%;
+      height: 5px;
+      background: var(--cor-borda);
+      border-radius: 10px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .velocidade-leitor input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--cor-bolinha);
+      cursor: pointer;
+    }
+
+    .velocidade-leitor input::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--cor-bolinha);
+      cursor: pointer;
+      border: none;
+    }
+
+    .velocidade-valor {
+      font-size: 12px;
+      color: var(--cor-widget-texto);
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .vw-plugin-top-wrapper {
+      z-index: 9999 !important;
+    }
+    
+    div[vw] {
+      z-index: 9999 !important;
+    }
+    
+    div[vw] .vw-access-button {
+      background-color: var(--cor-bolinha) !important;
+      border-radius: 50% !important;
+      width: 50px !important;
+      height: 50px !important;
+      bottom: 20px !important;
+      left: 20px !important;
+      box-shadow: 0 4px 20px var(--cor-sombra) !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    div[vw] .vw-access-button:hover {
+      transform: scale(1.1) !important;
+      background-color: var(--cor-bolinha-hover) !important;
+    }
+    
+    div[vw] .vw-access-button img {
+      filter: brightness(0) invert(1) !important;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .menu-icon {
+        display: block;
+      }
+
+      .mobile-menu {
+        display: flex;
+      }
+
+      .bolinha-acessibilidade {
+        width: 70px;
+        height: 70px;
+        bottom: 25px;
+        right: 80px;
+        font-size: 28px;
+      }
+
+      .menu-acessibilidade {
+        bottom: 110px;
+        right: 80px;
+        min-width: 180px;
+        padding: 15px;
+      }
+
+      .menu-botoes {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .botao-acessibilidade {
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 12px 15px;
+        min-height: 50px;
+        gap: 12px;
+      }
+
+      .botao-acessibilidade .icone {
+        font-size: 20px;
+      }
+
+      .botao-acessibilidade .texto {
+        font-size: 12px;
+      }
+
+      .alert-messages {
+        left: 10px;
+        right: 10px;
+        max-width: none;
+      }
+
+      .botao-leitura-texto {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        right: 140px;
+      }
+
+      .controles-leitor {
+        right: 140px;
+        bottom: 105px;
+      }
+
+      div[vw] .vw-access-button {
+        width: 45px !important;
+        height: 45px !important;
+        bottom: 20px !important;
+        left: 15px !important;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .bolinha-acessibilidade {
+        width: 65px;
+        height: 65px;
+        bottom: 20px;
+        right: 70px;
+        font-size: 26px;
+      }
+
+      .menu-acessibilidade {
+        bottom: 100px;
+        right: 70px;
+        min-width: 170px;
+      }
+
+      .botao-leitura-texto {
+        width: 45px;
+        height: 45px;
+        right: 125px;
+      }
+
+      .controles-leitor {
+        right: 125px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .menu-acessibilidade {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+      }
+
+      .bolinha-acessibilidade {
+        right: 60px;
+      }
+
+      .botao-leitura-texto {
+        right: 110px;
+      }
+
+      .controles-leitor {
+        right: 110px;
+      }
+
+      div[vw] .vw-access-button {
+        width: 40px !important;
+        height: 40px !important;
+        bottom: 20px !important;
+        left: 10px !important;
+      }
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .page-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-family: 'Unbounded', cursive;
+      letter-spacing: 1px;
+      font-size: var(--tamanho-h1);
+    }
+
+    .search-container {
+      max-width: 500px;
+      margin: 0 auto 2rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--cor-borda);
+      border-radius: 8px;
+      font-size: var(--tamanho-p);
+      transition: all 0.2s;
+      background-color: var(--cor-fundo);
+      color: var(--cor-texto);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+    }
+
+    .barbearias-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .barbearia-card {
+      background: var(--cor-widget);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px var(--cor-sombra);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid var(--cor-borda);
+      position: relative;
+      height: 430px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .barbearia-card.fechado {
+      opacity: 0.85;
+      filter: grayscale(30%);
+    }
+
+    .barbearia-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px var(--cor-sombra);
+    }
+
+    .barbearia-status {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 2;
+    }
+
+    .status-aberto {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    .status-fechado {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    .barbearia-logo {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--cor-borda);
+    }
+
+    .barbearia-info {
+      padding: 1.25rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .barbearia-nome {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--cor-texto);
+    }
+
+    .barbearia-endereco {
+      color: var(--cor-secundaria);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .barbearia-endereco-completo {
+      color: var(--cor-secundaria);
+      font-size: 0.8rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .barbearia-endereco-completo::before {
+      content: "📍";
+      font-size: 0.8rem;
+      margin-top: 0.1rem;
+    }
+
+    .barbearia-telefone {
+      color: var(--cor-secundaria);
+      font-size: 0.875rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .barbearia-telefone::before {
+      content: "📞";
+      font-size: 0.875rem;
+    }
+
+    .barbearia-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+
+    .btn {
+      padding: 0.625rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      font-size: 0.9rem;
+    }
+
+    .btn-agendar {
+      background-color: #22c55e;
+      color: white;
+    }
+
+    .btn-agendar:hover {
+      background-color: #16a34a;
+    }
+
+    .btn-indisponivel {
+      background-color: var(--cor-widget-hover);
+      color: var(--cor-secundaria);
+      cursor: not-allowed;
+    }
+
+    .btn-ja-agendado {
+      background-color: #3b82f6;
+      color: white;
+      cursor: not-allowed;
+    }
+
+    .closed-notice {
+      background-color: #fffbeb;
+      color: #92400e;
+      padding: 0.6rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      text-align: center;
+      margin-top: 0.5rem;
+      border: 1px solid #fde68a;
+      line-height: 1.3;
+    }
+
+    .already-scheduled-notice {
+      background-color: #dbeafe;
+      color: #1e40af;
+      padding: 0.6rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      text-align: center;
+      margin-top: 0.5rem;
+      border: 1px solid #93c5fd;
+      line-height: 1.3;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: var(--cor-widget);
+      color: var(--cor-texto);
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 4px 20px var(--cor-sombra);
+    }
+
+    .modal-icon {
+      font-size: 3rem;
+      color: #22c55e;
+      margin-bottom: 1rem;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-message {
+      color: var(--cor-secundaria);
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background-color: #22c55e;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .barbearias-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .barbearia-card {
+        height: auto;
+        min-height: 390px;
+      }
+    }
+  </style>
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+</head>
+<body>
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+
+  <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
+    ♿
+  </button>
+
+  <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
+    🔊
+  </button>
+
+  <div class="controles-leitor" id="controlesLeitor">
+    <div class="controles-leitor-conteudo">
+      <div class="controle-leitor-titulo">Leitor de Texto</div>
+      <div class="controles-leitor-botoes">
+        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
+        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
+        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
+      </div>
+      <div class="velocidade-leitor">
+        <label for="velocidadeLeitor">Velocidade:</label>
+        <input type="range" id="velocidadeLeitor" min="0.5" max="2" step="0.1" value="1" oninput="atualizarVelocidade(this.value)">
+        <span class="velocidade-valor" id="velocidadeValor">1x</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-acessibilidade" id="menuAcessibilidade">
+    <div class="menu-conteudo">
+      <div class="menu-titulo">Acessibilidade</div>
+      <div class="menu-botoes">
+        <button class="botao-acessibilidade" onclick="alternarTema()">
+          <span class="icone">🌓</span>
+          <span class="texto">Tema</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="aumentarFonte()">
+          <span class="icone">A+</span>
+          <span class="texto">Aumentar Fonte</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="diminuirFonte()">
+          <span class="icone">A-</span>
+          <span class="texto">Diminuir Fonte</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="ativarLeitorTexto()">
+          <span class="icone">🔊</span>
+          <span class="texto">Leitor</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="resetarAcessibilidade()">
+          <span class="icone">↻</span>
+          <span class="texto">Resetar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+      <div class="logo">
+        <span class="R">R</span>egua
+      </div>
+      <button class="mobile-menu-close" onclick="fecharMenuMobile()">×</button>
+    </div>
+    
+    <div class="mobile-menu-links">
+      <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
+      <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
+      <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
+    </div>
+    
+    <a href="{% url 'perfilatalho' %}" class="mobile-profile" onclick="fecharMenuMobile()">
+      <div class="mobile-profile-pic" id="mobileProfilePic" 
+        {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
+      </div>
+      <div class="mobile-profile-name">
+        {% if user.first_name %}
+          {{ user.first_name }} {{ user.last_name }}
+        {% else %}
+          Meu Perfil
+        {% endif %}
+      </div>
+    </a>
+  </div>
+
+  <nav>
+    <div class="logo">
+      <a href="{% url 'Homeatalho' %}" style="text-decoration: none; color: inherit;">
+        <span class="R">R</span>egua
+      </a>
+    </div>
+
+    {% if messages %}
+    <div class="alert-messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class="nav-links" id="navLinks">
+        <div class="dropdown">
+            <button class="dropbtn">☰ Menu</button>
+            <div class="dropdown-content">
+                <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
+                <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
+                <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
+            </div>
+        </div>
+        <a href="{% url 'perfilatalho' %}" class="profile-icon">
+            <div class="profile-pic-nav" id="profile-pic-nav" 
+                {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
+            </div>
+        </a>
+    </div>
+    
+    <button class="menu-icon" id="menuIcon" onclick="abrirMenuMobile()">☰</button>
+  </nav>
+
+  <main>
+    <h1 class="page-title">Barbearias Disponíveis</h1>
+
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Pesquisar barbearia..." id="searchInput">
+    </div>
+
+    <div class="barbearias-grid">
+      {% for barbearia in barbearias %}
+      <div class="barbearia-card {% if barbearia.status_barbearia == 'fechado' %}fechado{% endif %}">
+        <div class="barbearia-status {% if barbearia.status_barbearia == 'aberto' %}status-aberto{% else %}status-fechado{% endif %}">
+          {% if barbearia.status_barbearia == 'aberto' %}ABERTO{% else %}FECHADO{% endif %}
+        </div>
+        
+        <img src="{% if barbearia.foto_logo %}{{ barbearia.foto_logo.url }}{% else %}https://via.placeholder.com/400x160?text=Barbearia{% endif %}" 
+             alt="{{ barbearia.nome_barbearia }}" class="barbearia-logo">
+        
+        <div class="barbearia-info">
+          <h3 class="barbearia-nome">{{ barbearia.nome_barbearia }}</h3>
+          <p class="barbearia-endereco">{{ barbearia.cidade }}, {{ barbearia.estado }}</p>
+          
+          <p class="barbearia-endereco-completo">
+            {% if barbearia.endereco %}
+              {{ barbearia.endereco }}
+            {% else %}
+              Endereço não informado
+            {% endif %}
+          </p>
+          
+          <p class="barbearia-telefone">
+            {{ barbearia.telefone_comercial|default:"Telefone não informado" }}
+          </p>
+          
+          <div class="barbearia-actions">
+            {% if barbearia.status_barbearia == 'aberto' %}
+              <button class="btn btn-agendar" onclick="verificarAgendamento('{{ barbearia.id }}', '{{ barbearia.nome_barbearia }}')">
+                Entrar na Fila
+              </button>
+            {% else %}
+              <button class="btn btn-indisponivel" disabled>
+                Indisponível no momento
+              </button>
+              <div class="closed-notice">
+                Esta barbearia está fechada. Tente novamente mais tarde.
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <div class="modal" id="modalConfirmacao">
+    <div class="modal-content">
+      <div class="modal-icon">✓</div>
+      <h2 class="modal-title">Entrou na fila com sucesso</h2>
+      <p class="modal-message" id="modalMessage"></p>
+      <div class="modal-actions">
+        <button class="modal-btn" onclick="fecharModal()">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let synth = window.speechSynthesis;
+    let utterance = null;
+    let isSpeaking = false;
+    let isPaused = false;
+    let speechRate = 1;
+    let selectedText = '';
+    let leitorAtivo = false;
+
+    window.addEventListener('DOMContentLoaded', function() {
+      if (typeof VLibras !== 'undefined') {
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+      }
+      document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
+      document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
+    });
+
+    document.addEventListener('mouseup', function() {
+      const textoSelecionado = window.getSelection().toString().trim();
+      
+      if (textoSelecionado && textoSelecionado.length > 0) {
+        selectedText = textoSelecionado;
+        
+        if (leitorAtivo) {
+          mostrarBotaoLeitura();
+        }
+        
+        highlightSelectedText();
+      } else {
+        esconderBotaoLeitura();
+        clearHighlight();
+      }
+    });
+
+    document.addEventListener('keyup', function(e) {
+      if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt') {
+        const textoSelecionado = window.getSelection().toString().trim();
+        
+        if (textoSelecionado && textoSelecionado.length > 0) {
+          selectedText = textoSelecionado;
+          
+          if (leitorAtivo) {
+            mostrarBotaoLeitura();
+          }
+          
+          highlightSelectedText();
+        } else {
+          esconderBotaoLeitura();
+          clearHighlight();
+        }
+      }
+    });
+
+    function ativarLeitorTexto() {
+      leitorAtivo = !leitorAtivo;
+      
+      if (leitorAtivo) {
+        mostrarBotaoLeitura();
+        document.getElementById('botaoLeituraTexto').title = "Leitor de texto ativado. Selecione texto para ler.";
+        
+        const textoSelecionado = window.getSelection().toString().trim();
+        if (textoSelecionado) {
+          selectedText = textoSelecionado;
+          mostrarBotaoLeitura();
+        }
+      } else {
+        esconderBotaoLeitura();
+        fecharControlesLeitor();
+        pararLeitura();
+        document.getElementById('botaoLeituraTexto').title = "Leitor de texto desativado";
+      }
+      
+      toggleMenuAcessibilidade();
+    }
+
+    function mostrarBotaoLeitura() {
+      const botao = document.getElementById('botaoLeituraTexto');
+      botao.classList.add('ativo');
+    }
+
+    function esconderBotaoLeitura() {
+      const botao = document.getElementById('botaoLeituraTexto');
+      botao.classList.remove('ativo');
+    }
+
+    function toggleControlesLeitor() {
+      const controles = document.getElementById('controlesLeitor');
+      const botao = document.getElementById('botaoLeituraTexto');
+      
+      controles.classList.toggle('aberto');
+      
+      const menuAcessibilidade = document.getElementById('menuAcessibilidade');
+      if (menuAcessibilidade.classList.contains('aberto')) {
+        menuAcessibilidade.classList.remove('aberto');
+      }
+      
+      if (controles.classList.contains('aberto')) {
+        setTimeout(() => {
+          document.addEventListener('click', fecharControlesAoClicarFora);
+        }, 100);
+      } else {
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
+    }
+
+    function fecharControlesAoClicarFora(event) {
+      const controles = document.getElementById('controlesLeitor');
+      const botao = document.getElementById('botaoLeituraTexto');
+      
+      if (!controles.contains(event.target) && !botao.contains(event.target)) {
+        controles.classList.remove('aberto');
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
+    }
+
+    function fecharControlesLeitor() {
+      const controles = document.getElementById('controlesLeitor');
+      controles.classList.remove('aberto');
+      document.removeEventListener('click', fecharControlesAoClicarFora);
+    }
+
+    function lerTextoSelecionado() {
+      if (!selectedText || selectedText.length === 0) {
+        const textoSelecionado = window.getSelection().toString().trim();
+        if (textoSelecionado) {
+          selectedText = textoSelecionado;
+        } else {
+          alert('Por favor, selecione algum texto para ler.');
+          return;
+        }
+      }
+      
+      if (isSpeaking && !isPaused) {
+        synth.cancel();
+      }
+      
+      utterance = new SpeechSynthesisUtterance(selectedText);
+      utterance.lang = 'pt-BR';
+      utterance.rate = speechRate;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      
+      utterance.onstart = function() {
+        isSpeaking = true;
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.add('ouvindo');
+      };
+      
+      utterance.onend = function() {
+        isSpeaking = false;
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+      };
+      
+      utterance.onerror = function(event) {
+        console.error('Erro no leitor de texto:', event);
+        isSpeaking = false;
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+        
+        if (event.error === 'not-allowed') {
+          alert('Permissão para usar síntese de voz não concedida. Por favor, verifique as configurações do seu navegador.');
+        }
+      };
+      
+      synth.speak(utterance);
+    }
+
+    function pausarLeitura() {
+      if (isSpeaking && !isPaused) {
+        synth.pause();
+        isPaused = true;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+      } else if (isSpeaking && isPaused) {
+        synth.resume();
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.add('ouvindo');
+      }
+    }
+
+    function pararLeitura() {
+      synth.cancel();
+      isSpeaking = false;
+      isPaused = false;
+      atualizarBotoesLeitor();
+      document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+    }
+
+    function atualizarVelocidade(valor) {
+      speechRate = parseFloat(valor);
+      document.getElementById('velocidadeValor').textContent = valor + 'x';
+      
+      if (utterance && isSpeaking) {
+        synth.cancel();
+        utterance.rate = speechRate;
+        synth.speak(utterance);
+      }
+    }
+
+    function atualizarBotoesLeitor() {
+      const btnPlay = document.getElementById('btnPlay');
+      const btnPause = document.getElementById('btnPause');
+      const btnStop = document.getElementById('btnStop');
+      
+      if (isSpeaking && !isPaused) {
+        btnPlay.disabled = true;
+        btnPause.disabled = false;
+        btnStop.disabled = false;
+        btnPause.title = "Pausar leitura";
+      } else if (isSpeaking && isPaused) {
+        btnPlay.disabled = true;
+        btnPause.disabled = false;
+        btnStop.disabled = false;
+        btnPause.title = "Continuar leitura";
+      } else {
+        btnPlay.disabled = false;
+        btnPause.disabled = true;
+        btnStop.disabled = true;
+        btnPause.title = "Pausar";
+      }
+    }
+
+    function highlightSelectedText() {
+      clearHighlight();
+      
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        const span = document.createElement('span');
+        span.style.backgroundColor = 'var(--cor-leitor-texto)';
+        span.style.border = '2px solid var(--cor-leitor-borda)';
+        span.style.borderRadius = '3px';
+        span.style.padding = '2px 0';
+        span.className = 'texto-selecionado-leitor';
+        
+        try {
+          range.surroundContents(span);
+        } catch(e) {
+          console.log('Não foi possível destacar o texto:', e);
+        }
+      }
+    }
+
+    function clearHighlight() {
+      const highlights = document.querySelectorAll('.texto-selecionado-leitor');
+      highlights.forEach(span => {
+        const parent = span.parentNode;
+        while (span.firstChild) {
+          parent.insertBefore(span.firstChild, span);
+        }
+        parent.removeChild(span);
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.altKey && e.key === 'l') {
+        e.preventDefault();
+        ativarLeitorTexto();
+      }
+      
+      if (e.ctrlKey && e.altKey && e.key === 's') {
+        e.preventDefault();
+        if (leitorAtivo && selectedText) {
+          lerTextoSelecionado();
+        }
+      }
+      
+      if (e.ctrlKey && e.altKey && e.key === 'p') {
+        e.preventDefault();
+        if (isSpeaking) {
+          pausarLeitura();
+        }
+      }
+      
+      if (e.ctrlKey && e.altKey && e.key === 't') {
+        e.preventDefault();
+        pararLeitura();
+      }
+    });
+
+    function abrirMenuMobile() {
+      document.getElementById('mobileMenu').classList.add('aberto');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function fecharMenuMobile() {
+      document.getElementById('mobileMenu').classList.remove('aberto');
+      document.body.style.overflow = 'auto';
+    }
+
+    document.querySelectorAll('.mobile-menu-links a').forEach(link => {
+      link.addEventListener('click', fecharMenuMobile);
+    });
+
+    document.getElementById('searchInput').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const cards = document.querySelectorAll('.barbearia-card');
+      
+      cards.forEach(card => {
+        const nome = card.querySelector('.barbearia-nome').textContent.toLowerCase();
+        const endereco = card.querySelector('.barbearia-endereco').textContent.toLowerCase();
+        const enderecoCompleto = card.querySelector('.barbearia-endereco-completo').textContent.toLowerCase();
+        const telefone = card.querySelector('.barbearia-telefone').textContent.toLowerCase();
+        
+        if (nome.includes(searchTerm) || endereco.includes(searchTerm) || 
+            enderecoCompleto.includes(searchTerm) || telefone.includes(searchTerm)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    let usuarioPossuiAgendamento = false;
+
+    function verificarAgendamentoAtivoInicial() {
+      fetch('{% url "verificar_agendamento_ativo" %}')
+        .then(response => {
+          if (response.status === 401) {
+            window.location.href = "{% url 'loginatalho' %}";
+            return;
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data && data.hasOwnProperty('possui_agendamento')) {
+            usuarioPossuiAgendamento = data.possui_agendamento;
+            atualizarBotoesAgendamento();
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao verificar agendamento ativo:', error);
+        });
+    }
+
+    function atualizarBotoesAgendamento() {
+      const botoesAgendar = document.querySelectorAll('.btn-agendar');
+      
+      botoesAgendar.forEach(botao => {
+        if (usuarioPossuiAgendamento) {
+          botao.textContent = 'Já na fila';
+          botao.classList.remove('btn-agendar');
+          botao.classList.add('btn-ja-agendado');
+          botao.onclick = null;
+          
+          const card = botao.closest('.barbearia-card');
+          let aviso = card.querySelector('.already-scheduled-notice');
+          if (!aviso) {
+            aviso = document.createElement('div');
+            aviso.className = 'already-scheduled-notice';
+            aviso.textContent = 'Você já está em uma fila de espera.';
+            botao.parentNode.appendChild(aviso);
+          }
+        }
+      });
+    }
+
+    function verificarAgendamento(barbeariaId, barbeariaNome) {
+      if (usuarioPossuiAgendamento) {
+        alert('já possui um agendamento ativo. Por favor, cancele ou conclua seu agendamento atual antes de fazer um novo.');
+        return;
+      }
+
+      fetch('{% url "verificar_agendamento_ativo" %}')
+        .then(response => {
+          if (response.status === 401) {
+            window.location.href = "{% url 'loginatalho' %}";
+            return;
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (data.possui_agendamento) {
+            usuarioPossuiAgendamento = true;
+            atualizarBotoesAgendamento();
+            alert('Você já possui um agendamento ativo. Por favor, cancele ou conclua seu agendamento atual antes de fazer um novo.');
+          } else {
+            abrirModalAgendamento(barbeariaId, barbeariaNome);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Erro ao verificar agendamentos existentes');
+        });
+    }
+
+    function abrirModalAgendamento(barbeariaId, barbeariaNome) {
+      const dados = {
+        barbearia_id: barbeariaId,
+        csrfmiddlewaretoken: '{{ csrf_token }}'
+      };
+      
+      fetch('{% url "criar_agendamento" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify(dados)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          usuarioPossuiAgendamento = true;
+          atualizarBotoesAgendamento();
+          
+          document.getElementById('modalMessage').textContent = 
+            `Seu agendamento na ${barbeariaNome} foi confirmado com sucesso!`;
+          document.getElementById('modalConfirmacao').style.display = 'flex';
+        } else {
+          alert('Erro ao agendar: ' + (data.message || 'Tente novamente mais tarde'));
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Erro ao realizar agendamento');
+      });
+    }
+
+    function fecharModal() {
+      document.getElementById('modalConfirmacao').style.display = 'none';
+      window.location.href = "{% url 'agendamento_clienteatalho' %}";
+    }
+
+    function checkForProfilePhotoUpdates() {
+      fetch('{% url "perfilatalho" %}')
+        .then(response => response.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const newPhotoUrl = doc.querySelector('.profile-pic')?.style.backgroundImage;
+          
+          if (newPhotoUrl) {
+            document.getElementById('profile-pic-nav').style.backgroundImage = newPhotoUrl;
+            document.getElementById('mobileProfilePic').style.backgroundImage = newPhotoUrl;
+          }
+        });
+    }
+
+    function toggleMenuAcessibilidade() {
+      const menu = document.getElementById('menuAcessibilidade');
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
+      
+      menu.classList.toggle('aberto');
+      bolinha.classList.toggle('ativo');
+      bolinha.classList.remove('pulsando');
+      
+      if (menu.classList.contains('aberto')) {
+        setTimeout(() => {
+          document.addEventListener('click', fecharMenuAoClicarFora);
+        }, 100);
+      } else {
+        document.removeEventListener('click', fecharMenuAoClicarFora);
+      }
+    }
+
+    function fecharMenuAoClicarFora(event) {
+      const menu = document.getElementById('menuAcessibilidade');
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
+      
+      if (!menu.contains(event.target) && !bolinha.contains(event.target)) {
+        menu.classList.remove('aberto');
+        bolinha.classList.remove('ativo');
+        document.removeEventListener('click', fecharMenuAoClicarFora);
+      }
+    }
+
+    function alternarTema() {
+      const temaAtual = document.documentElement.getAttribute('data-tema');
+      const novoTema = temaAtual === 'claro' ? 'escuro' : 'claro';
+      
+      fetch('{% url "alterar_tema" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({tema: novoTema})
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          document.documentElement.setAttribute('data-tema', novoTema);
+        }
+      });
+      
+      toggleMenuAcessibilidade();
+    }
+
+    function aumentarFonte() {
+      const tamanhos = ['pequeno', 'medio', 'grande', 'muito_grande'];
+      const atual = document.documentElement.getAttribute('data-tamanho-fonte');
+      const indexAtual = tamanhos.indexOf(atual);
+      const novoIndex = Math.min(indexAtual + 1, tamanhos.length - 1);
+      
+      if (indexAtual !== novoIndex) {
+        alterarTamanhoFonte(tamanhos[novoIndex]);
+      }
+    }
+
+    function diminuirFonte() {
+      const tamanhos = ['pequeno', 'medio', 'grande', 'muito_grande'];
+      const atual = document.documentElement.getAttribute('data-tamanho-fonte');
+      const indexAtual = tamanhos.indexOf(atual);
+      const novoIndex = Math.max(indexAtual - 1, 0);
+      
+      if (indexAtual !== novoIndex) {
+        alterarTamanhoFonte(tamanhos[novoIndex]);
+      }
+    }
+
+    function alterarTamanhoFonte(tamanho) {
+      fetch('{% url "alterar_tamanho_fonte" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({tamanho: tamanho})
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          document.documentElement.setAttribute('data-tamanho-fonte', tamanho);
+        }
+      });
+    }
+
+    function resetarAcessibilidade() {
+      fetch('{% url "resetar_acessibilidade" %}')
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          document.documentElement.setAttribute('data-tema', 'claro');
+          document.documentElement.setAttribute('data-tamanho-fonte', 'medio');
+          leitorAtivo = false;
+          esconderBotaoLeitura();
+          fecharControlesLeitor();
+          pararLeitura();
+        }
+      });
+      
+      toggleMenuAcessibilidade();
+    }
+
+    function getCSRFToken() {
+      const name = 'csrftoken';
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      verificarAgendamentoAtivoInicial();
+    });
+    
+    setInterval(checkForProfilePhotoUpdates, 30000);
+
+    setTimeout(() => {
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
+      if (bolinha) {
+        bolinha.classList.remove('pulsando');
+      }
+    }, 10000);
+
+    setTimeout(() => {
+      const alerts = document.querySelectorAll('.alert');
+      alerts.forEach(alert => {
+          alert.classList.add('fade-out');
+          setTimeout(() => alert.remove(), 500);
+      });
+    }, 8000);
+  </script>
+</body>
+</html>

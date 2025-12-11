@@ -1,0 +1,2338 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-tema="{{ config_acessibilidade.tema|default:'claro' }}" data-tamanho-fonte="{{ config_acessibilidade.tamanho_fonte|default:'medio' }}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Redefinir Senha | Regua</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Unbounded', sans-serif;
+    }
+
+    /* Variáveis CSS para temas */
+    :root[data-tema="claro"] {
+      --cor-primaria: #1DB954;
+      --cor-primaria-escura: #17a745;
+      --cor-secundaria: #2d3748;
+      --cor-fundo: #ffffff;
+      --cor-fundo-secundario: #f8f9fa;
+      --cor-texto: #2d3748;
+      --cor-texto-claro: #718096;
+      --cor-borda: #e2e8f0;
+      --cor-navbar: #ffffff;
+      --cor-navbar-texto: #2d3748;
+      --cor-card: #ffffff;
+      --cor-overlay: rgba(0, 0, 0, 0.7);
+      --cor-sombra: rgba(0, 0, 0, 0.1);
+      --cor-bolinha: #1DB954;
+      --cor-bolinha-hover: #17a745;
+      --cor-dropdown: #ffffff;
+      --cor-dropdown-texto: #2d3748;
+      --cor-dropdown-hover: #f1f1f1;
+      --gradiente-primario: linear-gradient(135deg, #2aa745, #34ce57);
+      --cor-widget: #ffffff;
+      --cor-widget-texto: #333333;
+      --cor-widget-hover: #f8f9fa;
+      --cor-footer-texto: #ffffff;
+      --cor-footer-links: #e2e8f0;
+      --cor-footer-links-hover: #1DB954;
+      --cor-leitor-texto: rgba(29, 185, 84, 0.1);
+      --cor-leitor-borda: #1DB954;
+      --cor-erro: #ef4444;
+      --cor-erro-bg: #fef2f2;
+      --cor-erro-border: #fecaca;
+      --cor-sucesso: #10b981;
+      --cor-sombra-card: rgba(0, 0, 0, 0.05);
+      --cor-warning: #f59e0b;
+      --cor-warning-bg: #fffbeb;
+      --cor-warning-border: #fde68a;
+    }
+
+    :root[data-tema="escuro"] {
+      --cor-primaria: #1DB954;
+      --cor-primaria-escura: #17a745;
+      --cor-secundaria: #e2e8f0;
+      --cor-fundo: #1a202c;
+      --cor-fundo-secundario: #2d3748;
+      --cor-texto: #e2e8f0;
+      --cor-texto-claro: #a0aec0;
+      --cor-borda: #4a5568;
+      --cor-navbar: #2d3748;
+      --cor-navbar-texto: #e2e8f0;
+      --cor-card: #2d3748;
+      --cor-overlay: rgba(0, 0, 0, 0.8);
+      --cor-sombra: rgba(0, 0, 0, 0.3);
+      --cor-bolinha: #1DB954;
+      --cor-bolinha-hover: #17a745;
+      --cor-dropdown: #2d3748;
+      --cor-dropdown-texto: #e2e8f0;
+      --cor-dropdown-hover: #4a5568;
+      --gradiente-primario: linear-gradient(135deg, #2aa745, #28a745);
+      --cor-widget: #2d2d2d;
+      --cor-widget-texto: #ffffff;
+      --cor-widget-hover: #3d3d3d;
+      --cor-footer-texto: #000000;
+      --cor-footer-links: #000000;
+      --cor-footer-links-hover: #1DB954;
+      --cor-leitor-texto: rgba(29, 185, 84, 0.2);
+      --cor-leitor-borda: #1DB954;
+      --cor-erro: #f87171;
+      --cor-erro-bg: #450a0a;
+      --cor-erro-border: #7f1d1d;
+      --cor-sucesso: #10b981;
+      --cor-sombra-card: rgba(0, 0, 0, 0.3);
+      --cor-warning: #fbbf24;
+      --cor-warning-bg: #78350f;
+      --cor-warning-border: #92400e;
+    }
+
+    /* Tamanhos de fonte */
+    :root[data-tamanho-fonte="pequeno"] {
+      --tamanho-fonte: 12px;
+      --tamanho-h1: 1.5rem;
+      --tamanho-h2: 1.3rem;
+      --tamanho-h3: 1.1rem;
+      --tamanho-p: 0.9rem;
+    }
+
+    :root[data-tamanho-fonte="medio"] {
+      --tamanho-fonte: 16px;
+      --tamanho-h1: 2rem;
+      --tamanho-h2: 1.5rem;
+      --tamanho-h3: 1.3rem;
+      --tamanho-p: 1rem;
+    }
+
+    :root[data-tamanho-fonte="grande"] {
+      --tamanho-fonte: 20px;
+      --tamanho-h1: 2.5rem;
+      --tamanho-h2: 2rem;
+      --tamanho-h3: 1.6rem;
+      --tamanho-p: 1.1rem;
+    }
+
+    :root[data-tamanho-fonte="muito_grande"] {
+      --tamanho-fonte: 24px;
+      --tamanho-h1: 3rem;
+      --tamanho-h2: 2.5rem;
+      --tamanho-h3: 2rem;
+      --tamanho-p: 1.3rem;
+    }
+
+    body {
+      background-color: var(--cor-fundo);
+      color: var(--cor-texto);
+      font-size: var(--tamanho-fonte);
+      line-height: 1.6;
+      transition: all 0.3s ease;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Estilo para texto selecionado */
+    ::selection {
+      background-color: var(--cor-leitor-texto);
+      color: var(--cor-texto);
+    }
+
+    header {
+      border-bottom: 1px solid var(--cor-borda);
+      text-align: center;
+      padding: 20px;
+      background-color: var(--cor-card);
+      box-shadow: 0 2px 10px var(--cor-sombra);
+    }
+
+    header h1 {
+      font-size: var(--tamanho-h1);
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    header span {
+      color: var(--cor-primaria);
+    }
+
+    main {
+      padding: 40px 20px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-card {
+      background: var(--cor-card);
+      border-radius: 20px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 10px 30px var(--cor-sombra-card);
+      border: 1px solid var(--cor-borda);
+      transition: all 0.3s ease;
+    }
+
+    .login-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px var(--cor-sombra-card);
+    }
+
+    .title {
+      font-size: var(--tamanho-h2);
+      letter-spacing: 8px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-align: center;
+      color: var(--cor-texto);
+    }
+
+    .subtitle {
+      font-size: var(--tamanho-p);
+      color: var(--cor-texto-claro);
+      margin-bottom: 30px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 16px 20px 16px 50px;
+      border: 1px solid var(--cor-borda);
+      border-radius: 12px;
+      font-size: var(--tamanho-p);
+      outline: none;
+      background-color: var(--cor-card);
+      color: var(--cor-texto);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .input-group input:focus {
+      border-color: var(--cor-primaria);
+      box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.2);
+    }
+
+    .input-group i {
+      position: absolute;
+      top: 50%;
+      left: 18px;
+      transform: translateY(-50%);
+      color: var(--cor-texto-claro);
+      transition: color 0.3s ease;
+    }
+
+    .input-group input:focus + i {
+      color: var(--cor-primaria);
+    }
+
+    /* Estilos específicos para o código de verificação */
+    .codigo-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 30px 0;
+    }
+
+    .codigo-input {
+      width: 50px;
+      height: 60px;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border: 2px solid var(--cor-borda);
+      border-radius: 8px;
+      background-color: var(--cor-card);
+      color: var(--cor-texto);
+      transition: all 0.3s ease;
+    }
+
+    .codigo-input:focus {
+      border-color: var(--cor-primaria);
+      box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.2);
+      transform: scale(1.05);
+    }
+
+    .codigo-input.filled {
+      border-color: var(--cor-primaria);
+      background-color: rgba(29, 185, 84, 0.1);
+    }
+
+    .codigo-gerado {
+      text-align: center;
+      margin: 20px 0;
+      padding: 15px;
+      background-color: var(--cor-fundo-secundario);
+      border-radius: 10px;
+      border: 1px solid var(--cor-borda);
+    }
+
+    .codigo-display {
+      font-size: 2rem;
+      font-weight: bold;
+      letter-spacing: 5px;
+      color: var(--cor-primaria);
+      margin: 10px 0;
+      padding: 15px;
+      background-color: var(--cor-card);
+      border-radius: 10px;
+      border: 2px dashed var(--cor-primaria);
+    }
+
+    .instrucoes {
+      background-color: var(--cor-fundo-secundario);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      border-left: 4px solid var(--cor-primaria);
+    }
+
+    .instrucoes h4 {
+      color: var(--cor-primaria);
+      margin-bottom: 10px;
+      font-size: var(--tamanho-h3);
+    }
+
+    .instrucoes ul {
+      padding-left: 20px;
+    }
+
+    .instrucoes li {
+      margin-bottom: 8px;
+      color: var(--cor-texto-claro);
+    }
+
+    /* Botões */
+    .confirm-btn-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .confirm-btn {
+      background: var(--gradiente-primario);
+      color: white;
+      padding: 16px 40px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: var(--tamanho-p);
+      box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+      width: 100%;
+      letter-spacing: 0.5px;
+    }
+
+    .confirm-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+    }
+
+    .confirm-btn:active {
+      transform: translateY(0);
+    }
+
+    .confirm-btn:disabled {
+      background: var(--cor-texto-claro);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .secondary-btn {
+      background: transparent;
+      color: var(--cor-primaria);
+      padding: 16px 40px;
+      border-radius: 12px;
+      border: 2px solid var(--cor-primaria);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: var(--tamanho-p);
+      width: 100%;
+      letter-spacing: 0.5px;
+      margin-top: 10px;
+    }
+
+    .secondary-btn:hover {
+      background-color: rgba(29, 185, 84, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Mensagens */
+    .mensagem-erro {
+      color: var(--cor-erro);
+      margin-bottom: 20px;
+      font-weight: 600;
+      animation: fadeIn 0.5s;
+      background-color: var(--cor-erro-bg);
+      border: 1px solid var(--cor-erro-border);
+      padding: 12px 16px;
+      border-radius: 8px;
+      width: 100%;
+      text-align: center;
+      font-size: var(--tamanho-p);
+    }
+
+    .mensagem-sucesso {
+      color: var(--cor-sucesso);
+      margin-bottom: 20px;
+      font-weight: 600;
+      animation: fadeIn 0.5s;
+      background-color: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 12px 16px;
+      border-radius: 8px;
+      width: 100%;
+      text-align: center;
+      font-size: var(--tamanho-p);
+    }
+
+    .mensagem-info {
+      color: var(--cor-texto);
+      margin-bottom: 20px;
+      font-weight: 500;
+      background-color: var(--cor-fundo-secundario);
+      border: 1px solid var(--cor-borda);
+      padding: 12px 16px;
+      border-radius: 8px;
+      width: 100%;
+      text-align: center;
+      font-size: var(--tamanho-p);
+    }
+
+    .mensagem-warning {
+      color: var(--cor-warning);
+      margin-bottom: 20px;
+      font-weight: 600;
+      animation: fadeIn 0.5s;
+      background-color: var(--cor-warning-bg);
+      border: 1px solid var(--cor-warning-border);
+      padding: 12px 16px;
+      border-radius: 8px;
+      width: 100%;
+      text-align: center;
+      font-size: var(--tamanho-p);
+    }
+
+    .demo-aviso {
+      background-color: rgba(29, 185, 84, 0.1);
+      border: 2px dashed var(--cor-primaria);
+      color: var(--cor-primaria);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      text-align: center;
+      font-weight: 600;
+      font-size: var(--tamanho-p);
+    }
+
+    .demo-aviso i {
+      margin-right: 8px;
+      font-size: 1.2rem;
+    }
+
+    .login-text {
+      margin: 24px 0;
+      font-size: var(--tamanho-p);
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .login-text a {
+      color: var(--cor-primaria);
+      text-decoration: none;
+      margin-left: 4px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .login-text a:hover {
+      text-decoration: underline;
+      color: var(--cor-primaria-escura);
+    }
+
+    /* Contador */
+    .contador {
+      text-align: center;
+      margin: 15px 0;
+      color: var(--cor-texto-claro);
+      font-size: var(--tamanho-p);
+    }
+
+    .contador-tempo {
+      font-weight: bold;
+      color: var(--cor-primaria);
+    }
+
+    /* Etapas */
+    .etapas {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .etapas::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      left: 10%;
+      right: 10%;
+      height: 2px;
+      background-color: var(--cor-borda);
+      z-index: 1;
+    }
+
+    .etapa {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 2;
+      position: relative;
+    }
+
+    .etapa-numero {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: var(--cor-borda);
+      color: var(--cor-texto);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-bottom: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .etapa.ativa .etapa-numero {
+      background-color: var(--cor-primaria);
+      color: white;
+    }
+
+    .etapa.concluida .etapa-numero {
+      background-color: var(--cor-sucesso);
+      color: white;
+    }
+
+    .etapa-texto {
+      font-size: 0.8rem;
+      color: var(--cor-texto-claro);
+      text-align: center;
+    }
+
+    .etapa.ativa .etapa-texto {
+      color: var(--cor-primaria);
+      font-weight: 600;
+    }
+
+    /* Esconder elementos */
+    .hidden {
+      display: none !important;
+    }
+
+    /* Bolinha de Acessibilidade */
+    .bolinha-acessibilidade {
+      position: fixed;
+      bottom: 20px;
+      right: 90px;
+      width: 60px;
+      height: 60px;
+      background: var(--cor-bolinha);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: 0 4px 20px var(--cor-sombra);
+      transition: all 0.3s ease;
+      border: none;
+      color: white;
+      font-size: 24px;
+    }
+
+    .bolinha-acessibilidade:hover {
+      transform: scale(1.1);
+      background: var(--cor-bolinha-hover);
+    }
+
+    /* Menu de Acessibilidade */
+    .menu-acessibilidade {
+      position: fixed;
+      bottom: 90px;
+      right: 90px;
+      background: var(--cor-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: 15px;
+      padding: 20px;
+      z-index: 1000;
+      box-shadow: 0 8px 30px var(--cor-sombra);
+      transform: scale(0.8);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      min-width: 200px;
+    }
+
+    .menu-acessibilidade.aberto {
+      transform: scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .menu-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .menu-titulo {
+      font-size: 16px;
+      font-weight: bold;
+      color: var(--cor-texto);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .menu-botoes {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+
+    .botao-acessibilidade {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 8px;
+      background: var(--cor-primaria);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      min-height: 60px;
+      gap: 5px;
+    }
+
+    .botao-acessibilidade:hover {
+      transform: translateY(-3px);
+      background: var(--cor-primaria-escura);
+    }
+
+    .botao-acessibilidade .icone {
+      font-size: 18px;
+    }
+
+    .botao-acessibilidade .texto {
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* Botão de Leitura de Texto - Estilo igual ao barbearias.html */
+    .botao-leitura-texto {
+      position: fixed;
+      bottom: 20px;
+      right: 160px;
+      width: 60px;
+      height: 60px;
+      background: var(--cor-primaria);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1001;
+      box-shadow: 0 4px 20px var(--cor-sombra);
+      transition: all 0.3s ease;
+      border: none;
+      color: white;
+      font-size: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+    }
+
+    .botao-leitura-texto.ativo {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .botao-leitura-texto:hover {
+      transform: scale(1.1);
+      background: var(--cor-primaria-escura);
+    }
+
+    .botao-leitura-texto.ouvindo {
+      animation: pulsar 1.5s infinite;
+      background: #ff4757;
+    }
+
+    @keyframes pulsar {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
+      }
+    }
+
+    /* Controles do Leitor de Texto - Estilo igual ao barbearias.html */
+    .controles-leitor {
+      position: fixed;
+      bottom: 90px;
+      right: 160px;
+      background: var(--cor-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: 15px;
+      padding: 15px;
+      z-index: 1000;
+      box-shadow: 0 8px 30px var(--cor-sombra);
+      transform: scale(0.8);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      min-width: 200px;
+    }
+
+    .controles-leitor.aberto {
+      transform: scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .controles-leitor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--cor-borda);
+    }
+
+    .controle-leitor-titulo {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--cor-texto);
+      text-align: center;
+      flex: 1;
+    }
+
+    .controle-leitor-fechar {
+      background: none;
+      border: none;
+      color: var(--cor-texto);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 0 5px;
+      line-height: 1;
+      transition: color 0.3s ease;
+    }
+
+    .controle-leitor-fechar:hover {
+      color: #ff4757;
+    }
+
+    .controles-leitor-conteudo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .controles-leitor-botoes {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .controle-leitor-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gradiente-primario);
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      font-size: 16px;
+    }
+
+    .controle-leitor-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .controle-leitor-btn:disabled {
+      background: var(--cor-texto-claro);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .velocidade-leitor {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      margin-top: 5px;
+    }
+
+    .velocidade-leitor label {
+      font-size: 12px;
+      color: var(--cor-texto);
+      white-space: nowrap;
+    }
+
+    .velocidade-leitor input {
+      flex: 1;
+      width: 100%;
+      height: 5px;
+      background: var(--cor-borda);
+      border-radius: 10px;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .velocidade-leitor input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--cor-primaria);
+      cursor: pointer;
+    }
+
+    .velocidade-leitor input::-moz-range-thumb {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--cor-primaria);
+      cursor: pointer;
+      border: none;
+    }
+
+    .velocidade-valor {
+      font-size: 12px;
+      color: var(--cor-texto);
+      min-width: 30px;
+      text-align: center;
+    }
+
+    /* VLibras Widget Styles */
+    .vw-plugin-top-wrapper {
+      z-index: 9999 !important;
+    }
+    
+    div[vw] {
+      z-index: 9999 !important;
+    }
+    
+    div[vw] .vw-access-button {
+      background-color: var(--cor-primaria) !important;
+      border-radius: 50% !important;
+      width: 50px !important;
+      height: 50px !important;
+      bottom: 20px !important;
+      left: 20px !important;
+      box-shadow: 0 4px 20px var(--cor-sombra) !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    div[vw] .vw-access-button:hover {
+      transform: scale(1.1) !important;
+      background-color: var(--cor-primaria-escura) !important;
+    }
+    
+    div[vw] .vw-access-button img {
+      filter: brightness(0) invert(1) !important;
+    }
+
+    footer {
+      border-top: 1px solid var(--cor-borda);
+      height: 30px;
+      background-color: var(--cor-card);
+    }
+
+    /* Animações */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    .shake {
+      animation: shake 0.5s;
+    }
+
+    @keyframes progress {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: var(--cor-primaria);
+      border-radius: 2px;
+      margin: 10px 0;
+      animation: progress 2s ease-in-out;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .login-card {
+        padding: 30px 20px;
+        max-width: 450px;
+      }
+      
+      .codigo-input {
+        width: 45px;
+        height: 55px;
+        font-size: 1.3rem;
+      }
+      
+      .codigo-display {
+        font-size: 1.5rem;
+        letter-spacing: 3px;
+      }
+      
+      .etapas::before {
+        left: 5%;
+        right: 5%;
+      }
+      
+      .bolinha-acessibilidade {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        right: 70px;
+      }
+
+      .menu-acessibilidade {
+        bottom: 80px;
+        right: 70px;
+        min-width: 180px;
+      }
+
+      .botao-leitura-texto {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        right: 130px;
+      }
+
+      .controles-leitor {
+        right: 130px;
+        bottom: 80px;
+        min-width: 180px;
+      }
+
+      /* VLibras Mobile */
+      div[vw] .vw-access-button {
+        width: 45px !important;
+        height: 45px !important;
+        bottom: 20px !important;
+        left: 15px !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 25px 15px;
+        max-width: 400px;
+      }
+      
+      .codigo-container {
+        gap: 8px;
+      }
+      
+      .codigo-input {
+        width: 40px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+      
+      .codigo-display {
+        font-size: 1.3rem;
+        letter-spacing: 2px;
+      }
+      
+      .etapas {
+        font-size: 0.8rem;
+      }
+      
+      .etapa-numero {
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+      }
+      
+      .bolinha-acessibilidade {
+        width: 45px;
+        height: 45px;
+        right: 60px;
+      }
+
+      .menu-acessibilidade {
+        right: 60px;
+      }
+
+      .botao-leitura-texto {
+        width: 45px;
+        height: 45px;
+        right: 115px;
+      }
+
+      .controles-leitor {
+        right: 115px;
+        min-width: 170px;
+      }
+
+      /* VLibras Mobile Pequeno */
+      div[vw] .vw-access-button {
+        width: 40px !important;
+        height: 40px !important;
+        bottom: 20px !important;
+        left: 10px !important;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .bolinha-acessibilidade {
+        right: 50px;
+      }
+
+      .menu-acessibilidade {
+        right: 50px;
+      }
+
+      .botao-leitura-texto {
+        right: 100px;
+      }
+
+      .controles-leitor {
+        right: 100px;
+        min-width: 160px;
+      }
+    }
+  </style>
+  <!-- VLibras Plugin -->
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- VLibras Widget -->
+  <div vw class="enabled">
+    <div vw-access-button class="active"></div>
+    <div vw-plugin-wrapper>
+      <div class="vw-plugin-top-wrapper"></div>
+    </div>
+  </div>
+
+  <!-- Bolinha de Acessibilidade -->
+  <button class="bolinha-acessibilidade" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
+    ♿
+  </button>
+
+  <!-- Botão de Leitura de Texto - Igual ao barbearias.html -->
+  <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
+    🔊
+  </button>
+
+  <!-- Controles do Leitor de Texto - Igual ao barbearias.html -->
+  <div class="controles-leitor" id="controlesLeitor">
+    <div class="controles-leitor-header">
+      <div class="controle-leitor-titulo">Leitor de Texto</div>
+      <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
+    </div>
+    <div class="controles-leitor-conteudo">
+      <div class="controles-leitor-botoes">
+        <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
+        <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
+        <button class="controle-leitor-btn" id="btnStop" onclick="pararLeitura()" title="Parar" disabled>⏹️</button>
+      </div>
+      <div class="velocidade-leitor">
+        <label for="velocidadeLeitor">Velocidade:</label>
+        <input type="range" id="velocidadeLeitor" min="0.5" max="2" step="0.1" value="1" oninput="atualizarVelocidade(this.value)">
+        <span class="velocidade-valor" id="velocidadeValor">1x</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu de Acessibilidade -->
+  <div class="menu-acessibilidade" id="menuAcessibilidade">
+    <div class="menu-conteudo">
+      <div class="menu-titulo">Acessibilidade</div>
+      <div class="menu-botoes">
+        <button class="botao-acessibilidade" onclick="alternarTema()">
+          <span class="icone">🌓</span>
+          <span class="texto">Tema</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="aumentarFonte()">
+          <span class="icone">A+</span>
+          <span class="texto">Aumentar Fonte</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="diminuirFonte()">
+          <span class="icone">A-</span>
+          <span class="texto">Diminuir Fonte</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="ativarLeitorTexto()">
+          <span class="icone">🔊</span>
+          <span class="texto">Leitor</span>
+        </button>
+        <button class="botao-acessibilidade" onclick="resetarAcessibilidade()">
+          <span class="icone">↻</span>
+          <span class="texto">Resetar</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <h1><span>R</span>egua</h1>
+  </header>
+
+  <main>
+    <div class="login-card">
+      <h2 class="title">REDEFINIR SENHA</h2>
+      <p class="subtitle">Siga as etapas para criar uma nova senha</p>
+      
+      <!-- Indicador de etapas -->
+      <div class="etapas">
+        <div class="etapa ativa" id="etapa1">
+          <div class="etapa-numero">1</div>
+          <div class="etapa-texto">E-mail</div>
+        </div>
+        <div class="etapa" id="etapa2">
+          <div class="etapa-numero">2</div>
+          <div class="etapa-texto">Código</div>
+        </div>
+        <div class="etapa" id="etapa3">
+          <div class="etapa-numero">3</div>
+          <div class="etapa-texto">Nova Senha</div>
+        </div>
+      </div>
+      
+      <!-- Mensagens de status -->
+      <div id="mensagemStatus"></div>
+      
+      <!-- ETAPA 1: Solicitar código -->
+      <div id="etapaEmail">
+        <div class="instrucoes">
+          <h4>Redefinição de Senha Real:</h4>
+          <ul>
+            <li><strong>1. Digite seu e-mail cadastrado</strong></li>
+            <li><strong>2. Verifique o código de 6 dígitos</strong></li>
+            <li><strong>3. Crie uma nova senha</strong></li>
+            <li>A senha será alterada no banco de dados</li>
+            <li>Você poderá fazer login com a nova senha</li>
+          </ul>
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="email" placeholder="Digite seu e-mail cadastrado" required>
+        </div>
+        
+        <div class="mensagem-info">
+          <i class="fas fa-envelope-open-text"></i> 
+          Verificaremos se este e-mail existe no sistema
+        </div>
+        
+        <div class="confirm-btn-container">
+          <button type="button" class="confirm-btn" onclick="solicitarCodigo()">
+            <i class="fas fa-paper-plane"></i> ENVIAR CÓDIGO DE VERIFICAÇÃO
+          </button>
+        </div>
+        
+        <div class="login-text">
+          Lembrou da senha? <a href="{% url 'loginatalho' %}">Voltar para o login</a>
+        </div>
+      </div>
+      
+      <!-- ETAPA 2: Verificar código -->
+      <div id="etapaCodigo" class="hidden">
+        <div class="mensagem-info">
+          <i class="fas fa-info-circle"></i> 
+          Código gerado: <strong id="codigoAtual"></strong> (apenas para demonstração)
+        </div>
+        
+        <div class="codigo-gerado">
+          <p><i class="fas fa-mobile-alt"></i> Insira o código de 6 dígitos enviado para seu e-mail:</p>
+          <div class="codigo-display" id="codigoGeradoDisplay">------</div>
+          <p><small>O código foi enviado para seu e-mail</small></p>
+        </div>
+        
+        <div class="contador">
+          <i class="fas fa-clock"></i> Código válido por: 
+          <span class="contador-tempo" id="contadorTempo">05:00</span>
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <p style="text-align: center; margin-bottom: 15px; font-weight: 600;">
+          <i class="fas fa-keyboard"></i> Digite o código de 6 dígitos:
+        </p>
+        <div class="codigo-container">
+          <input type="text" class="codigo-input" maxlength="1" data-index="0" oninput="moverParaProximo(this)" onkeydown="manipularTeclas(this, event)">
+          <input type="text" class="codigo-input" maxlength="1" data-index="1" oninput="moverParaProximo(this)" onkeydown="manipularTeclas(this, event)">
+          <input type="text" class="codigo-input" maxlength="1" data-index="2" oninput="moverParaProximo(this)" onkeydown="manipularTeclas(this, event)">
+          <input type="text" class="codigo-input" maxlength="1" data-index="3" oninput="moverParaProximo(this)" onkeydown="manipularTeclas(this, event)">
+          <input type="text" class="codigo-input" maxlength="1" data-index="4" oninput="moverParaProximo(this)" onkeydown="manipularTeclas(this, event)">
+          <input type="text" class="codigo-input" maxlength="1" data-index="5" oninput="moverParaProximo(this)" onkeydown="manipularTeclas(this, event)">
+        </div>
+        
+        <div class="confirm-btn-container">
+          <button type="button" class="confirm-btn" id="btnVerificarCodigo" onclick="verificarCodigo()" disabled>
+            <i class="fas fa-check-circle"></i> VERIFICAR E CONTINUAR
+          </button>
+        </div>
+        
+        <button type="button" class="secondary-btn" onclick="reenviarCodigo()">
+          <i class="fas fa-redo"></i> REENVIAR CÓDIGO
+        </button>
+        
+        <div class="login-text">
+          <a href="#" onclick="voltarParaEmail()">
+            <i class="fas fa-arrow-left"></i> Voltar para alterar e-mail
+          </a>
+        </div>
+      </div>
+      
+      <!-- ETAPA 3: Nova senha -->
+      <div id="etapaNovaSenha" class="hidden">
+        <div class="mensagem-sucesso">
+          <i class="fas fa-check-circle"></i> Código verificado! Agora defina sua nova senha
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="novaSenha" placeholder="Nova senha (mínimo 8 caracteres)" required>
+        </div>
+        
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="confirmarSenha" placeholder="Confirmar nova senha" required>
+        </div>
+        
+        <div class="mensagem-info">
+          <i class="fas fa-shield-alt"></i> Requisitos da senha:
+          <ul style="text-align: left; margin-top: 10px;">
+            <li>Mínimo 8 caracteres</li>
+            <li>A senha será alterada permanentemente no sistema</li>
+          </ul>
+        </div>
+        
+        <div class="confirm-btn-container">
+          <button type="button" class="confirm-btn" onclick="redefinirSenha()">
+            <i class="fas fa-key"></i> REDEFINIR MINHA SENHA
+          </button>
+        </div>
+        
+        <div class="login-text">
+          <a href="#" onclick="voltarParaCodigo()">
+            <i class="fas fa-arrow-left"></i> Voltar para digitar código
+          </a>
+        </div>
+      </div>
+      
+      <!-- ETAPA 4: Processando -->
+      <div id="etapaProcessando" class="hidden">
+        <div style="text-align: center; margin: 30px 0;">
+          <div style="font-size: 4rem; color: var(--cor-primaria); margin-bottom: 20px;">
+            <i class="fas fa-cog fa-spin"></i>
+          </div>
+          <h3 style="color: var(--cor-primaria); margin-bottom: 15px;">Processando alteração...</h3>
+          <p>Atualizando sua senha no banco de dados...</p>
+          <div class="progress-bar" style="margin: 20px 0;"></div>
+          <p id="statusProcesso" style="font-size: 0.9rem; color: var(--cor-texto-claro);">
+            Conectando com o servidor...
+          </p>
+        </div>
+      </div>
+      
+      <!-- ETAPA 5: Sucesso -->
+      <div id="etapaSucesso" class="hidden">
+        <div style="text-align: center; margin: 30px 0;">
+          <div style="font-size: 4rem; color: var(--cor-sucesso); margin-bottom: 20px;">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h3 style="color: var(--cor-sucesso); margin-bottom: 15px;">Senha alterada com sucesso!</h3>
+          
+          <div class="mensagem-sucesso" style="text-align: left;">
+            <h4><i class="fas fa-info-circle"></i> Informações da alteração:</h4>
+            <p><strong>E-mail:</strong> <span id="emailAlterado"></span></p>
+            <p><strong>Data/Hora:</strong> <span id="dataAlteracao"></span></p>
+            <p><strong>Status:</strong> <span style="color: var(--cor-sucesso);">✓ Senha atualizada no banco de dados</span></p>
+          </div>
+          
+          <div class="demo-aviso" style="margin-top: 20px;">
+            <i class="fas fa-database"></i> 
+            <strong>SENHA ALTERADA COM SUCESSO!</strong> Sua senha foi atualizada no sistema.
+          </div>
+        </div>
+        
+        <div class="confirm-btn-container">
+          <a href="{% url 'loginatalho' %}" style="text-decoration: none; width: 100%;">
+            <button type="button" class="confirm-btn">
+              <i class="fas fa-sign-in-alt"></i> FAZER LOGIN COM NOVA SENHA
+            </button>
+          </a>
+        </div>
+        
+        <button type="button" class="secondary-btn" onclick="reiniciarDemonstracao()">
+          <i class="fas fa-redo"></i> REDEFINIR OUTRA SENHA
+        </button>
+      </div>
+      
+      <!-- ETAPA 6: Erro -->
+      <div id="etapaErro" class="hidden">
+        <div style="text-align: center; margin: 30px 0;">
+          <div style="font-size: 4rem; color: var(--cor-erro); margin-bottom: 20px;">
+            <i class="fas fa-exclamation-circle"></i>
+          </div>
+          <h3 style="color: var(--cor-erro); margin-bottom: 15px;">Erro na alteração</h3>
+          <p id="mensagemErroDetalhe">Ocorreu um erro ao processar sua solicitação.</p>
+          
+          <div class="mensagem-info" style="margin-top: 20px;">
+            <i class="fas fa-life-ring"></i> 
+            <strong>Soluções possíveis:</strong>
+            <ul style="text-align: left; margin-top: 10px;">
+              <li>Tente novamente mais tarde</li>
+              <li>Verifique sua conexão com a internet</li>
+              <li>Entre em contato com o suporte</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="confirm-btn-container">
+          <button type="button" class="confirm-btn" onclick="reiniciarDemonstracao()">
+            <i class="fas fa-redo"></i> TENTAR NOVAMENTE
+          </button>
+        </div>
+        
+        <div class="login-text">
+          <a href="{% url 'loginatalho' %}">
+            <i class="fas fa-arrow-left"></i> Voltar para o login
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer></footer>
+
+  <script>
+    // ============================================
+    // SISTEMA DE REDEFINIÇÃO DE SENHA (FUNCIONAL)
+    // ============================================
+    
+    // Variáveis globais
+    let codigoGerado = '';
+    let timerInterval;
+    let tempoRestante = 300; // 5 minutos em segundos
+    let emailDigitado = '';
+    let novaSenhaArmazenada = '';
+    let processoAtivo = false;
+    
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof VLibras !== 'undefined') {
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+      }
+      
+      document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
+      document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
+      
+      document.getElementById('email').focus();
+    });
+    
+    // Solicitar código (Etapa 1 -> Etapa 2)
+    function solicitarCodigo() {
+      const emailInput = document.getElementById('email');
+      emailDigitado = emailInput.value.trim();
+      
+      if (!emailDigitado) {
+        mostrarMensagem('Por favor, digite seu e-mail', 'erro');
+        emailInput.focus();
+        return;
+      }
+      
+      // Validar formato de email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailDigitado)) {
+        mostrarMensagem('Digite um e-mail válido', 'erro');
+        emailInput.focus();
+        return;
+      }
+      
+      // Mostrar carregamento
+      const btnEnviar = document.querySelector('#etapaEmail .confirm-btn');
+      const btnTextoOriginal = btnEnviar.innerHTML;
+      btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
+      btnEnviar.disabled = true;
+      
+      // Enviar para o backend
+      fetch('{% url "esquecisenhaatalho" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({
+          acao: 'solicitar_codigo',
+          email: emailDigitado
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        btnEnviar.innerHTML = btnTextoOriginal;
+        btnEnviar.disabled = false;
+        
+        if (data.status === 'success') {
+          // Gerar código de 6 dígitos
+          codigoGerado = data.codigo;
+          
+          // Mostrar código na tela
+          document.getElementById('codigoGeradoDisplay').textContent = codigoGerado;
+          document.getElementById('codigoAtual').textContent = codigoGerado;
+          
+          // Alternar etapas
+          document.getElementById('etapaEmail').classList.add('hidden');
+          document.getElementById('etapaCodigo').classList.remove('hidden');
+          
+          // Atualizar indicador de etapas
+          document.getElementById('etapa1').classList.remove('ativa');
+          document.getElementById('etapa1').classList.add('concluida');
+          document.getElementById('etapa2').classList.add('ativa');
+          
+          // Iniciar timer
+          iniciarTimer();
+          
+          // Mostrar mensagem de sucesso
+          mostrarMensagem(data.mensagem, 'sucesso');
+          
+          // Focar no primeiro campo do código
+          setTimeout(() => {
+            document.querySelector('.codigo-input[data-index="0"]').focus();
+          }, 100);
+        } else {
+          mostrarMensagem(data.mensagem, 'erro');
+          emailInput.focus();
+        }
+      })
+      .catch(error => {
+        btnEnviar.innerHTML = btnTextoOriginal;
+        btnEnviar.disabled = false;
+        mostrarMensagem('Erro ao conectar com o servidor', 'erro');
+        console.error('Erro:', error);
+      });
+    }
+    
+    // Gerar código de 6 dígitos localmente (fallback)
+    function gerarCodigo6Digitos() {
+      return Math.floor(100000 + Math.random() * 900000).toString();
+    }
+    
+    // Iniciar contador regressivo
+    function iniciarTimer() {
+      tempoRestante = 300;
+      atualizarContador();
+      
+      if (timerInterval) {
+        clearInterval(timerInterval);
+      }
+      
+      // Atualizar barra de progresso
+      const progressBar = document.getElementById('progressBar');
+      if (progressBar) {
+        progressBar.style.width = '100%';
+        progressBar.style.transition = 'width 300s linear';
+        setTimeout(() => {
+          progressBar.style.width = '0%';
+        }, 10);
+      }
+      
+      timerInterval = setInterval(function() {
+        tempoRestante--;
+        atualizarContador();
+        
+        if (tempoRestante <= 0) {
+          clearInterval(timerInterval);
+          document.getElementById('btnVerificarCodigo').disabled = true;
+          mostrarMensagem('O código expirou. Solicite um novo código.', 'erro');
+        }
+      }, 1000);
+    }
+    
+    // Atualizar display do contador
+    function atualizarContador() {
+      const minutos = Math.floor(tempoRestante / 60);
+      const segundos = tempoRestante % 60;
+      const tempoFormatado = `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
+      document.getElementById('contadorTempo').textContent = tempoFormatado;
+    }
+    
+    // Navegar entre campos do código
+    function moverParaProximo(input) {
+      const valor = input.value;
+      const index = parseInt(input.getAttribute('data-index'));
+      
+      if (valor && !/^\d$/.test(valor)) {
+        input.value = '';
+        return;
+      }
+      
+      if (valor) {
+        input.classList.add('filled');
+      } else {
+        input.classList.remove('filled');
+      }
+      
+      if (valor && index < 5) {
+        const proximoInput = document.querySelector(`.codigo-input[data-index="${index + 1}"]`);
+        proximoInput.focus();
+      }
+      
+      verificarCodigoCompleto();
+    }
+    
+    // Manipular teclas especiais
+    function manipularTeclas(input, event) {
+      const index = parseInt(input.getAttribute('data-index'));
+      
+      if (event.key === 'Backspace') {
+        if (!input.value && index > 0) {
+          const anteriorInput = document.querySelector(`.codigo-input[data-index="${index - 1}"]`);
+          anteriorInput.focus();
+          anteriorInput.value = '';
+          anteriorInput.classList.remove('filled');
+        }
+      } else if (event.key === 'ArrowLeft' && index > 0) {
+        const anteriorInput = document.querySelector(`.codigo-input[data-index="${index - 1}"]`);
+        anteriorInput.focus();
+        event.preventDefault();
+      } else if (event.key === 'ArrowRight' && index < 5) {
+        const proximoInput = document.querySelector(`.codigo-input[data-index="${index + 1}"]`);
+        proximoInput.focus();
+        event.preventDefault();
+      }
+      
+      setTimeout(() => verificarCodigoCompleto(), 10);
+    }
+    
+    // Verificar se todos os 6 dígitos foram preenchidos
+    function verificarCodigoCompleto() {
+      const inputs = document.querySelectorAll('.codigo-input');
+      let completo = true;
+      
+      for (let i = 0; i < inputs.length; i++) {
+        if (!inputs[i].value) {
+          completo = false;
+          break;
+        }
+      }
+      
+      document.getElementById('btnVerificarCodigo').disabled = !completo;
+      return completo;
+    }
+    
+    // Verificar código (Etapa 2 -> Etapa 3)
+    function verificarCodigo() {
+      if (processoAtivo) return;
+      
+      const inputs = document.querySelectorAll('.codigo-input');
+      let codigoDigitado = '';
+      
+      for (let i = 0; i < inputs.length; i++) {
+        codigoDigitado += inputs[i].value;
+      }
+      
+      // Mostrar carregamento
+      const btnVerificar = document.getElementById('btnVerificarCodigo');
+      const btnTextoOriginal = btnVerificar.innerHTML;
+      btnVerificar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> VERIFICANDO...';
+      btnVerificar.disabled = true;
+      
+      // Enviar para o backend
+      fetch('{% url "esquecisenhaatalho" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({
+          acao: 'verificar_codigo',
+          codigo: codigoDigitado
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        btnVerificar.innerHTML = btnTextoOriginal;
+        btnVerificar.disabled = false;
+        
+        if (data.status === 'success') {
+          clearInterval(timerInterval);
+          
+          document.getElementById('etapaCodigo').classList.add('hidden');
+          document.getElementById('etapaNovaSenha').classList.remove('hidden');
+          
+          document.getElementById('etapa2').classList.remove('ativa');
+          document.getElementById('etapa2').classList.add('concluida');
+          document.getElementById('etapa3').classList.add('ativa');
+          
+          mostrarMensagem(data.mensagem, 'sucesso');
+          
+          setTimeout(() => {
+            document.getElementById('novaSenha').focus();
+          }, 100);
+        } else {
+          mostrarMensagem(data.mensagem, 'erro');
+          
+          const inputs = document.querySelectorAll('.codigo-input');
+          inputs.forEach(input => {
+            input.classList.add('shake');
+            setTimeout(() => {
+              input.classList.remove('shake');
+            }, 500);
+          });
+          
+          setTimeout(() => {
+            inputs.forEach(input => {
+              input.value = '';
+              input.classList.remove('filled');
+            });
+            inputs[0].focus();
+            document.getElementById('btnVerificarCodigo').disabled = true;
+          }, 500);
+        }
+      })
+      .catch(error => {
+        btnVerificar.innerHTML = btnTextoOriginal;
+        btnVerificar.disabled = false;
+        mostrarMensagem('Erro ao conectar com o servidor', 'erro');
+        console.error('Erro:', error);
+      });
+    }
+    
+    // Reenviar código
+    function reenviarCodigo() {
+      if (processoAtivo) return;
+      
+      // Mostrar carregamento
+      const btnReenviar = document.querySelector('#etapaCodigo .secondary-btn');
+      const btnTextoOriginal = btnReenviar.innerHTML;
+      btnReenviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> REENVIANDO...';
+      btnReenviar.disabled = true;
+      
+      // Enviar para o backend
+      fetch('{% url "esquecisenhaatalho" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({
+          acao: 'solicitar_codigo',
+          email: emailDigitado
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        btnReenviar.innerHTML = btnTextoOriginal;
+        btnReenviar.disabled = false;
+        
+        if (data.status === 'success') {
+          codigoGerado = data.codigo;
+          document.getElementById('codigoGeradoDisplay').textContent = codigoGerado;
+          document.getElementById('codigoAtual').textContent = codigoGerado;
+          
+          const inputs = document.querySelectorAll('.codigo-input');
+          inputs.forEach(input => {
+            input.value = '';
+            input.classList.remove('filled');
+          });
+          
+          iniciarTimer();
+          document.getElementById('btnVerificarCodigo').disabled = true;
+          
+          mostrarMensagem(data.mensagem, 'sucesso');
+          inputs[0].focus();
+        } else {
+          mostrarMensagem(data.mensagem, 'erro');
+        }
+      })
+      .catch(error => {
+        btnReenviar.innerHTML = btnTextoOriginal;
+        btnReenviar.disabled = false;
+        mostrarMensagem('Erro ao conectar com o servidor', 'erro');
+        console.error('Erro:', error);
+      });
+    }
+    
+    // Redefinir senha (Etapa 3 -> Etapa 4/5)
+    function redefinirSenha() {
+      if (processoAtivo) return;
+      
+      processoAtivo = true;
+      
+      const novaSenha = document.getElementById('novaSenha').value;
+      const confirmarSenha = document.getElementById('confirmarSenha').value;
+      
+      // Validações
+      if (!novaSenha || !confirmarSenha) {
+        mostrarMensagem('Por favor, preencha ambos os campos de senha', 'erro');
+        processoAtivo = false;
+        return;
+      }
+      
+      // APENAS 8 CARACTERES - CONFORME SOLICITADO
+      if (novaSenha.length < 8) {
+        mostrarMensagem('A senha deve ter pelo menos 8 caracteres', 'erro');
+        document.getElementById('novaSenha').focus();
+        processoAtivo = false;
+        return;
+      }
+      
+      if (novaSenha !== confirmarSenha) {
+        mostrarMensagem('As senhas não coincidem', 'erro');
+        document.getElementById('confirmarSenha').focus();
+        processoAtivo = false;
+        return;
+      }
+      
+      // Salvar senha para simulação
+      novaSenhaArmazenada = novaSenha;
+      
+      // Ir para etapa de processamento
+      document.getElementById('etapaNovaSenha').classList.add('hidden');
+      document.getElementById('etapaProcessando').classList.remove('hidden');
+      
+      document.getElementById('etapa3').classList.remove('ativa');
+      document.getElementById('etapa3').classList.add('concluida');
+      
+      // Mostrar carregamento
+      const statusElement = document.getElementById('statusProcesso');
+      statusElement.textContent = "Conectando com o servidor...";
+      
+      // Enviar para o backend
+      fetch('{% url "esquecisenhaatalho" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({
+          acao: 'redefinir_senha',
+          senha: novaSenha
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          statusElement.textContent = "Senha alterada com sucesso!";
+          
+          // Aguardar um pouco e mostrar sucesso
+          setTimeout(() => {
+            finalizarProcesso();
+          }, 1500);
+        } else {
+          statusElement.textContent = `Erro: ${data.mensagem}`;
+          
+          // Mostrar etapa de erro
+          setTimeout(() => {
+            document.getElementById('etapaProcessando').classList.add('hidden');
+            document.getElementById('etapaErro').classList.remove('hidden');
+            document.getElementById('mensagemErroDetalhe').textContent = data.mensagem;
+            processoAtivo = false;
+          }, 1500);
+        }
+      })
+      .catch(error => {
+        statusElement.textContent = "Erro de conexão com o servidor";
+        
+        setTimeout(() => {
+          document.getElementById('etapaProcessando').classList.add('hidden');
+          document.getElementById('etapaErro').classList.remove('hidden');
+          document.getElementById('mensagemErroDetalhe').textContent = "Não foi possível conectar ao servidor. Verifique sua internet.";
+          processoAtivo = false;
+        }, 1500);
+      });
+    }
+    
+    // Finalizar processo com sucesso
+    function finalizarProcesso() {
+      processoAtivo = false;
+      
+      // Obter data e hora atual
+      const agora = new Date();
+      const dataFormatada = agora.toLocaleDateString('pt-BR');
+      const horaFormatada = agora.toLocaleTimeString('pt-BR');
+      
+      // Atualizar informações na tela de sucesso
+      document.getElementById('emailAlterado').textContent = emailDigitado;
+      document.getElementById('dataAlteracao').textContent = `${dataFormatada} às ${horaFormatada}`;
+      
+      // Mostrar etapa de sucesso
+      document.getElementById('etapaProcessando').classList.add('hidden');
+      document.getElementById('etapaSucesso').classList.remove('hidden');
+      
+      // Mostrar mensagem final
+      mostrarMensagem('Senha alterada com sucesso! Você já pode fazer login com sua nova senha.', 'sucesso');
+    }
+    
+    // Voltar para a etapa do email
+    function voltarParaEmail() {
+      if (processoAtivo) return;
+      
+      document.getElementById('etapaCodigo').classList.add('hidden');
+      document.getElementById('etapaEmail').classList.remove('hidden');
+      
+      document.getElementById('etapa2').classList.remove('ativa');
+      document.getElementById('etapa1').classList.remove('concluida');
+      document.getElementById('etapa1').classList.add('ativa');
+      
+      clearInterval(timerInterval);
+      document.getElementById('email').focus();
+    }
+    
+    // Voltar para a etapa do código
+    function voltarParaCodigo() {
+      if (processoAtivo) return;
+      
+      document.getElementById('etapaNovaSenha').classList.add('hidden');
+      document.getElementById('etapaCodigo').classList.remove('hidden');
+      
+      document.getElementById('etapa3').classList.remove('ativa');
+      document.getElementById('etapa2').classList.add('ativa');
+      
+      document.querySelector('.codigo-input[data-index="0"]').focus();
+    }
+    
+    // Reiniciar demonstração
+    function reiniciarDemonstracao() {
+      if (processoAtivo) return;
+      
+      // Esconder todas as etapas
+      document.getElementById('etapaEmail').classList.add('hidden');
+      document.getElementById('etapaCodigo').classList.add('hidden');
+      document.getElementById('etapaNovaSenha').classList.add('hidden');
+      document.getElementById('etapaProcessando').classList.add('hidden');
+      document.getElementById('etapaSucesso').classList.add('hidden');
+      document.getElementById('etapaErro').classList.add('hidden');
+      
+      // Mostrar etapa inicial
+      document.getElementById('etapaEmail').classList.remove('hidden');
+      
+      // Resetar indicadores
+      document.getElementById('etapa1').classList.remove('concluida');
+      document.getElementById('etapa2').classList.remove('ativa');
+      document.getElementById('etapa2').classList.remove('concluida');
+      document.getElementById('etapa3').classList.remove('concluida');
+      document.getElementById('etapa1').classList.add('ativa');
+      
+      // Limpar campos
+      document.getElementById('email').value = '';
+      document.getElementById('novaSenha').value = '';
+      document.getElementById('confirmarSenha').value = '';
+      
+      const inputs = document.querySelectorAll('.codigo-input');
+      inputs.forEach(input => {
+        input.value = '';
+        input.classList.remove('filled');
+      });
+      
+      // Resetar variáveis
+      codigoGerado = '';
+      novaSenhaArmazenada = '';
+      clearInterval(timerInterval);
+      
+      // Focar no email
+      document.getElementById('email').focus();
+    }
+    
+    // Mostrar mensagens de status
+    function mostrarMensagem(mensagem, tipo) {
+      const mensagemDiv = document.getElementById('mensagemStatus');
+      
+      mensagemDiv.innerHTML = '';
+      mensagemDiv.className = '';
+      
+      const div = document.createElement('div');
+      div.textContent = mensagem;
+      
+      if (tipo === 'erro') {
+        div.className = 'mensagem-erro';
+      } else if (tipo === 'sucesso') {
+        div.className = 'mensagem-sucesso';
+      } else if (tipo === 'warning') {
+        div.className = 'mensagem-warning';
+      } else {
+        div.className = 'mensagem-info';
+      }
+      
+      mensagemDiv.appendChild(div);
+      
+      // Remover mensagem após 5 segundos (exceto sucesso final)
+      if (tipo !== 'sucesso' || !mensagem.includes('Senha alterada com sucesso')) {
+        setTimeout(() => {
+          if (div.parentNode) {
+            div.style.opacity = '0';
+            div.style.transition = 'opacity 0.5s';
+            setTimeout(() => {
+              if (div.parentNode) {
+                div.remove();
+              }
+            }, 500);
+          }
+        }, 5000);
+      }
+    }
+    
+    // ============================================
+    // SISTEMA DE ACESSIBILIDADE
+    // ============================================
+    
+    // Variáveis do leitor de texto
+    let synth = window.speechSynthesis;
+    let utterance = null;
+    let isSpeaking = false;
+    let isPaused = false;
+    let speechRate = 1;
+    let selectedText = '';
+    let leitorAtivo = false;
+    
+    // Detectar seleção de texto
+    document.addEventListener('mouseup', function() {
+      const textoSelecionado = window.getSelection().toString().trim();
+      
+      if (textoSelecionado && textoSelecionado.length > 0) {
+        selectedText = textoSelecionado;
+        
+        if (leitorAtivo) {
+          mostrarBotaoLeitura();
+        }
+        
+        highlightSelectedText();
+      } else {
+        esconderBotaoLeitura();
+        clearHighlight();
+      }
+    });
+    
+    // Detectar seleção via teclado
+    document.addEventListener('keyup', function(e) {
+      if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt') {
+        const textoSelecionado = window.getSelection().toString().trim();
+        
+        if (textoSelecionado && textoSelecionado.length > 0) {
+          selectedText = textoSelecionado;
+          
+          if (leitorAtivo) {
+            mostrarBotaoLeitura();
+          }
+          
+          highlightSelectedText();
+        } else {
+          esconderBotaoLeitura();
+          clearHighlight();
+        }
+      }
+    });
+    
+    // Funções do leitor de texto
+    function ativarLeitorTexto() {
+      leitorAtivo = !leitorAtivo;
+      
+      if (leitorAtivo) {
+        mostrarBotaoLeitura();
+        document.getElementById('botaoLeituraTexto').title = "Leitor de texto ativado. Selecione texto para ler.";
+        
+        const textoSelecionado = window.getSelection().toString().trim();
+        if (textoSelecionado) {
+          selectedText = textoSelecionado;
+          mostrarBotaoLeitura();
+        }
+      } else {
+        esconderBotaoLeitura();
+        fecharControlesLeitor();
+        pararLeitura();
+        document.getElementById('botaoLeituraTexto').title = "Leitor de texto desativado";
+      }
+      
+      toggleMenuAcessibilidade();
+    }
+    
+    function mostrarBotaoLeitura() {
+      const botao = document.getElementById('botaoLeituraTexto');
+      botao.classList.add('ativo');
+    }
+    
+    function esconderBotaoLeitura() {
+      const botao = document.getElementById('botaoLeituraTexto');
+      botao.classList.remove('ativo');
+    }
+    
+    // Função toggleControlesLeitor atualizada igual ao barbearias.html
+    function toggleControlesLeitor() {
+      const controles = document.getElementById('controlesLeitor');
+      
+      // Abre os controles apenas (remove o toggle)
+      controles.classList.add('aberto');
+      
+      const menuAcessibilidade = document.getElementById('menuAcessibilidade');
+      if (menuAcessibilidade.classList.contains('aberto')) {
+        menuAcessibilidade.classList.remove('aberto');
+      }
+      
+      // Remove o evento de fechar ao clicar fora
+      document.removeEventListener('click', fecharControlesAoClicarFora);
+    }
+    
+    function fecharControlesLeitor() {
+      const controles = document.getElementById('controlesLeitor');
+      controles.classList.remove('aberto');
+      document.removeEventListener('click', fecharControlesAoClicarFora);
+    }
+    
+    function lerTextoSelecionado() {
+      if (!selectedText || selectedText.length === 0) {
+        const textoSelecionado = window.getSelection().toString().trim();
+        if (textoSelecionado) {
+          selectedText = textoSelecionado;
+        } else {
+          alert('Por favor, selecione algum texto para ler.');
+          return;
+        }
+      }
+      
+      if (isSpeaking && !isPaused) {
+        synth.cancel();
+      }
+      
+      utterance = new SpeechSynthesisUtterance(selectedText);
+      
+      utterance.lang = 'pt-BR';
+      utterance.rate = speechRate;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      
+      utterance.onstart = function() {
+        isSpeaking = true;
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.add('ouvindo');
+      };
+      
+      utterance.onend = function() {
+        isSpeaking = false;
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+      };
+      
+      utterance.onerror = function(event) {
+        console.error('Erro no leitor de texto:', event);
+        isSpeaking = false;
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+        
+        if (event.error === 'not-allowed') {
+          alert('Permissão para usar síntese de voz não concedida. Por favor, verifique as configurações do seu navegador.');
+        }
+      };
+      
+      synth.speak(utterance);
+    }
+    
+    function pausarLeitura() {
+      if (isSpeaking && !isPaused) {
+        synth.pause();
+        isPaused = true;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+      } else if (isSpeaking && isPaused) {
+        synth.resume();
+        isPaused = false;
+        atualizarBotoesLeitor();
+        document.getElementById('botaoLeituraTexto').classList.add('ouvindo');
+      }
+    }
+    
+    function pararLeitura() {
+      synth.cancel();
+      isSpeaking = false;
+      isPaused = false;
+      atualizarBotoesLeitor();
+      document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
+    }
+    
+    function atualizarVelocidade(valor) {
+      speechRate = parseFloat(valor);
+      document.getElementById('velocidadeValor').textContent = valor + 'x';
+      
+      if (utterance && isSpeaking) {
+        synth.cancel();
+        utterance.rate = speechRate;
+        synth.speak(utterance);
+      }
+    }
+    
+    function atualizarBotoesLeitor() {
+      const btnPlay = document.getElementById('btnPlay');
+      const btnPause = document.getElementById('btnPause');
+      const btnStop = document.getElementById('btnStop');
+      
+      if (isSpeaking && !isPaused) {
+        btnPlay.disabled = true;
+        btnPause.disabled = false;
+        btnStop.disabled = false;
+        btnPause.title = "Pausar leitura";
+      } else if (isSpeaking && isPaused) {
+        btnPlay.disabled = true;
+        btnPause.disabled = false;
+        btnStop.disabled = false;
+        btnPause.title = "Continuar leitura";
+      } else {
+        btnPlay.disabled = false;
+        btnPause.disabled = true;
+        btnStop.disabled = true;
+        btnPause.title = "Pausar";
+      }
+    }
+    
+    function highlightSelectedText() {
+      clearHighlight();
+      
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0);
+        const span = document.createElement('span');
+        span.style.backgroundColor = 'var(--cor-leitor-texto)';
+        span.style.border = '2px solid var(--cor-leitor-borda)';
+        span.style.borderRadius = '3px';
+        span.style.padding = '2px 0';
+        span.className = 'texto-selecionado-leitor';
+        
+        try {
+          range.surroundContents(span);
+        } catch(e) {
+          console.log('Não foi possível destacar o texto:', e);
+        }
+      }
+    }
+    
+    function clearHighlight() {
+      const highlights = document.querySelectorAll('.texto-selecionado-leitor');
+      highlights.forEach(span => {
+        const parent = span.parentNode;
+        while (span.firstChild) {
+          parent.insertBefore(span.firstChild, span);
+        }
+        parent.removeChild(span);
+      });
+    }
+    
+    // Controle do menu de acessibilidade
+    function toggleMenuAcessibilidade() {
+      const menu = document.getElementById('menuAcessibilidade');
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
+      
+      menu.classList.toggle('aberto');
+      bolinha.classList.toggle('ativo');
+      
+      const controles = document.getElementById('controlesLeitor');
+      if (controles.classList.contains('aberto')) {
+        controles.classList.remove('aberto');
+      }
+      
+      if (menu.classList.contains('aberto')) {
+        setTimeout(() => {
+          document.addEventListener('click', fecharMenuAoClicarFora);
+        }, 100);
+      } else {
+        document.removeEventListener('click', fecharMenuAoClicarFora);
+      }
+    }
+    
+    function fecharMenuAoClicarFora(event) {
+      const menu = document.getElementById('menuAcessibilidade');
+      const bolinha = document.querySelector('.bolinha-acessibilidade');
+      
+      if (!menu.contains(event.target) && !bolinha.contains(event.target)) {
+        menu.classList.remove('aberto');
+        bolinha.classList.remove('ativo');
+        document.removeEventListener('click', fecharMenuAoClicarFora);
+      }
+    }
+    
+    // Funções de Acessibilidade
+    function alternarTema() {
+      const temaAtual = document.documentElement.getAttribute('data-tema');
+      const novoTema = temaAtual === 'claro' ? 'escuro' : 'claro';
+      
+      fetch('{% url "alterar_tema" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({tema: novoTema})
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          document.documentElement.setAttribute('data-tema', novoTema);
+        }
+      });
+      
+      toggleMenuAcessibilidade();
+    }
+    
+    function aumentarFonte() {
+      const tamanhos = ['pequeno', 'medio', 'grande', 'muito_grande'];
+      const atual = document.documentElement.getAttribute('data-tamanho-fonte');
+      const indexAtual = tamanhos.indexOf(atual);
+      const novoIndex = Math.min(indexAtual + 1, tamanhos.length - 1);
+      
+      if (indexAtual !== novoIndex) {
+        alterarTamanhoFonte(tamanhos[novoIndex]);
+      }
+    }
+    
+    function diminuirFonte() {
+      const tamanhos = ['pequeno', 'medio', 'grande', 'muito_grande'];
+      const atual = document.documentElement.getAttribute('data-tamanho-fonte');
+      const indexAtual = tamanhos.indexOf(atual);
+      const novoIndex = Math.max(indexAtual - 1, 0);
+      
+      if (indexAtual !== novoIndex) {
+        alterarTamanhoFonte(tamanhos[novoIndex]);
+      }
+    }
+    
+    function alterarTamanhoFonte(tamanho) {
+      fetch('{% url "alterar_tamanho_fonte" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': getCSRFToken()
+        },
+        body: JSON.stringify({tamanho: tamanho})
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          document.documentElement.setAttribute('data-tamanho-fonte', tamanho);
+        }
+      });
+    }
+    
+    function resetarAcessibilidade() {
+      fetch('{% url "resetar_acessibilidade" %}')
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          document.documentElement.setAttribute('data-tema', 'claro');
+          document.documentElement.setAttribute('data-tamanho-fonte', 'medio');
+          leitorAtivo = false;
+          esconderBotaoLeitura();
+          fecharControlesLeitor();
+          pararLeitura();
+        }
+      });
+      
+      toggleMenuAcessibilidade();
+    }
+    
+    function getCSRFToken() {
+      const name = 'csrftoken';
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    
+    // Teclas de atalho
+    document.addEventListener('keydown', function(e) {
+      // Ctrl+Alt+L para ativar/desativar leitor
+      if (e.ctrlKey && e.altKey && e.key === 'l') {
+        e.preventDefault();
+        ativarLeitorTexto();
+      }
+      
+      // Ctrl+Alt+S para ler texto selecionado
+      if (e.ctrlKey && e.altKey && e.key === 's') {
+        e.preventDefault();
+        if (leitorAtivo && selectedText) {
+          lerTextoSelecionado();
+        }
+      }
+      
+      // Ctrl+Alt+P para pausar/continuar
+      if (e.ctrlKey && e.altKey && e.key === 'p') {
+        e.preventDefault();
+        if (isSpeaking) {
+          pausarLeitura();
+        }
+      }
+      
+      // Ctrl+Alt+T para parar
+      if (e.ctrlKey && e.altKey && e.key === 't') {
+        e.preventDefault();
+        pararLeitura();
+      }
+      
+      // Ctrl+Alt+Tema para alternar tema
+      if (e.ctrlKey && e.altKey && e.key === 'T') {
+        e.preventDefault();
+        alternarTema();
+      }
+    });
+  </script>
+</body>
+</html>
