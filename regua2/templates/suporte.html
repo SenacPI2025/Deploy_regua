@@ -1125,21 +1125,14 @@
     </div>
     
     <div class="mobile-menu-links">
-      {% if usuario.tipo == 'barbearia' %}
-        <!-- MENU PARA BARBEIROS -->
-        <a href="{% url 'cadastro_barbatalho' %}">Cadastrar Barbearia</a>
-        <a href="{% url 'agendamentos_barbeiro' %}">Agendamentos</a>
-        <a href="{% url 'minha_barbatalho' %}">Minha Barbearia</a>
-      {% else %}
-        <!-- MENU PARA CLIENTES -->
-        <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
-        <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
-      {% endif %}
+      <!-- MENU PARA CLIENTES -->
+      <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
+      <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
       <a href="{% url 'suporteatalho' %}">Suporte</a>
       <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
     </div>
     
-    <a href="{% if usuario.tipo == 'barbearia' %}{% url 'perfil_barbeiroatalho' %}{% else %}{% url 'perfilatalho' %}{% endif %}" class="mobile-profile" onclick="fecharMenuMobile()">
+    <a href="{% url 'perfilatalho' %}" class="mobile-profile" onclick="fecharMenuMobile()">
       <div class="mobile-profile-pic" id="mobileProfilePic" 
         {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
       </div>
@@ -1164,21 +1157,14 @@
       <div class="dropdown">
         <button class="dropbtn">☰ Menu</button>
         <div class="dropdown-content">
-          {% if usuario.tipo == 'barbearia' %}
-            <!-- MENU PARA BARBEIROS -->
-            <a href="{% url 'cadastro_barbatalho' %}">Cadastrar Barbearia</a>
-            <a href="{% url 'agendamentos_barbeiro' %}">Agendamentos</a>
-            <a href="{% url 'minha_barbatalho' %}">Minha Barbearia</a>
-          {% else %}
-            <!-- MENU PARA CLIENTES -->
-            <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
-            <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
-          {% endif %}
+          <!-- MENU PARA CLIENTES -->
+          <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
+          <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
           <a href="{% url 'suporteatalho' %}">Suporte</a>
           <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
         </div>
       </div>
-      <a href="{% if usuario.tipo == 'barbearia' %}{% url 'perfil_barbeiroatalho' %}{% else %}{% url 'perfilatalho' %}{% endif %}" class="profile-icon">
+      <a href="{% url 'perfilatalho' %}" class="profile-icon">
         <div class="profile-pic-nav" id="profile-pic-nav" 
           {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
         </div>
@@ -1304,11 +1290,7 @@
       <div class="footer-links">
         <a href="{% url 'Homeatalho' %}">Início</a>
         <a href="{% url 'suporteatalho' %}">Suporte</a>
-        {% if usuario.tipo == 'barbearia' %}
-          <a href="{% url 'cadastro_barbatalho' %}">Cadastrar Barbearia</a>
-        {% else %}
-          <a href="{% url 'barbeariaatalho' %}">Barbearias</a>
-        {% endif %}
+        <a href="{% url 'barbeariaatalho' %}">Barbearias</a>
         <a href="{% url 'logout' %}">Sair</a>
       </div>
       <div class="footer-bottom">
@@ -1332,12 +1314,6 @@
       }
       document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
       document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
-      
-      // Verificar se é barbeiro para exibir a categoria correta
-      const isBarbeiro = {% if usuario.tipo == 'barbearia' %}true{% else %}false{% endif %};
-      if (isBarbeiro) {
-        mostrarCategoria('barbeiros');
-      }
     });
 
     document.addEventListener('mouseup', function() {
