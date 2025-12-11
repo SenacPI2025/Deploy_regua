@@ -10,6 +10,9 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timedelta
 import json
 from .models import Barbearia, Usuario,Agendamento
+from cloudinary.uploader import upload
+from cloudinary.exceptions import Error as CloudinaryError
+import cloudinary
 
 
 
@@ -265,23 +268,58 @@ def upload_foto_perfil(request):
         try:
             usuario = Usuario.objects.get(id=request.session['usuario_id'])
             
-            # Remove a foto antiga se existir
+            # Remove a foto antiga do Cloudinary se existir
             if usuario.foto_perfil:
-                if os.path.isfile(usuario.foto_perfil.path):
-                    os.remove(usuario.foto_perfil.path)
+                try:
+                    # Extrai o public_id da URL do Cloudinary
+                    # O formato é algo como: image/upload/v1234567/perfil/user_1_foto.jpg
+                    if 'cloudinary.com' in usuario.foto_perfil.url:
+                        # Encontra o public_id na URL
+                        parts = usuario.foto_perfil.url.split('/')
+                        # O public_id geralmente está após 'upload/'
+                        upload_index = parts.index('upload') if 'upload' in parts else -1
+                        if upload_index != -1:
+                            public_id = '/'.join(parts[upload_index + 2:])  # Pega tudo após 'upload/v1234567/'
+                            public_id = public_id.split('.')[0]  # Remove a extensão
+                            cloudinary.uploader.destroy(public_id)
+                except Exception as e:
+                    print(f"Erro ao deletar imagem antiga do Cloudinary: {e}")
             
-            # Salva a nova foto
+            # Faz upload da nova foto para o Cloudinary
             foto = request.FILES['foto_perfil']
-            fs = FileSystemStorage()
-            filename = fs.save(f'perfil/user_{usuario.id}_{foto.name}', foto)
-            usuario.foto_perfil = filename
+            
+            # Define o nome do arquivo no Cloudinary
+            nome_arquivo = f'perfil/user_{usuario.id}_{foto.name}'
+            
+            # Faz o upload para o Cloudinary
+            resultado = upload(
+                foto,
+                public_id=nome_arquivo,
+                folder="perfil",
+                resource_type="image",
+                transformation=[
+                    {'width': 500, 'height': 500, 'crop': 'fill'},
+                    {'gravity': 'face', 'radius': 'max'}
+                ]
+            )
+            
+            # Salva a URL da imagem no modelo de usuário
+            usuario.foto_perfil = resultado['secure_url']
             usuario.save()
             
-            return JsonResponse({'status': 'success', 'foto_url': usuario.foto_perfil.url})
+            return JsonResponse({
+                'status': 'success', 
+                'foto_url': usuario.foto_perfil.url if hasattr(usuario.foto_perfil, 'url') else usuario.foto_perfil
+            })
+            
+        except Usuario.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Usuário não encontrado'}, status=404)
+        except CloudinaryError as e:
+            return JsonResponse({'status': 'error', 'message': f'Erro no Cloudinary: {str(e)}'}, status=400)
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
     
-    return JsonResponse({'status': 'error'}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'}, status=400)
 
 def atualizar_perfil(request):
     if request.method == 'POST':
@@ -304,28 +342,51 @@ def atualizar_perfil(request):
             
             # Redirecionamento específico para barbeiros
             if usuario.tipo == 'barbearia':
-                return redirect('barbeiroatalho')  # Alterado para página do barbeiro
+                return redirect('barbeiroatalho')
             else:
-                return redirect('Homeatalho')  # Para clientes normais
+                return redirect('Homeatalho')
                 
         except Exception as e:
             messages.error(request, f'Erro ao atualizar perfil: {str(e)}')
-            if request.user.tipo == 'barbearia':
-                return redirect('perfil_barbeiro')
+            if usuario.tipo == 'barbearia':
+                return redirect('perfil_barbeiroatalho')
             else:
                 return redirect('perfilatalho')
     
     return redirect('loginatalho')
-
+    
 def deletar_conta(request):
     if request.method == 'POST':
         try:
             usuario = Usuario.objects.get(id=request.session['usuario_id'])
             
-            # Remove a foto de perfil se existir
+            # Remove a foto de perfil do Cloudinary se existir
             if usuario.foto_perfil:
-                if os.path.isfile(usuario.foto_perfil.path):
-                    os.remove(usuario.foto_perfil.path)
+                try:
+                    if 'cloudinary.com' in usuario.foto_perfil.url:
+                        # Extrai o public_id da URL
+                        parts = usuario.foto_perfil.url.split('/')
+                        upload_index = parts.index('upload') if 'upload' in parts else -1
+                        if upload_index != -1:
+                            public_id = '/'.join(parts[upload_index + 2:])
+                            public_id = public_id.split('.')[0]
+                            cloudinary.uploader.destroy(public_id)
+                except Exception as e:
+                    print(f"Erro ao deletar imagem do Cloudinary: {e}")
+            
+            # Se o usuário for barbeiro, também exclui a logo da barbearia
+            if usuario.tipo == 'barbearia':
+                try:
+                    barbearia = Barbearia.objects.get(usuario=usuario)
+                    if barbearia.foto_logo and 'cloudinary.com' in barbearia.foto_logo.url:
+                        parts = barbearia.foto_logo.url.split('/')
+                        upload_index = parts.index('upload') if 'upload' in parts else -1
+                        if upload_index != -1:
+                            public_id = '/'.join(parts[upload_index + 2:])
+                            public_id = public_id.split('.')[0]
+                            cloudinary.uploader.destroy(public_id)
+                except Barbearia.DoesNotExist:
+                    pass
             
             usuario.delete()
             request.session.flush()
@@ -903,4 +964,5 @@ def resetar_acessibilidade(request):
     if 'config_acessibilidade' in request.session:
         del request.session['config_acessibilidade']
     
+
     return JsonResponse({'status': 'success', 'message': 'Configurações resetadas!'})
