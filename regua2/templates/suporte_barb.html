@@ -1132,7 +1132,7 @@
       <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
     </div>
     
-    <a href="{% url 'perfilatalho' %}" class="mobile-profile" onclick="fecharMenuMobile()">
+    <a href="{% url 'perfil_barbeiroatalho' %}" class="mobile-profile" onclick="fecharMenuMobile()">
       <div class="mobile-profile-pic" id="mobileProfilePic" 
         {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
       </div>
@@ -1164,7 +1164,7 @@
           <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
         </div>
       </div>
-      <a href="{% url 'perfilatalho' %}" class="profile-icon">
+      <a href="{% url 'perfil_barbeiroatalho' %}" class="profile-icon">
         <div class="profile-pic-nav" id="profile-pic-nav" 
           {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
         </div>
@@ -1709,4 +1709,5 @@
     });
   </script>
 </body>
+
 </html>
