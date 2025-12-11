@@ -510,7 +510,7 @@
       text-decoration: underline;
     }
 
-    /* Leitor de Texto - Igual às outras páginas */
+    /* Leitor de Texto */
     .bolinha-acessibilidade {
       position: fixed;
       bottom: 20px;
@@ -893,11 +893,6 @@
       color: var(--cor-footer-texto);
     }
 
-    /* Estilo para email responsivo - CORREÇÃO DO PROBLEMA NO MOBILE */
-    .contato-email a {
-      transition: all 0.3s ease;
-    }
-
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -977,12 +972,6 @@
         gap: 1rem;
       }
 
-      /* CORREÇÃO PARA EMAIL NO MOBILE */
-      .contato-email {
-        padding: 1.5rem;
-        margin: 1rem 0;
-      }
-      
       .contato-email a {
         word-break: break-all;
         display: inline-block;
@@ -1042,7 +1031,6 @@
         min-width: 170px;
       }
 
-      /* CORREÇÃO ADICIONAL PARA EMAIL EM TELAS PEQUENAS */
       .contato-email a {
         font-size: calc(var(--tamanho-p) * 0.9);
         word-break: break-word;
@@ -1057,27 +1045,6 @@
         height: 40px !important;
         bottom: 20px !important;
         left: 10px !important;
-      }
-    }
-
-    @media (max-width: 360px) {
-      .menu-acessibilidade {
-        right: 10px;
-        left: 10px;
-        min-width: auto;
-      }
-
-      .bolinha-acessibilidade {
-        right: 60px;
-      }
-
-      .botao-leitura-texto {
-        right: 110px;
-      }
-
-      .controles-leitor {
-        right: 110px;
-        min-width: 160px;
       }
     }
   </style>
@@ -1158,18 +1125,13 @@
     </div>
     
     <div class="mobile-menu-links">
-      {% if usuario and usuario.barbearia %}
-        <!-- Menu para Barbeiros -->
-        <a href="{% url 'pagina_barbeiro' %}">Área do Barbeiro</a>
-        {% if not usuario.barbearia %}
-          <a href="{% url 'cadastro_barbatalho' %}">Cadastrar Barbearia</a>
-        {% else %}
-          <a href="#" onclick="mostrarAvisoBarbearia(); fecharMenuMobile(); return false;">Cadastrar Barbearia</a>
-        {% endif %}
+      {% if usuario.tipo == 'barbearia' %}
+        <!-- MENU PARA BARBEIROS -->
+        <a href="{% url 'cadastro_barbatalho' %}">Cadastrar Barbearia</a>
         <a href="{% url 'agendamentos_barbeiro' %}">Agendamentos</a>
         <a href="{% url 'minha_barbatalho' %}">Minha Barbearia</a>
       {% else %}
-        <!-- Menu para Clientes -->
+        <!-- MENU PARA CLIENTES -->
         <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
         <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
       {% endif %}
@@ -1177,13 +1139,13 @@
       <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
     </div>
     
-    <a href="{% if usuario and usuario.barbearia %}{% url 'perfil_barbeiroatalho' %}{% else %}{% url 'perfilatalho' %}{% endif %}" class="mobile-profile" onclick="fecharMenuMobile()">
+    <a href="{% if usuario.tipo == 'barbearia' %}{% url 'perfil_barbeiroatalho' %}{% else %}{% url 'perfilatalho' %}{% endif %}" class="mobile-profile" onclick="fecharMenuMobile()">
       <div class="mobile-profile-pic" id="mobileProfilePic" 
         {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
       </div>
       <div class="mobile-profile-name">
-        {% if user.first_name %}
-          {{ user.first_name }} {{ user.last_name }}
+        {% if usuario %}
+          {{ usuario.nome }} {{ usuario.sobrenome }}
         {% else %}
           Meu Perfil
         {% endif %}
@@ -1202,18 +1164,13 @@
       <div class="dropdown">
         <button class="dropbtn">☰ Menu</button>
         <div class="dropdown-content">
-          {% if usuario and usuario.barbearia %}
-            <!-- Menu para Barbeiros -->
-            <a href="{% url 'pagina_barbeiro' %}">Área do Barbeiro</a>
-            {% if not usuario.barbearia %}
-              <a href="{% url 'cadastro_barbatalho' %}">Cadastrar Barbearia</a>
-            {% else %}
-              <a href="#" onclick="mostrarAvisoBarbearia(); return false;">Cadastrar Barbearia</a>
-            {% endif %}
+          {% if usuario.tipo == 'barbearia' %}
+            <!-- MENU PARA BARBEIROS -->
+            <a href="{% url 'cadastro_barbatalho' %}">Cadastrar Barbearia</a>
             <a href="{% url 'agendamentos_barbeiro' %}">Agendamentos</a>
             <a href="{% url 'minha_barbatalho' %}">Minha Barbearia</a>
           {% else %}
-            <!-- Menu para Clientes -->
+            <!-- MENU PARA CLIENTES -->
             <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
             <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
           {% endif %}
@@ -1221,7 +1178,7 @@
           <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
         </div>
       </div>
-      <a href="{% if usuario and usuario.barbearia %}{% url 'perfil_barbeiroatalho' %}{% else %}{% url 'perfilatalho' %}{% endif %}" class="profile-icon">
+      <a href="{% if usuario.tipo == 'barbearia' %}{% url 'perfil_barbeiroatalho' %}{% else %}{% url 'perfilatalho' %}{% endif %}" class="profile-icon">
         <div class="profile-pic-nav" id="profile-pic-nav" 
           {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
         </div>
@@ -1347,8 +1304,8 @@
       <div class="footer-links">
         <a href="{% url 'Homeatalho' %}">Início</a>
         <a href="{% url 'suporteatalho' %}">Suporte</a>
-        {% if usuario and usuario.barbearia %}
-          <a href="{% url 'pagina_barbeiro' %}">Área do Barbeiro</a>
+        {% if usuario.tipo == 'barbearia' %}
+          <a href="{% url 'cadastro_barbatalho' %}">Cadastrar Barbearia</a>
         {% else %}
           <a href="{% url 'barbeariaatalho' %}">Barbearias</a>
         {% endif %}
@@ -1376,8 +1333,8 @@
       document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
       document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
       
-      // Verificar se é barbeiro ou cliente para exibir a categoria correta
-      const isBarbeiro = {% if usuario and usuario.barbearia %}true{% else %}false{% endif %};
+      // Verificar se é barbeiro para exibir a categoria correta
+      const isBarbeiro = {% if usuario.tipo == 'barbearia' %}true{% else %}false{% endif %};
       if (isBarbeiro) {
         mostrarCategoria('barbeiros');
       }
@@ -1609,32 +1566,6 @@
       });
     }
 
-    document.addEventListener('keydown', function(e) {
-      if (e.ctrlKey && e.altKey && e.key === 'l') {
-        e.preventDefault();
-        ativarLeitorTexto();
-      }
-      
-      if (e.ctrlKey && e.altKey && e.key === 's') {
-        e.preventDefault();
-        if (leitorAtivo && selectedText) {
-          lerTextoSelecionado();
-        }
-      }
-      
-      if (e.ctrlKey && e.altKey && e.key === 'p') {
-        e.preventDefault();
-        if (isSpeaking) {
-          pausarLeitura();
-        }
-      }
-      
-      if (e.ctrlKey && e.altKey && e.key === 't') {
-        e.preventDefault();
-        pararLeitura();
-      }
-    });
-
     function mostrarCategoria(categoria) {
       document.querySelectorAll('.faq-categoria').forEach(cat => {
         cat.classList.remove('ativo');
@@ -1688,10 +1619,6 @@
         bolinha.classList.remove('ativo');
         document.removeEventListener('click', fecharMenuAoClicarFora);
       }
-    }
-
-    function mostrarAvisoBarbearia() {
-      alert('Você já possui uma barbearia cadastrada! Acesse "Minha Barbearia" para gerenciá-la.');
     }
 
     function alternarTema() {
@@ -1788,16 +1715,14 @@
       return cookieValue;
     }
 
-    // Carrega foto de perfil se existir
     document.addEventListener('DOMContentLoaded', function () {
-      {% if usuario.foto_perfil %}
+      {% if foto_url %}
       document.querySelectorAll('.profile-pic-nav, .mobile-profile-pic').forEach(pic => {
-        pic.style.backgroundImage = 'url({{ usuario.foto_perfil.url }})';
+        pic.style.backgroundImage = 'url({{ foto_url }})';
         pic.classList.add('has-photo');
       });
       {% endif %}
 
-      // Remove animação da bolinha após 10 segundos
       setTimeout(() => {
         const bolinha = document.querySelector('.bolinha-acessibilidade');
         if (bolinha) {
