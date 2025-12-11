@@ -10,6 +10,7 @@ urlpatterns = [
     path('', pag_principal, name='pag_inicial_atalho'),
     path('Home/', Home, name='Homeatalho'),
     path('suporte/', suporte, name='suporteatalho'),
+    path('suporte_barb/', suporte, name='suportebarbatalho'),
     path('esqueci_senha/', esqueci_senha, name='esquecisenhaatalho'),
     path('perfil/', perfil, name='perfilatalho'),
     path('perfil_barb/', perfil_barb, name='perfil_barbeiroatalho'),
@@ -40,4 +41,5 @@ urlpatterns = [
     path('resetar-acessibilidade/', resetar_acessibilidade, name='resetar_acessibilidade'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
