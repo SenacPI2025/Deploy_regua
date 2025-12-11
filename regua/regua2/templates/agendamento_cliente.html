@@ -356,7 +356,7 @@
             right: 160px;
             width: 60px;
             height: 60px;
-            background: var(--cor-bolinha);
+            background: #1DB954;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -381,7 +381,7 @@
 
         .botao-leitura-texto:hover {
             transform: scale(1.1);
-            background: var(--cor-bolinha-hover);
+            background: #17a745;
         }
 
         .botao-leitura-texto.ouvindo {
@@ -390,9 +390,18 @@
         }
 
         @keyframes pulsar {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
+            }
         }
 
         /* Controles do Leitor de Texto */
@@ -410,7 +419,7 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
-            min-width: 200px;
+            min-width: 180px;
         }
 
         .controles-leitor.aberto {
@@ -419,43 +428,19 @@
             visibility: visible;
         }
 
-        .controles-leitor-header {
+        .controles-leitor-conteudo {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--cor-borda);
+            gap: 10px;
         }
 
         .controle-leitor-titulo {
             font-size: 14px;
             font-weight: bold;
             color: var(--cor-widget-texto);
+            margin-bottom: 5px;
             text-align: center;
-            flex: 1;
-        }
-
-        .controle-leitor-fechar {
-            background: none;
-            border: none;
-            color: var(--cor-widget-texto);
-            font-size: 20px;
-            cursor: pointer;
-            padding: 0 5px;
-            line-height: 1;
-            transition: color 0.3s ease;
-        }
-
-        .controle-leitor-fechar:hover {
-            color: #ff4757;
-        }
-
-        .controles-leitor-conteudo {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
         }
 
         .controles-leitor-botoes {
@@ -469,7 +454,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: var(--gradiente-primario);
+            background: #1DB954;
             border: none;
             color: white;
             cursor: pointer;
@@ -481,6 +466,7 @@
         }
 
         .controle-leitor-btn:hover {
+            background: #17a745;
             transform: scale(1.1);
         }
 
@@ -519,7 +505,7 @@
             width: 15px;
             height: 15px;
             border-radius: 50%;
-            background: var(--cor-bolinha);
+            background: #1DB954;
             cursor: pointer;
         }
 
@@ -527,7 +513,7 @@
             width: 15px;
             height: 15px;
             border-radius: 50%;
-            background: var(--cor-bolinha);
+            background: #1DB954;
             cursor: pointer;
             border: none;
         }
@@ -549,7 +535,7 @@
         }
         
         div[vw] .vw-access-button {
-            background-color: var(--cor-bolinha) !important;
+            background-color: #1DB954 !important;
             border-radius: 50% !important;
             width: 50px !important;
             height: 50px !important;
@@ -561,7 +547,7 @@
         
         div[vw] .vw-access-button:hover {
             transform: scale(1.1) !important;
-            background-color: var(--cor-bolinha-hover) !important;
+            background-color: #17a745 !important;
         }
         
         div[vw] .vw-access-button img {
@@ -687,13 +673,12 @@
                 width: 50px;
                 height: 50px;
                 font-size: 20px;
-                right: 140px;
+                right: 130px;
             }
 
             .controles-leitor {
-                right: 140px;
-                bottom: 105px;
-                min-width: 180px;
+                right: 130px;
+                bottom: 80px;
             }
 
             .menu-acessibilidade {
@@ -746,13 +731,12 @@
                 width: 45px;
                 height: 45px;
                 font-size: 18px;
-                right: 125px;
+                right: 115px;
             }
 
             .controles-leitor {
-                right: 125px;
-                bottom: 105px;
-                min-width: 170px;
+                right: 115px;
+                bottom: 80px;
             }
 
             .menu-acessibilidade {
@@ -777,12 +761,11 @@
             }
 
             .botao-leitura-texto {
-                right: 110px;
+                right: 100px;
             }
 
             .controles-leitor {
-                right: 110px;
-                min-width: 160px;
+                right: 100px;
             }
 
             .menu-acessibilidade {
@@ -1141,7 +1124,7 @@
 
     <!-- Bolinha de Acessibilidade -->
     <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
-        +
+        ♿
     </button>
 
     <!-- Botão de Leitura de Texto -->
@@ -1151,11 +1134,8 @@
 
     <!-- Controles do Leitor de Texto -->
     <div class="controles-leitor" id="controlesLeitor">
-        <div class="controles-leitor-header">
-            <div class="controle-leitor-titulo">Leitor de Texto</div>
-            <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
-        </div>
         <div class="controles-leitor-conteudo">
+            <div class="controle-leitor-titulo">Leitor de Texto</div>
             <div class="controles-leitor-botoes">
                 <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
                 <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
@@ -1483,23 +1463,18 @@
         function toggleControlesLeitor() {
             const controles = document.getElementById('controlesLeitor');
             const botao = document.getElementById('botaoLeituraTexto');
-            
-            // Abre os controles apenas (remove o toggle)
-            controles.classList.add('aberto');
-            
+            controles.classList.toggle('aberto');
             const menuAcessibilidade = document.getElementById('menuAcessibilidade');
             if (menuAcessibilidade.classList.contains('aberto')) {
                 menuAcessibilidade.classList.remove('aberto');
             }
-            
-            // Remove o evento de fechar ao clicar fora
-            document.removeEventListener('click', fecharControlesAoClicarFora);
-        }
-
-        function fecharControlesLeitor() {
-            const controles = document.getElementById('controlesLeitor');
-            controles.classList.remove('aberto');
-            document.removeEventListener('click', fecharControlesAoClicarFora);
+            if (controles.classList.contains('aberto')) {
+                setTimeout(() => {
+                    document.addEventListener('click', fecharControlesAoClicarFora);
+                }, 100);
+            } else {
+                document.removeEventListener('click', fecharControlesAoClicarFora);
+            }
         }
 
         function fecharControlesAoClicarFora(event) {
@@ -1509,6 +1484,12 @@
                 controles.classList.remove('aberto');
                 document.removeEventListener('click', fecharControlesAoClicarFora);
             }
+        }
+
+        function fecharControlesLeitor() {
+            const controles = document.getElementById('controlesLeitor');
+            controles.classList.remove('aberto');
+            document.removeEventListener('click', fecharControlesAoClicarFora);
         }
 
         function lerTextoSelecionado() {

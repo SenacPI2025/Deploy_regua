@@ -1,113 +1,131 @@
 <!DOCTYPE html>
 <html lang="pt-br" data-tema="{{ config_acessibilidade.tema|default:'claro' }}" data-tamanho-fonte="{{ config_acessibilidade.tamanho_fonte|default:'medio' }}">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Barbearias | Regua</title>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Regua - Encontre a Barbearia Perfeita</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&display=swap');
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Unbounded', sans-serif;
     }
 
     /* Variáveis CSS para temas */
     :root[data-tema="claro"] {
+      --cor-primaria: #1DB954;
+      --cor-primaria-escura: #17a745;
+      --cor-secundaria: #2d3748;
       --cor-fundo: #ffffff;
-      --cor-texto: #333333;
-      --cor-primaria: #007bff;
-      --cor-secundaria: #6c757d;
-      --cor-borda: #dee2e6;
+      --cor-fundo-secundario: #f8f9fa;
+      --cor-texto: #2d3748;
+      --cor-texto-claro: #718096;
+      --cor-borda: #e2e8f0;
       --cor-navbar: #ffffff;
-      --cor-navbar-texto: #000000;
-      --cor-card: rgba(0, 0, 20, 0.7);
+      --cor-navbar-texto: #2d3748;
+      --cor-card: #ffffff;
       --cor-overlay: rgba(0, 0, 0, 0.7);
+      --cor-sombra: rgba(0, 0, 0, 0.1);
+      --cor-bolinha: #1DB954;
+      --cor-bolinha-hover: #17a745;
       --cor-dropdown: #ffffff;
-      --cor-dropdown-texto: #000000;
+      --cor-dropdown-texto: #2d3748;
       --cor-dropdown-hover: #f1f1f1;
+      --gradiente-primario: linear-gradient(135deg, #2aa745, #34ce57);
       --cor-widget: #ffffff;
       --cor-widget-texto: #333333;
       --cor-widget-hover: #f8f9fa;
-      --gradiente-primario: linear-gradient(135deg, #2aa745, #34ce57);
-      --cor-bolinha: #2aa745;
-      --cor-bolinha-hover: #228c3a;
-      --cor-sombra: rgba(0, 0, 0, 0.1);
+      /* Novas cores para o footer */
+      --cor-footer-texto: #ffffff;
+      --cor-footer-links: #e2e8f0;
+      --cor-footer-links-hover: #1DB954;
       --cor-leitor-texto: rgba(29, 185, 84, 0.1);
       --cor-leitor-borda: #1DB954;
     }
 
     :root[data-tema="escuro"] {
-      --cor-fundo: #1a1a1a;
-      --cor-texto: #ffffff;
-      --cor-primaria: #0d6efd;
-      --cor-secundaria: #6c757d;
-      --cor-borda: #495057;
-      --cor-navbar: #2d2d2d;
-      --cor-navbar-texto: #ffffff;
-      --cor-card: rgba(30, 30, 60, 0.8);
+      --cor-primaria: #1DB954;
+      --cor-primaria-escura: #17a745;
+      --cor-secundaria: #e2e8f0;
+      --cor-fundo: #1a202c;
+      --cor-fundo-secundario: #2d3748;
+      --cor-texto: #e2e8f0;
+      --cor-texto-claro: #a0aec0;
+      --cor-borda: #4a5568;
+      --cor-navbar: #2d3748;
+      --cor-navbar-texto: #e2e8f0;
+      --cor-card: #2d3748;
       --cor-overlay: rgba(0, 0, 0, 0.8);
-      --cor-dropdown: #2d2d2d;
-      --cor-dropdown-texto: #ffffff;
-      --cor-dropdown-hover: #3d3d3d;
+      --cor-sombra: rgba(0, 0, 0, 0.3);
+      --cor-bolinha: #1DB954;
+      --cor-bolinha-hover: #17a745;
+      --cor-dropdown: #2d3748;
+      --cor-dropdown-texto: #e2e8f0;
+      --cor-dropdown-hover: #4a5568;
+      --gradiente-primario: linear-gradient(135deg, #2aa745, #28a745);
       --cor-widget: #2d2d2d;
       --cor-widget-texto: #ffffff;
       --cor-widget-hover: #3d3d3d;
-      --gradiente-primario: linear-gradient(135deg, #2aa745, #28a745);
-      --cor-bolinha: #2aa745;
-      --cor-bolinha-hover: #34ce57;
-      --cor-sombra: rgba(0, 0, 0, 0.3);
+      /* Novas cores para o footer */
+      --cor-footer-texto: #000000;
+      --cor-footer-links: #000000;
+      --cor-footer-links-hover: #1DB954;
       --cor-leitor-texto: rgba(29, 185, 84, 0.2);
       --cor-leitor-borda: #1DB954;
     }
 
     /* Tamanhos de fonte */
     :root[data-tamanho-fonte="pequeno"] {
-      --tamanho-fonte: 12px;
-      --tamanho-h1: 1.5rem;
-      --tamanho-h2: 1.3rem;
-      --tamanho-h3: 1.1rem;
+      --tamanho-fonte: 14px;
+      --tamanho-h1: 1.8rem;
+      --tamanho-h2: 1.5rem;
+      --tamanho-h3: 1.3rem;
       --tamanho-p: 0.9rem;
     }
 
     :root[data-tamanho-fonte="medio"] {
       --tamanho-fonte: 16px;
-      --tamanho-h1: 2rem;
-      --tamanho-h2: 1.5rem;
-      --tamanho-h3: 1.2rem;
-      --tamanho-p: 0.95rem;
-    }
-
-    :root[data-tamanho-fonte="grande"] {
-      --tamanho-fonte: 20px;
       --tamanho-h1: 2.5rem;
       --tamanho-h2: 2rem;
       --tamanho-h3: 1.5rem;
+      --tamanho-p: 1rem;
+    }
+
+    :root[data-tamanho-fonte="grande"] {
+      --tamanho-fonte: 18px;
+      --tamanho-h1: 3rem;
+      --tamanho-h2: 2.5rem;
+      --tamanho-h3: 1.8rem;
       --tamanho-p: 1.1rem;
     }
 
     :root[data-tamanho-fonte="muito_grande"] {
-      --tamanho-fonte: 24px;
-      --tamanho-h1: 3rem;
-      --tamanho-h2: 2.5rem;
-      --tamanho-h3: 1.8rem;
+      --tamanho-fonte: 20px;
+      --tamanho-h1: 3.5rem;
+      --tamanho-h2: 3rem;
+      --tamanho-h3: 2rem;
       --tamanho-p: 1.3rem;
     }
 
     body {
-      font-family: 'Inter', sans-serif;
       background-color: var(--cor-fundo);
       color: var(--cor-texto);
       font-size: var(--tamanho-fonte);
+      line-height: 1.6;
       transition: all 0.3s ease;
       user-select: text;
     }
 
+    /* Estilo para texto selecionado */
     ::selection {
       background-color: var(--cor-leitor-texto);
       color: var(--cor-texto);
     }
 
+    /* NAVBAR - Estilo do perfil.html */
     nav {
       background-color: var(--cor-navbar);
       color: var(--cor-navbar-texto);
@@ -117,71 +135,23 @@
       padding: 1rem 2rem;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 100;
+      box-shadow: 0 2px 10px var(--cor-sombra);
     }
 
     .logo {
       font-size: var(--tamanho-h2);
       color: var(--cor-navbar-texto);
       font-weight: bold;
-      font-family: 'Unbounded', sans-serif;
+    }
+
+    .logo a {
+      text-decoration: none;
+      color: inherit;
     }
 
     .R {
-      color: #1DB954;
-    }
-
-    .alert-messages {
-        position: fixed;
-        top: 70px;
-        left: 20px;
-        z-index: 1000;
-        max-width: 400px;
-    }
-
-    .alert {
-        padding: 15px;
-        margin-bottom: 10px;
-        border-radius: 4px;
-        animation: fadeIn 0.5s;
-    }
-
-    .alert-success {
-        background-color: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-    }
-
-    .alert-error {
-        background-color: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-    }
-
-    .alert-warning {
-        background-color: #fff3cd;
-        color: #856404;
-        border: 1px solid #ffeeba;
-    }
-
-    .alert-info {
-        background-color: #d1ecf1;
-        color: #0c5460;
-        border: 1px solid #bee5eb;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .fade-out {
-        animation: fadeOut 0.5s forwards;
-    }
-
-    @keyframes fadeOut {
-        from { opacity: 1; transform: translateY(0); }
-        to { opacity: 0; transform: translateY(-20px); }
+      color: var(--cor-primaria);
     }
 
     .nav-links {
@@ -194,16 +164,12 @@
       color: var(--cor-navbar-texto);
       text-decoration: none;
       font-weight: bold;
-      font-family: 'Unbounded', sans-serif;
     }
 
-    .menu-icon {
-      font-size: var(--tamanho-h2);
-      display: none;
-      cursor: pointer;
-      background: none;
-      border: none;
-      color: var(--cor-navbar-texto);
+    /* Dropdown Menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
     }
 
     .dropbtn {
@@ -215,11 +181,6 @@
       cursor: pointer;
       font-weight: bold;
       font-family: 'Unbounded', sans-serif;
-    }
-
-    .dropdown {
-      position: relative;
-      display: inline-block;
     }
 
     .dropdown-content {
@@ -239,7 +200,6 @@
       display: block;
       text-align: left;
       font-size: var(--tamanho-p);
-      font-family: 'Unbounded', sans-serif;
     }
 
     .dropdown-content a:hover {
@@ -251,9 +211,7 @@
     }
 
     .profile-icon {
-      margin-left: 20px;
-      display: flex;
-      align-items: center;
+      margin-left: 1.5rem;
     }
 
     .profile-pic-nav {
@@ -272,6 +230,43 @@
       transform: scale(1.1);
     }
 
+    .profile-pic-nav::before {
+      content: "";
+      position: absolute;
+      top: 25%;
+      left: 25%;
+      width: 50%;
+      height: 50%;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    .profile-pic-nav::after {
+      content: "";
+      position: absolute;
+      bottom: 8px;
+      left: 25%;
+      width: 50%;
+      height: 25%;
+      border-top: 2px solid white;
+      border-radius: 50%;
+    }
+
+    .profile-pic-nav.has-photo::before,
+    .profile-pic-nav.has-photo::after {
+      display: none;
+    }
+
+    .menu-icon {
+      font-size: var(--tamanho-h2);
+      display: none;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--cor-navbar-texto);
+    }
+
+    /* Menu Mobile */
     .mobile-menu {
       display: none;
       position: fixed;
@@ -321,7 +316,6 @@
       padding: 1rem;
       border-radius: 8px;
       transition: background-color 0.3s ease;
-      font-family: 'Unbounded', sans-serif;
     }
 
     .mobile-menu-links a:hover {
@@ -362,13 +356,200 @@
     .mobile-profile-name {
       color: var(--cor-navbar-texto);
       font-size: var(--tamanho-p);
-      font-family: 'Unbounded', sans-serif;
     }
 
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 80vh;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                  url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding: 0 2rem;
+    }
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+    .hero h1 {
+      font-size: var(--tamanho-h1);
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: var(--tamanho-p);
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background-color: var(--cor-primaria);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: var(--tamanho-p);
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--cor-primaria-escura);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 5rem 2rem;
+      background-color: var(--cor-fundo-secundario);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: var(--tamanho-h2);
+      color: var(--cor-texto);
+      margin-bottom: 1rem;
+    }
+
+    .section-title p {
+      font-size: var(--tamanho-p);
+      color: var(--cor-texto-claro);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background-color: var(--cor-card);
+      border-radius: 10px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 5px 15px var(--cor-sombra);
+      transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      color: var(--cor-primaria);
+    }
+
+    .feature-card h3 {
+      font-size: var(--tamanho-h3);
+      margin-bottom: 1rem;
+      color: var(--cor-texto);
+    }
+
+    .feature-card p {
+      font-size: var(--tamanho-p);
+      color: var(--cor-texto-claro);
+    }
+
+    /* Barbearias Section */
+    .barbearias {
+      padding: 5rem 2rem;
+      background-color: var(--cor-fundo);
+    }
+
+    .barbearias-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .barbearia-card {
+      background-color: var(--cor-card);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px var(--cor-sombra);
+      transition: transform 0.3s ease;
+    }
+
+    .barbearia-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .barbearia-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .barbearia-content {
+      padding: 1.5rem;
+    }
+
+    .barbearia-content h3 {
+      font-size: var(--tamanho-h3);
+      margin-bottom: 0.5rem;
+      color: var(--cor-texto);
+    }
+
+    .barbearia-content p {
+      font-size: var(--tamanho-p);
+      color: var(--cor-texto-claro);
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      background-color: transparent;
+      color: var(--cor-primaria);
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: var(--tamanho-p);
+      transition: all 0.3s ease;
+      border: 2px solid var(--cor-primaria);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--cor-primaria);
+      color: white;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    /* Bolinha de Acessibilidade */
     .bolinha-acessibilidade {
       position: fixed;
       bottom: 20px;
-      right: 90px;
+      right: 90px; /* Alterado para dar espaço ao VLibras */
       width: 60px;
       height: 60px;
       background: var(--cor-bolinha);
@@ -388,25 +569,19 @@
     .bolinha-acessibilidade:hover {
       transform: scale(1.1);
       background: var(--cor-bolinha-hover);
-      box-shadow: 0 6px 25px var(--cor-sombra);
     }
 
-    .bolinha-acessibilidade.ativo {
-      transform: rotate(45deg);
-      background: var(--cor-bolinha-hover);
-    }
-
+    /* Menu de Acessibilidade */
     .menu-acessibilidade {
       position: fixed;
       bottom: 90px;
-      right: 90px;
-      background: var(--cor-widget);
+      right: 90px; /* Alterado para dar espaço ao VLibras */
+      background: var(--cor-card);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 20px;
       z-index: 1000;
       box-shadow: 0 8px 30px var(--cor-sombra);
-      backdrop-filter: blur(10px);
       transform: scale(0.8);
       opacity: 0;
       visibility: hidden;
@@ -430,7 +605,7 @@
     .menu-titulo {
       font-size: 16px;
       font-weight: bold;
-      color: var(--cor-widget-texto);
+      color: var(--cor-texto);
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 10px;
@@ -450,7 +625,7 @@
       align-items: center;
       justify-content: center;
       padding: 12px 8px;
-      background: var(--gradiente-primario);
+      background: var(--cor-primaria);
       color: white;
       border: none;
       border-radius: 12px;
@@ -459,12 +634,11 @@
       transition: all 0.3s ease;
       min-height: 60px;
       gap: 5px;
-      box-shadow: 0 4px 10px rgba(42, 167, 69, 0.3);
     }
 
     .botao-acessibilidade:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(42, 167, 69, 0.4);
+      background: var(--cor-primaria-escura);
     }
 
     .botao-acessibilidade .icone {
@@ -477,23 +651,14 @@
       text-align: center;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .bolinha-acessibilidade.pulsando {
-      animation: pulse 2s infinite;
-    }
-
+    /* Botão de Leitura de Texto */
     .botao-leitura-texto {
       position: fixed;
       bottom: 20px;
-      right: 160px;
+      right: 160px; /* Posicionado à direita da bolinha */
       width: 60px;
       height: 60px;
-      background: var(--cor-bolinha);
+      background: var(--cor-primaria);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -518,7 +683,7 @@
 
     .botao-leitura-texto:hover {
       transform: scale(1.1);
-      background: var(--cor-bolinha-hover);
+      background: var(--cor-primaria-escura);
     }
 
     .botao-leitura-texto.ouvindo {
@@ -527,16 +692,26 @@
     }
 
     @keyframes pulsar {
-      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
-      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
-      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
+      }
     }
 
+    /* Controles do Leitor de Texto */
     .controles-leitor {
       position: fixed;
       bottom: 90px;
       right: 160px;
-      background: var(--cor-widget);
+      background: var(--cor-card);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 15px;
@@ -546,7 +721,7 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      min-width: 200px;
+      min-width: 180px;
     }
 
     .controles-leitor.aberto {
@@ -555,43 +730,19 @@
       visibility: visible;
     }
 
-    .controles-leitor-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--cor-borda);
-    }
-
-    .controle-leitor-titulo {
-      font-size: 14px;
-      font-weight: bold;
-      color: var(--cor-widget-texto);
-      text-align: center;
-      flex: 1;
-    }
-
-    .controle-leitor-fechar {
-      background: none;
-      border: none;
-      color: var(--cor-widget-texto);
-      font-size: 20px;
-      cursor: pointer;
-      padding: 0 5px;
-      line-height: 1;
-      transition: color 0.3s ease;
-    }
-
-    .controle-leitor-fechar:hover {
-      color: #ff4757;
-    }
-
     .controles-leitor-conteudo {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 10px;
+    }
+
+    .controle-leitor-titulo {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--cor-texto);
+      margin-bottom: 5px;
+      text-align: center;
     }
 
     .controles-leitor-botoes {
@@ -605,7 +756,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--gradiente-primario);
+      background: var(--cor-primaria);
       border: none;
       color: white;
       cursor: pointer;
@@ -617,11 +768,12 @@
     }
 
     .controle-leitor-btn:hover {
+      background: var(--cor-primaria-escura);
       transform: scale(1.1);
     }
 
     .controle-leitor-btn:disabled {
-      background: var(--cor-secundaria);
+      background: var(--cor-texto-claro);
       cursor: not-allowed;
       transform: none;
     }
@@ -636,7 +788,7 @@
 
     .velocidade-leitor label {
       font-size: 12px;
-      color: var(--cor-widget-texto);
+      color: var(--cor-texto);
       white-space: nowrap;
     }
 
@@ -655,7 +807,7 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-bolinha);
+      background: var(--cor-primaria);
       cursor: pointer;
     }
 
@@ -663,18 +815,19 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-bolinha);
+      background: var(--cor-primaria);
       cursor: pointer;
       border: none;
     }
 
     .velocidade-valor {
       font-size: 12px;
-      color: var(--cor-widget-texto);
+      color: var(--cor-texto);
       min-width: 30px;
       text-align: center;
     }
 
+    /* VLibras Widget Styles */
     .vw-plugin-top-wrapper {
       z-index: 9999 !important;
     }
@@ -684,7 +837,7 @@
     }
     
     div[vw] .vw-access-button {
-      background-color: var(--cor-bolinha) !important;
+      background-color: var(--cor-primaria) !important;
       border-radius: 50% !important;
       width: 50px !important;
       height: 50px !important;
@@ -696,13 +849,59 @@
     
     div[vw] .vw-access-button:hover {
       transform: scale(1.1) !important;
-      background-color: var(--cor-bolinha-hover) !important;
+      background-color: var(--cor-primaria-escura) !important;
     }
     
     div[vw] .vw-access-button img {
       filter: brightness(0) invert(1) !important;
     }
 
+    /* Footer */
+    footer {
+      background-color: var(--cor-secundaria);
+      color: var(--cor-footer-texto);
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-size: var(--tamanho-h2);
+      margin-bottom: 1rem;
+      color: var(--cor-footer-texto);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: var(--cor-footer-links);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--cor-footer-links-hover);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--cor-borda);
+      padding-top: 2rem;
+      font-size: 0.9rem;
+      opacity: 0.8;
+      color: var(--cor-footer-texto);
+    }
+
+    /* Responsividade */
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -716,61 +915,54 @@
         display: flex;
       }
 
-      .bolinha-acessibilidade {
-        width: 70px;
-        height: 70px;
-        bottom: 25px;
-        right: 80px;
-        font-size: 28px;
+      .hero {
+        height: 70vh;
       }
 
-      .menu-acessibilidade {
-        bottom: 110px;
-        right: 80px;
-        min-width: 180px;
-        padding: 15px;
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .features-grid,
+      .barbearias-grid {
+        grid-template-columns: 1fr;
       }
 
       .menu-botoes {
         grid-template-columns: 1fr;
-        gap: 10px;
       }
 
-      .botao-acessibilidade {
-        flex-direction: row;
-        justify-content: flex-start;
-        padding: 12px 15px;
-        min-height: 50px;
-        gap: 12px;
-      }
-
-      .botao-acessibilidade .icone {
+      .bolinha-acessibilidade {
+        width: 50px;
+        height: 50px;
         font-size: 20px;
+        right: 70px; /* Ajustado para mobile */
       }
 
-      .botao-acessibilidade .texto {
-        font-size: 12px;
-      }
-
-      .alert-messages {
-        left: 10px;
-        right: 10px;
-        max-width: none;
+      .menu-acessibilidade {
+        bottom: 80px;
+        right: 70px; /* Ajustado para mobile */
+        min-width: 180px;
       }
 
       .botao-leitura-texto {
         width: 50px;
         height: 50px;
         font-size: 20px;
-        right: 140px;
+        right: 130px; /* Ajustado para mobile */
       }
 
       .controles-leitor {
-        right: 140px;
-        bottom: 105px;
-        min-width: 180px;
+        right: 130px;
+        bottom: 80px;
       }
 
+      .footer-links {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      /* VLibras Mobile */
       div[vw] .vw-access-button {
         width: 45px !important;
         height: 45px !important;
@@ -779,53 +971,45 @@
       }
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 480px) {
+      nav {
+        padding: 1rem;
+      }
+
+      .hero {
+        padding: 0 1rem;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .features,
+      .barbearias {
+        padding: 3rem 1rem;
+      }
+
       .bolinha-acessibilidade {
-        width: 65px;
-        height: 65px;
-        bottom: 20px;
-        right: 70px;
-        font-size: 26px;
+        width: 45px;
+        height: 45px;
+        right: 60px; /* Ajustado para mobile pequeno */
       }
 
       .menu-acessibilidade {
-        bottom: 100px;
-        right: 70px;
-        min-width: 170px;
+        right: 60px; /* Ajustado para mobile pequeno */
       }
 
       .botao-leitura-texto {
         width: 45px;
         height: 45px;
-        right: 125px;
+        right: 115px; /* Ajustado para mobile pequeno */
       }
 
       .controles-leitor {
-        right: 125px;
-        min-width: 170px;
-      }
-    }
-
-    @media (max-width: 360px) {
-      .menu-acessibilidade {
-        right: 10px;
-        left: 10px;
-        min-width: auto;
+        right: 115px;
       }
 
-      .bolinha-acessibilidade {
-        right: 60px;
-      }
-
-      .botao-leitura-texto {
-        right: 110px;
-      }
-
-      .controles-leitor {
-        right: 110px;
-        min-width: 160px;
-      }
-
+      /* VLibras Mobile Pequeno */
       div[vw] .vw-access-button {
         width: 40px !important;
         height: 40px !important;
@@ -834,289 +1018,29 @@
       }
     }
 
-    main {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-
-    .page-title {
-      text-align: center;
-      margin-bottom: 2rem;
-      font-family: 'Unbounded', cursive;
-      letter-spacing: 1px;
-      font-size: var(--tamanho-h1);
-    }
-
-    .search-container {
-      max-width: 500px;
-      margin: 0 auto 2rem;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--cor-borda);
-      border-radius: 8px;
-      font-size: var(--tamanho-p);
-      transition: all 0.2s;
-      background-color: var(--cor-fundo);
-      color: var(--cor-texto);
-    }
-
-    .search-input:focus {
-      outline: none;
-      border-color: #22c55e;
-      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
-    }
-
-    .barbearias-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .barbearia-card {
-      background: var(--cor-widget);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 6px var(--cor-sombra);
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 1px solid var(--cor-borda);
-      position: relative;
-      height: 430px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .barbearia-card.fechado {
-      opacity: 0.85;
-      filter: grayscale(30%);
-    }
-
-    .barbearia-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 15px var(--cor-sombra);
-    }
-
-    .barbearia-status {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      z-index: 2;
-    }
-
-    .status-aberto {
-      background-color: #dcfce7;
-      color: #166534;
-    }
-
-    .status-fechado {
-      background-color: #fee2e2;
-      color: #991b1b;
-    }
-
-    .barbearia-logo {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-bottom: 1px solid var(--cor-borda);
-    }
-
-    .barbearia-info {
-      padding: 1.25rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .barbearia-nome {
-      font-size: 1.125rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: var(--cor-texto);
-    }
-
-    .barbearia-endereco {
-      color: var(--cor-secundaria);
-      font-size: 0.875rem;
-      margin-bottom: 0.5rem;
-      line-height: 1.4;
-    }
-
-    .barbearia-endereco-completo {
-      color: var(--cor-secundaria);
-      font-size: 0.8rem;
-      margin-bottom: 0.75rem;
-      line-height: 1.3;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
-    }
-
-    .barbearia-endereco-completo::before {
-      content: "📍";
-      font-size: 0.8rem;
-      margin-top: 0.1rem;
-    }
-
-    .barbearia-telefone {
-      color: var(--cor-secundaria);
-      font-size: 0.875rem;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      line-height: 1.4;
-    }
-
-    .barbearia-telefone::before {
-      content: "📞";
-      font-size: 0.875rem;
-    }
-
-    .barbearia-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-top: auto;
-    }
-
-    .btn {
-      padding: 0.625rem 1rem;
-      border-radius: 8px;
-      font-weight: 600;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: none;
-      font-size: 0.9rem;
-    }
-
-    .btn-agendar {
-      background-color: #22c55e;
-      color: white;
-    }
-
-    .btn-agendar:hover {
-      background-color: #16a34a;
-    }
-
-    .btn-indisponivel {
-      background-color: var(--cor-secundaria);
-      color: var(--cor-widget-texto);
-      cursor: not-allowed;
-      opacity: 0.7;
-    }
-
-    .btn-ja-agendado {
-      background-color: #3b82f6;
-      color: white;
-      cursor: not-allowed;
-      opacity: 0.9;
-    }
-
-    .closed-notice {
-      background-color: #fffbeb;
-      color: #92400e;
-      padding: 0.6rem;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      text-align: center;
-      margin-top: 0.5rem;
-      border: 1px solid #fde68a;
-      line-height: 1.3;
-    }
-
-    .already-scheduled-notice {
-      background-color: #dbeafe;
-      color: #1e40af;
-      padding: 0.6rem;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      text-align: center;
-      margin-top: 0.5rem;
-      border: 1px solid #93c5fd;
-      line-height: 1.3;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background: var(--cor-widget);
-      color: var(--cor-texto);
-      padding: 2rem;
-      border-radius: 12px;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-      box-shadow: 0 4px 20px var(--cor-sombra);
-    }
-
-    .modal-icon {
-      font-size: 3rem;
-      color: #22c55e;
-      margin-bottom: 1rem;
-    }
-
-    .modal-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .modal-message {
-      color: var(--cor-secundaria);
-      margin-bottom: 1.5rem;
-      line-height: 1.4;
-    }
-
-    .modal-actions {
-      display: flex;
-      justify-content: center;
-    }
-
-    .modal-btn {
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      background-color: #22c55e;
-      color: white;
-    }
-
-    @media (max-width: 768px) {
-      .barbearias-grid {
-        grid-template-columns: 1fr;
+    @media (max-width: 360px) {
+      .bolinha-acessibilidade {
+        right: 50px;
       }
-      
-      .barbearia-card {
-        height: auto;
-        min-height: 390px;
+
+      .menu-acessibilidade {
+        right: 50px;
+      }
+
+      .botao-leitura-texto {
+        right: 100px;
+      }
+
+      .controles-leitor {
+        right: 100px;
       }
     }
   </style>
+  <!-- VLibras Plugin -->
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 </head>
 <body>
+  <!-- VLibras Widget -->
   <div vw class="enabled">
     <div vw-access-button class="active"></div>
     <div vw-plugin-wrapper>
@@ -1124,20 +1048,20 @@
     </div>
   </div>
 
-  <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
-    +
+  <!-- Bolinha de Acessibilidade -->
+  <button class="bolinha-acessibilidade" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
+    ♿
   </button>
 
+  <!-- Botão de Leitura de Texto -->
   <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
     🔊
   </button>
 
+  <!-- Controles do Leitor de Texto -->
   <div class="controles-leitor" id="controlesLeitor">
-    <div class="controles-leitor-header">
-      <div class="controle-leitor-titulo">Leitor de Texto</div>
-      <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
-    </div>
     <div class="controles-leitor-conteudo">
+      <div class="controle-leitor-titulo">Leitor de Texto</div>
       <div class="controles-leitor-botoes">
         <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
         <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
@@ -1151,6 +1075,7 @@
     </div>
   </div>
 
+  <!-- Menu de Acessibilidade -->
   <div class="menu-acessibilidade" id="menuAcessibilidade">
     <div class="menu-conteudo">
       <div class="menu-titulo">Acessibilidade</div>
@@ -1179,6 +1104,7 @@
     </div>
   </div>
 
+  <!-- Menu Mobile -->
   <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-header">
       <div class="logo">
@@ -1193,6 +1119,7 @@
       <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
     </div>
     
+    <!-- Perfil clicável na parte inferior -->
     <a href="{% url 'perfilatalho' %}" class="mobile-profile" onclick="fecharMenuMobile()">
       <div class="mobile-profile-pic" id="mobileProfilePic" 
         {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
@@ -1207,6 +1134,7 @@
     </a>
   </div>
 
+  <!-- NAVBAR - Estilo do perfil.html -->
   <nav>
     <div class="logo">
       <a href="{% url 'Homeatalho' %}" style="text-decoration: none; color: inherit;">
@@ -1214,100 +1142,128 @@
       </a>
     </div>
 
-    {% if messages %}
-    <div class="alert-messages">
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-    
     <div class="nav-links" id="navLinks">
-        <div class="dropdown">
-            <button class="dropbtn">☰ Menu</button>
-            <div class="dropdown-content">
-                <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
-                <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
-                <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
-            </div>
+      <div class="dropdown">
+        <button class="dropbtn">☰ Menu</button>
+        <div class="dropdown-content">
+          <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
+          <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
+          <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
         </div>
-        <a href="{% url 'perfilatalho' %}" class="profile-icon">
-            <div class="profile-pic-nav" id="profile-pic-nav" 
-                {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
-            </div>
-        </a>
+      </div>
+      <!-- Ícone de perfil -->
+      <a href="{% url 'perfilatalho' %}" class="profile-icon">
+        <div class="profile-pic-nav" id="profile-pic-nav" 
+          {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
+        </div>
+      </a>
     </div>
-    
+
     <button class="menu-icon" id="menuIcon" onclick="abrirMenuMobile()">☰</button>
   </nav>
 
-  <main>
-    <h1 class="page-title">Barbearias Disponíveis</h1>
-
-    <div class="search-container">
-      <input type="text" class="search-input" placeholder="Pesquisar barbearia..." id="searchInput">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Encontre a barbearia perfeita para o seu estilo</h1>
+      <p>Agende cortes, barbas e tratamentos com os melhores profissionais da sua região</p>
+      <a href="{% url 'barbeariaatalho' %}" class="btn-primary">Encontrar Barbearias</a>
     </div>
+  </section>
 
-    <div class="barbearias-grid">
-      {% for barbearia in barbearias %}
-      <div class="barbearia-card {% if barbearia.status_barbearia == 'fechado' %}fechado{% endif %}">
-        <div class="barbearia-status {% if barbearia.status_barbearia == 'aberto' %}status-aberto{% else %}status-fechado{% endif %}">
-          {% if barbearia.status_barbearia == 'aberto' %}ABERTO{% else %}FECHADO{% endif %}
+  <!-- Features Section -->
+  <section class="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>Como funciona</h2>
+        <p>Descubra como é fácil encontrar e agendar horários nas melhores barbearias</p>
+      </div>
+      
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <h3>Encontre</h3>
+          <p>Busque barbearias próximas a você</p>
         </div>
         
-        <img src="{% if barbearia.foto_logo %}{{ barbearia.foto_logo.url }}{% else %}https://via.placeholder.com/400x160?text=Barbearia{% endif %}" 
-             alt="{{ barbearia.nome_barbearia }}" class="barbearia-logo">
+        <div class="feature-card">
+          <div class="feature-icon">📅</div>
+          <h3>Agende</h3>
+          <p>Reserve seu horário de forma rápida e prática, sem necessidade de ligações</p>
+        </div>
         
-        <div class="barbearia-info">
-          <h3 class="barbearia-nome">{{ barbearia.nome_barbearia }}</h3>
-          <p class="barbearia-endereco">{{ barbearia.cidade }}, {{ barbearia.estado }}</p>
-          
-          <p class="barbearia-endereco-completo">
-            {% if barbearia.endereco %}
-              {{ barbearia.endereco }}
-            {% else %}
-              Endereço não informado
-            {% endif %}
-          </p>
-          
-          <p class="barbearia-telefone">
-            {{ barbearia.telefone_comercial|default:"Telefone não informado" }}
-          </p>
-          
-          <div class="barbearia-actions">
-            {% if barbearia.status_barbearia == 'aberto' %}
-              <button class="btn btn-agendar" onclick="verificarAgendamento('{{ barbearia.id }}', '{{ barbearia.nome_barbearia }}')">
-                Entrar na Fila
-              </button>
-            {% else %}
-              <button class="btn btn-indisponivel" disabled>
-                Indisponível no momento
-              </button>
-              <div class="closed-notice">
-                Esta barbearia está fechada. Tente novamente mais tarde.
-              </div>
-            {% endif %}
+        <div class="feature-card">
+          <div class="feature-icon">✂️</div>
+          <h3>Aproveite</h3>
+          <p>Chegue no horário marcado e seja atendido pelos melhores profissionais</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Barbearias Section -->
+  <section class="barbearias">
+    <div class="container">
+      <div class="section-title">
+        <h2>Barbearias em Destaque</h2>
+        <p>Conheça algumas das barbearias que já utilizam nossa plataforma</p>
+      </div>
+      
+      <div class="barbearias-grid">
+        <div class="barbearia-card">
+          <div class="barbearia-img" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpXaeDzTz9QQtUydHZmWMc6dbxs4He2wh3Eg&s')"></div>
+          <div class="barbearia-content">
+            <h3>Barbearia Classic</h3>
+            <p>Cortes clássicos e modernos com profissionais experientes</p>
+            <a href="{% url 'barbeariaatalho' %}" class="btn-secondary">Ver Detalhes</a>
+          </div>
+        </div>
+        
+        <div class="barbearia-card">
+          <div class="barbearia-img" style="background-image: url('https://www.shutterstock.com/image-vector/barbershop-logo-barber-pole-razor-260nw-2535695615.jpg')"></div>
+          <div class="barbearia-content">
+            <h3>Studio Barber</h3>
+            <p>Ambiente premium com serviços especializados em barba</p>
+            <a href="{% url 'barbeariaatalho' %}" class="btn-secondary">Ver Detalhes</a>
+          </div>
+        </div>
+        
+        <div class="barbearia-card">
+          <div class="barbearia-img" style="background-image: url('https://static.vecteezy.com/ti/vetor-gratis/p1/19495567-design-de-logotipo-de-barbearia-e-maquina-de-barbear-vetor.jpg')"></div>
+          <div class="barbearia-content">
+            <h3>Urban Barber</h3>
+            <p>Estilo urbano e contemporâneo para homens modernos</p>
+            <a href="{% url 'barbeariaatalho' %}" class="btn-secondary">Ver Detalhes</a>
           </div>
         </div>
       </div>
-      {% endfor %}
-    </div>
-  </main>
-
-  <div class="modal" id="modalConfirmacao">
-    <div class="modal-content">
-      <div class="modal-icon">✓</div>
-      <h2 class="modal-title">Entrou na fila com sucesso</h2>
-      <p class="modal-message" id="modalMessage"></p>
-      <div class="modal-actions">
-        <button class="modal-btn" onclick="fecharModal()">Entendido</button>
+      
+      <div class="text-center">
+        <a href="{% url 'barbeariaatalho' %}" class="btn-primary">Ver Todas as Barbearias</a>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">
+        <span class="R">R</span>egua
+      </div>
+      <div class="footer-links">
+        <a href="{% url 'barbeariaatalho' %}">Barbearias</a>
+        <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
+        <a href="{% url 'perfilatalho' %}">Meu Perfil</a>
+        <a href="{% url 'logout' %}">Sair</a>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Regua. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
 
   <script>
+    // Variáveis do leitor de texto
     let synth = window.speechSynthesis;
     let utterance = null;
     let isSpeaking = false;
@@ -1316,31 +1272,39 @@
     let selectedText = '';
     let leitorAtivo = false;
 
+    // Inicializa o VLibras
     window.addEventListener('DOMContentLoaded', function() {
       if (typeof VLibras !== 'undefined') {
         new window.VLibras.Widget('https://vlibras.gov.br/app');
       }
+
+      // Inicializa variáveis CSS para leitor
       document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
       document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
     });
 
+    // Detectar seleção de texto
     document.addEventListener('mouseup', function() {
       const textoSelecionado = window.getSelection().toString().trim();
       
       if (textoSelecionado && textoSelecionado.length > 0) {
         selectedText = textoSelecionado;
         
+        // Mostra o botão de leitura se o leitor estiver ativo
         if (leitorAtivo) {
           mostrarBotaoLeitura();
         }
         
+        // Destacar texto selecionado
         highlightSelectedText();
       } else {
+        // Esconde o botão se não há texto selecionado
         esconderBotaoLeitura();
         clearHighlight();
       }
     });
 
+    // Detectar seleção via teclado
     document.addEventListener('keyup', function(e) {
       if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt') {
         const textoSelecionado = window.getSelection().toString().trim();
@@ -1360,6 +1324,7 @@
       }
     });
 
+    // Funções do leitor de texto
     function ativarLeitorTexto() {
       leitorAtivo = !leitorAtivo;
       
@@ -1367,6 +1332,7 @@
         mostrarBotaoLeitura();
         document.getElementById('botaoLeituraTexto').title = "Leitor de texto ativado. Selecione texto para ler.";
         
+        // Verifica se já tem texto selecionado
         const textoSelecionado = window.getSelection().toString().trim();
         if (textoSelecionado) {
           selectedText = textoSelecionado;
@@ -1396,16 +1362,32 @@
       const controles = document.getElementById('controlesLeitor');
       const botao = document.getElementById('botaoLeituraTexto');
       
-      // Abre os controles apenas (remove o toggle)
-      controles.classList.add('aberto');
+      controles.classList.toggle('aberto');
       
+      // Fecha o menu de acessibilidade se estiver aberto
       const menuAcessibilidade = document.getElementById('menuAcessibilidade');
       if (menuAcessibilidade.classList.contains('aberto')) {
         menuAcessibilidade.classList.remove('aberto');
       }
       
-      // Remove o evento de fechar ao clicar fora
-      document.removeEventListener('click', fecharControlesAoClicarFora);
+      // Fecha controles se clicar fora
+      if (controles.classList.contains('aberto')) {
+        setTimeout(() => {
+          document.addEventListener('click', fecharControlesAoClicarFora);
+        }, 100);
+      } else {
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
+    }
+
+    function fecharControlesAoClicarFora(event) {
+      const controles = document.getElementById('controlesLeitor');
+      const botao = document.getElementById('botaoLeituraTexto');
+      
+      if (!controles.contains(event.target) && !botao.contains(event.target)) {
+        controles.classList.remove('aberto');
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
     }
 
     function fecharControlesLeitor() {
@@ -1416,6 +1398,7 @@
 
     function lerTextoSelecionado() {
       if (!selectedText || selectedText.length === 0) {
+        // Se não há texto selecionado, tenta selecionar automaticamente
         const textoSelecionado = window.getSelection().toString().trim();
         if (textoSelecionado) {
           selectedText = textoSelecionado;
@@ -1425,16 +1408,21 @@
         }
       }
       
+      // Para qualquer leitura em andamento
       if (isSpeaking && !isPaused) {
         synth.cancel();
       }
       
+      // Cria nova utterance
       utterance = new SpeechSynthesisUtterance(selectedText);
+      
+      // Configurações
       utterance.lang = 'pt-BR';
       utterance.rate = speechRate;
       utterance.pitch = 1;
       utterance.volume = 1;
       
+      // Eventos
       utterance.onstart = function() {
         isSpeaking = true;
         isPaused = false;
@@ -1456,11 +1444,13 @@
         atualizarBotoesLeitor();
         document.getElementById('botaoLeituraTexto').classList.remove('ouvindo');
         
+        // Fallback para navegadores sem suporte
         if (event.error === 'not-allowed') {
           alert('Permissão para usar síntese de voz não concedida. Por favor, verifique as configurações do seu navegador.');
         }
       };
       
+      // Inicia a leitura
       synth.speak(utterance);
     }
 
@@ -1490,6 +1480,7 @@
       speechRate = parseFloat(valor);
       document.getElementById('velocidadeValor').textContent = valor + 'x';
       
+      // Atualiza a velocidade da leitura atual, se houver
       if (utterance && isSpeaking) {
         synth.cancel();
         utterance.rate = speechRate;
@@ -1536,6 +1527,7 @@
         try {
           range.surroundContents(span);
         } catch(e) {
+          // Algumas seleções não podem ser envoltas em span
           console.log('Não foi possível destacar o texto:', e);
         }
       }
@@ -1552,12 +1544,15 @@
       });
     }
 
+    // Teclas de atalho para o leitor de texto
     document.addEventListener('keydown', function(e) {
+      // Ctrl + Alt + L para ativar/desativar leitor
       if (e.ctrlKey && e.altKey && e.key === 'l') {
         e.preventDefault();
         ativarLeitorTexto();
       }
       
+      // Ctrl + Alt + S para ler texto selecionado
       if (e.ctrlKey && e.altKey && e.key === 's') {
         e.preventDefault();
         if (leitorAtivo && selectedText) {
@@ -1565,6 +1560,7 @@
         }
       }
       
+      // Ctrl + Alt + P para pausar/continuar
       if (e.ctrlKey && e.altKey && e.key === 'p') {
         e.preventDefault();
         if (isSpeaking) {
@@ -1572,12 +1568,14 @@
         }
       }
       
+      // Ctrl + Alt + T para parar
       if (e.ctrlKey && e.altKey && e.key === 't') {
         e.preventDefault();
         pararLeitura();
       }
     });
 
+    // Funções do Menu Mobile
     function abrirMenuMobile() {
       document.getElementById('mobileMenu').classList.add('aberto');
       document.body.style.overflow = 'hidden';
@@ -1588,163 +1586,26 @@
       document.body.style.overflow = 'auto';
     }
 
+    // Fecha o menu mobile ao clicar em um link
     document.querySelectorAll('.mobile-menu-links a').forEach(link => {
       link.addEventListener('click', fecharMenuMobile);
     });
 
-    document.getElementById('searchInput').addEventListener('input', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const cards = document.querySelectorAll('.barbearia-card');
-      
-      cards.forEach(card => {
-        const nome = card.querySelector('.barbearia-nome').textContent.toLowerCase();
-        const endereco = card.querySelector('.barbearia-endereco').textContent.toLowerCase();
-        const enderecoCompleto = card.querySelector('.barbearia-endereco-completo').textContent.toLowerCase();
-        const telefone = card.querySelector('.barbearia-telefone').textContent.toLowerCase();
-        
-        if (nome.includes(searchTerm) || endereco.includes(searchTerm) || 
-            enderecoCompleto.includes(searchTerm) || telefone.includes(searchTerm)) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    });
-
-    let usuarioPossuiAgendamento = false;
-
-    function verificarAgendamentoAtivoInicial() {
-      fetch('{% url "verificar_agendamento_ativo" %}')
-        .then(response => {
-          if (response.status === 401) {
-            window.location.href = "{% url 'loginatalho' %}";
-            return;
-          }
-          return response.json();
-        })
-        .then(data => {
-          if (data && data.hasOwnProperty('possui_agendamento')) {
-            usuarioPossuiAgendamento = data.possui_agendamento;
-            atualizarBotoesAgendamento();
-          }
-        })
-        .catch(error => {
-          console.error('Erro ao verificar agendamento ativo:', error);
-        });
-    }
-
-    function atualizarBotoesAgendamento() {
-      const botoesAgendar = document.querySelectorAll('.btn-agendar');
-      
-      botoesAgendar.forEach(botao => {
-        if (usuarioPossuiAgendamento) {
-          botao.textContent = 'Já na fila';
-          botao.classList.remove('btn-agendar');
-          botao.classList.add('btn-ja-agendado');
-          botao.onclick = null;
-          
-          const card = botao.closest('.barbearia-card');
-          let aviso = card.querySelector('.already-scheduled-notice');
-          if (!aviso) {
-            aviso = document.createElement('div');
-            aviso.className = 'already-scheduled-notice';
-            aviso.textContent = 'Você já está em uma fila de espera.';
-            botao.parentNode.appendChild(aviso);
-          }
-        }
-      });
-    }
-
-    function verificarAgendamento(barbeariaId, barbeariaNome) {
-      if (usuarioPossuiAgendamento) {
-        alert('já possui um agendamento ativo. Por favor, cancele ou conclua seu agendamento atual antes de fazer um novo.');
-        return;
-      }
-
-      fetch('{% url "verificar_agendamento_ativo" %}')
-        .then(response => {
-          if (response.status === 401) {
-            window.location.href = "{% url 'loginatalho' %}";
-            return;
-          }
-          return response.json();
-        })
-        .then(data => {
-          if (data.possui_agendamento) {
-            usuarioPossuiAgendamento = true;
-            atualizarBotoesAgendamento();
-            alert('Você já possui um agendamento ativo. Por favor, cancele ou conclua seu agendamento atual antes de fazer um novo.');
-          } else {
-            abrirModalAgendamento(barbeariaId, barbeariaNome);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Erro ao verificar agendamentos existentes');
-        });
-    }
-
-    function abrirModalAgendamento(barbeariaId, barbeariaNome) {
-      const dados = {
-        barbearia_id: barbeariaId,
-        csrfmiddlewaretoken: '{{ csrf_token }}'
-      };
-      
-      fetch('{% url "criar_agendamento" %}', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': '{{ csrf_token }}'
-        },
-        body: JSON.stringify(dados)
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          usuarioPossuiAgendamento = true;
-          atualizarBotoesAgendamento();
-          
-          document.getElementById('modalMessage').textContent = 
-            `Seu agendamento na ${barbeariaNome} foi confirmado com sucesso!`;
-          document.getElementById('modalConfirmacao').style.display = 'flex';
-        } else {
-          alert('Erro ao agendar: ' + (data.message || 'Tente novamente mais tarde'));
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Erro ao realizar agendamento');
-      });
-    }
-
-    function fecharModal() {
-      document.getElementById('modalConfirmacao').style.display = 'none';
-      window.location.href = "{% url 'agendamento_clienteatalho' %}";
-    }
-
-    function checkForProfilePhotoUpdates() {
-      fetch('{% url "perfilatalho" %}')
-        .then(response => response.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, 'text/html');
-          const newPhotoUrl = doc.querySelector('.profile-pic')?.style.backgroundImage;
-          
-          if (newPhotoUrl) {
-            document.getElementById('profile-pic-nav').style.backgroundImage = newPhotoUrl;
-            document.getElementById('mobileProfilePic').style.backgroundImage = newPhotoUrl;
-          }
-        });
-    }
-
+    // Controle do menu de acessibilidade
     function toggleMenuAcessibilidade() {
       const menu = document.getElementById('menuAcessibilidade');
       const bolinha = document.querySelector('.bolinha-acessibilidade');
       
       menu.classList.toggle('aberto');
       bolinha.classList.toggle('ativo');
-      bolinha.classList.remove('pulsando');
       
+      // Fecha controles do leitor se estiverem abertos
+      const controles = document.getElementById('controlesLeitor');
+      if (controles.classList.contains('aberto')) {
+        controles.classList.remove('aberto');
+      }
+      
+      // Fecha o menu se clicar fora dele
       if (menu.classList.contains('aberto')) {
         setTimeout(() => {
           document.addEventListener('click', fecharMenuAoClicarFora);
@@ -1765,6 +1626,7 @@
       }
     }
 
+    // Funções de Acessibilidade
     function alternarTema() {
       const temaAtual = document.documentElement.getAttribute('data-tema');
       const novoTema = temaAtual === 'claro' ? 'escuro' : 'claro';
@@ -1833,6 +1695,7 @@
         if (data.status === 'success') {
           document.documentElement.setAttribute('data-tema', 'claro');
           document.documentElement.setAttribute('data-tamanho-fonte', 'medio');
+          // Desativa o leitor de texto também
           leitorAtivo = false;
           esconderBotaoLeitura();
           fecharControlesLeitor();
@@ -1859,26 +1722,15 @@
       return cookieValue;
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      verificarAgendamentoAtivoInicial();
-    });
-    
-    setInterval(checkForProfilePhotoUpdates, 30000);
-
-    setTimeout(() => {
-      const bolinha = document.querySelector('.bolinha-acessibilidade');
-      if (bolinha) {
-        bolinha.classList.remove('pulsando');
-      }
-    }, 10000);
-
-    setTimeout(() => {
-      const alerts = document.querySelectorAll('.alert');
-      alerts.forEach(alert => {
-          alert.classList.add('fade-out');
-          setTimeout(() => alert.remove(), 500);
+    // Carrega foto de perfil se existir
+    document.addEventListener('DOMContentLoaded', function () {
+      {% if usuario.foto_perfil %}
+      document.querySelectorAll('.profile-pic-nav, .mobile-profile-pic').forEach(pic => {
+        pic.style.backgroundImage = 'url({{ usuario.foto_perfil.url }})';
+        pic.classList.add('has-photo');
       });
-    }, 8000);
+      {% endif %}
+    });
   </script>
 </body>
 </html>

@@ -546,7 +546,7 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      min-width: 200px;
+      min-width: 180px;
     }
 
     .controles-leitor.aberto {
@@ -555,43 +555,19 @@
       visibility: visible;
     }
 
-    .controles-leitor-header {
+    .controles-leitor-conteudo {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--cor-borda);
+      gap: 10px;
     }
 
     .controle-leitor-titulo {
       font-size: 14px;
       font-weight: bold;
       color: var(--cor-widget-texto);
+      margin-bottom: 5px;
       text-align: center;
-      flex: 1;
-    }
-
-    .controle-leitor-fechar {
-      background: none;
-      border: none;
-      color: var(--cor-widget-texto);
-      font-size: 20px;
-      cursor: pointer;
-      padding: 0 5px;
-      line-height: 1;
-      transition: color 0.3s ease;
-    }
-
-    .controle-leitor-fechar:hover {
-      color: #ff4757;
-    }
-
-    .controles-leitor-conteudo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
     }
 
     .controles-leitor-botoes {
@@ -768,7 +744,6 @@
       .controles-leitor {
         right: 140px;
         bottom: 105px;
-        min-width: 180px;
       }
 
       div[vw] .vw-access-button {
@@ -802,7 +777,6 @@
 
       .controles-leitor {
         right: 125px;
-        min-width: 170px;
       }
     }
 
@@ -823,7 +797,6 @@
 
       .controles-leitor {
         right: 110px;
-        min-width: 160px;
       }
 
       div[vw] .vw-access-button {
@@ -1009,17 +982,15 @@
     }
 
     .btn-indisponivel {
-      background-color: var(--cor-secundaria);
-      color: var(--cor-widget-texto);
+      background-color: var(--cor-widget-hover);
+      color: var(--cor-secundaria);
       cursor: not-allowed;
-      opacity: 0.7;
     }
 
     .btn-ja-agendado {
       background-color: #3b82f6;
       color: white;
       cursor: not-allowed;
-      opacity: 0.9;
     }
 
     .closed-notice {
@@ -1125,7 +1096,7 @@
   </div>
 
   <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
-    +
+    ♿
   </button>
 
   <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
@@ -1133,11 +1104,8 @@
   </button>
 
   <div class="controles-leitor" id="controlesLeitor">
-    <div class="controles-leitor-header">
-      <div class="controle-leitor-titulo">Leitor de Texto</div>
-      <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
-    </div>
     <div class="controles-leitor-conteudo">
+      <div class="controle-leitor-titulo">Leitor de Texto</div>
       <div class="controles-leitor-botoes">
         <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
         <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
@@ -1396,16 +1364,30 @@
       const controles = document.getElementById('controlesLeitor');
       const botao = document.getElementById('botaoLeituraTexto');
       
-      // Abre os controles apenas (remove o toggle)
-      controles.classList.add('aberto');
+      controles.classList.toggle('aberto');
       
       const menuAcessibilidade = document.getElementById('menuAcessibilidade');
       if (menuAcessibilidade.classList.contains('aberto')) {
         menuAcessibilidade.classList.remove('aberto');
       }
       
-      // Remove o evento de fechar ao clicar fora
-      document.removeEventListener('click', fecharControlesAoClicarFora);
+      if (controles.classList.contains('aberto')) {
+        setTimeout(() => {
+          document.addEventListener('click', fecharControlesAoClicarFora);
+        }, 100);
+      } else {
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
+    }
+
+    function fecharControlesAoClicarFora(event) {
+      const controles = document.getElementById('controlesLeitor');
+      const botao = document.getElementById('botaoLeituraTexto');
+      
+      if (!controles.contains(event.target) && !botao.contains(event.target)) {
+        controles.classList.remove('aberto');
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
     }
 
     function fecharControlesLeitor() {

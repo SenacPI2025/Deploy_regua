@@ -4,7 +4,6 @@ from django.http import JsonResponse
 from .models import Usuario
 from django.core.files.storage import FileSystemStorage
 import os
-import random
 from django.contrib.auth.hashers import make_password
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime, timedelta
@@ -15,6 +14,9 @@ from .models import Barbearia, Usuario,Agendamento
 
 def pag_principal(request):
     return render(request, 'principal.html')
+
+def esqueci_senha(request):
+    return render(request, 'esqueci_senha.html')
 
 def Home(request):
     if not request.session.get('logado'):
@@ -143,26 +145,21 @@ def upload_foto_perfil(request):
         try:
             usuario = Usuario.objects.get(id=request.session['usuario_id'])
             
-            # Remove a foto antiga se existir (agora usando Cloudinary)
+            # Remove a foto antiga se existir
             if usuario.foto_perfil:
-                # O Cloudinary gerencia automaticamente o armazenamento,
-                # então não precisamos nos preocupar em excluir arquivos físicos
-                pass
+                if os.path.isfile(usuario.foto_perfil.path):
+                    os.remove(usuario.foto_perfil.path)
             
-            # Salva a nova foto diretamente no modelo
+            # Salva a nova foto
             foto = request.FILES['foto_perfil']
-            usuario.foto_perfil = foto
+            fs = FileSystemStorage()
+            filename = fs.save(f'perfil/user_{usuario.id}_{foto.name}', foto)
+            usuario.foto_perfil = filename
             usuario.save()
             
-            return JsonResponse({
-                'status': 'success', 
-                'foto_url': usuario.foto_perfil.url
-            })
+            return JsonResponse({'status': 'success', 'foto_url': usuario.foto_perfil.url})
         except Exception as e:
-            return JsonResponse({
-                'status': 'error', 
-                'message': str(e)
-            }, status=400)
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
     
     return JsonResponse({'status': 'error'}, status=400)
 
@@ -187,14 +184,14 @@ def atualizar_perfil(request):
             
             # Redirecionamento específico para barbeiros
             if usuario.tipo == 'barbearia':
-                return redirect('barbeiroatalho')
+                return redirect('barbeiroatalho')  # Alterado para página do barbeiro
             else:
-                return redirect('Homeatalho')
+                return redirect('Homeatalho')  # Para clientes normais
                 
         except Exception as e:
             messages.error(request, f'Erro ao atualizar perfil: {str(e)}')
-            if usuario.tipo == 'barbearia':  # Corrigido: use 'usuario' em vez de 'request.user'
-                return redirect('perfil_barbeiroatalho')  # Use o nome correto da URL
+            if request.user.tipo == 'barbearia':
+                return redirect('perfil_barbeiro')
             else:
                 return redirect('perfilatalho')
     
@@ -205,8 +202,10 @@ def deletar_conta(request):
         try:
             usuario = Usuario.objects.get(id=request.session['usuario_id'])
             
-            # Com Cloudinary, não precisamos excluir arquivos manualmente
-            # O Cloudinary gerencia automaticamente o armazenamento
+            # Remove a foto de perfil se existir
+            if usuario.foto_perfil:
+                if os.path.isfile(usuario.foto_perfil.path):
+                    os.remove(usuario.foto_perfil.path)
             
             usuario.delete()
             request.session.flush()
@@ -785,126 +784,3 @@ def resetar_acessibilidade(request):
         del request.session['config_acessibilidade']
     
     return JsonResponse({'status': 'success', 'message': 'Configurações resetadas!'})
-
-def esqueci_senha(request):
-    if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            acao = data.get('acao')
-            
-            if acao == 'solicitar_codigo':
-                email = data.get('email', '').strip()
-                
-                # Verifica se o email existe no banco de dados
-                try:
-                    usuario = Usuario.objects.get(email=email)
-                    
-                    # Gera código de 6 dígitos
-                    codigo = str(random.randint(100000, 999999))
-                    
-                    # Salva o código e email na sessão
-                    request.session['reset_email'] = email
-                    request.session['reset_codigo'] = codigo
-                    request.session['reset_codigo_valido_ate'] = (
-                        datetime.now() + timedelta(minutes=5)
-                    ).isoformat()
-                    
-                    return JsonResponse({
-                        'status': 'success',
-                        'codigo': codigo,
-                        'mensagem': 'Código de verificação gerado com sucesso'
-                    })
-                    
-                except Usuario.DoesNotExist:
-                    return JsonResponse({
-                        'status': 'error',
-                        'mensagem': 'Email não cadastrado no sistema'
-                    }, status=404)
-            
-            elif acao == 'verificar_codigo':
-                email = request.session.get('reset_email')
-                codigo_sessao = request.session.get('reset_codigo')
-                codigo_valido_ate = request.session.get('reset_codigo_valido_ate')
-                codigo_digitado = data.get('codigo', '')
-                
-                # Verifica se o código ainda é válido
-                if codigo_valido_ate:
-                    valido_ate = datetime.fromisoformat(codigo_valido_ate)
-                    if datetime.now() > valido_ate:
-                        return JsonResponse({
-                            'status': 'error',
-                            'mensagem': 'Código expirado. Solicite um novo.'
-                        })
-                
-                # Verifica se o código está correto
-                if codigo_digitado == codigo_sessao:
-                    # Marca o código como verificado
-                    request.session['reset_codigo_verificado'] = True
-                    return JsonResponse({
-                        'status': 'success',
-                        'mensagem': 'Código verificado com sucesso'
-                    })
-                else:
-                    return JsonResponse({
-                        'status': 'error',
-                        'mensagem': 'Código incorreto'
-                    })
-            
-            elif acao == 'redefinir_senha':
-                email = request.session.get('reset_email')
-                senha = data.get('senha', '')
-                
-                # Verifica se o código foi verificado
-                if not request.session.get('reset_codigo_verificado'):
-                    return JsonResponse({
-                        'status': 'error',
-                        'mensagem': 'Código não verificado'
-                    })
-                
-                # Valida a senha
-                if len(senha) < 8:
-                    return JsonResponse({
-                        'status': 'error',
-                        'mensagem': 'A senha deve ter no mínimo 8 caracteres'
-                    })
-                
-                try:
-                    # Busca o usuário e atualiza a senha no banco de dados
-                    usuario = Usuario.objects.get(email=email)
-                    usuario.senha = make_password(senha)
-                    usuario.save()
-                    
-                    # Limpa a sessão
-                    keys_to_remove = ['reset_email', 'reset_codigo', 
-                                    'reset_codigo_valido_ate', 'reset_codigo_verificado']
-                    for key in keys_to_remove:
-                        if key in request.session:
-                            del request.session[key]
-                    
-                    return JsonResponse({
-                        'status': 'success',
-                        'mensagem': 'Senha alterada com sucesso! Você já pode fazer login.'
-                    })
-                    
-                except Usuario.DoesNotExist:
-                    return JsonResponse({
-                        'status': 'error',
-                        'mensagem': 'Usuário não encontrado'
-                    }, status=404)
-            
-        except json.JSONDecodeError:
-            return JsonResponse({
-                'status': 'error',
-                'mensagem': 'Erro ao processar a solicitação'
-            }, status=400)
-        except Exception as e:
-            return JsonResponse({
-                'status': 'error',
-                'mensagem': f'Erro interno: {str(e)}'
-            }, status=500)
-    
-    return render(request, 'esqueci_senha.html')
-
-
-
-

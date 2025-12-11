@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Barbearias | Regua</title>
+  <title>Editar Barbearia | Regua</title>
   <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
@@ -14,49 +14,55 @@
 
     /* Variáveis CSS para temas */
     :root[data-tema="claro"] {
-      --cor-fundo: #ffffff;
-      --cor-texto: #333333;
-      --cor-primaria: #007bff;
+      --cor-fundo: #f8fafc;
+      --cor-texto: #1e293b;
+      --cor-primaria: #1DB954;
+      --cor-primaria-escura: #17a745;
       --cor-secundaria: #6c757d;
-      --cor-borda: #dee2e6;
+      --cor-borda: #e2e8f0;
       --cor-navbar: #ffffff;
       --cor-navbar-texto: #000000;
-      --cor-card: rgba(0, 0, 20, 0.7);
+      --cor-card: #ffffff;
       --cor-overlay: rgba(0, 0, 0, 0.7);
       --cor-dropdown: #ffffff;
       --cor-dropdown-texto: #000000;
       --cor-dropdown-hover: #f1f1f1;
       --cor-widget: #ffffff;
-      --cor-widget-texto: #333333;
+      --cor-widget-texto: #1e293b;
       --cor-widget-hover: #f8f9fa;
       --gradiente-primario: linear-gradient(135deg, #2aa745, #34ce57);
-      --cor-bolinha: #2aa745;
-      --cor-bolinha-hover: #228c3a;
+      --cor-bolinha: #1DB954;
+      --cor-bolinha-hover: #17a745;
       --cor-sombra: rgba(0, 0, 0, 0.1);
+      --cor-input-bg: #f8fafc;
+      --cor-input-text: #1e293b;
       --cor-leitor-texto: rgba(29, 185, 84, 0.1);
       --cor-leitor-borda: #1DB954;
     }
 
     :root[data-tema="escuro"] {
       --cor-fundo: #1a1a1a;
-      --cor-texto: #ffffff;
-      --cor-primaria: #0d6efd;
+      --cor-texto: #e0e0e0;
+      --cor-primaria: #1DB954;
+      --cor-primaria-escura: #17a745;
       --cor-secundaria: #6c757d;
       --cor-borda: #495057;
       --cor-navbar: #2d2d2d;
       --cor-navbar-texto: #ffffff;
-      --cor-card: rgba(30, 30, 60, 0.8);
+      --cor-card: #2d3748;
       --cor-overlay: rgba(0, 0, 0, 0.8);
       --cor-dropdown: #2d2d2d;
       --cor-dropdown-texto: #ffffff;
       --cor-dropdown-hover: #3d3d3d;
-      --cor-widget: #2d2d2d;
+      --cor-widget: #2d3748;
       --cor-widget-texto: #ffffff;
       --cor-widget-hover: #3d3d3d;
       --gradiente-primario: linear-gradient(135deg, #2aa745, #28a745);
-      --cor-bolinha: #2aa745;
-      --cor-bolinha-hover: #34ce57;
+      --cor-bolinha: #1DB954;
+      --cor-bolinha-hover: #17a745;
       --cor-sombra: rgba(0, 0, 0, 0.3);
+      --cor-input-bg: #2d2d2d;
+      --cor-input-text: #ffffff;
       --cor-leitor-texto: rgba(29, 185, 84, 0.2);
       --cor-leitor-borda: #1DB954;
     }
@@ -100,6 +106,7 @@
       color: var(--cor-texto);
       font-size: var(--tamanho-fonte);
       transition: all 0.3s ease;
+      padding: 20px;
       user-select: text;
     }
 
@@ -108,263 +115,33 @@
       color: var(--cor-texto);
     }
 
-    nav {
-      background-color: var(--cor-navbar);
-      color: var(--cor-navbar-texto);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--cor-widget);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px var(--cor-sombra);
+      padding: 30px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      font-family: 'Unbounded', cursive;
+      font-size: var(--tamanho-h1);
+      font-weight: bold;
     }
 
     .logo {
-      font-size: var(--tamanho-h2);
-      color: var(--cor-navbar-texto);
+      color: var(--cor-texto);
       font-weight: bold;
-      font-family: 'Unbounded', sans-serif;
     }
 
     .R {
       color: #1DB954;
     }
 
-    .alert-messages {
-        position: fixed;
-        top: 70px;
-        left: 20px;
-        z-index: 1000;
-        max-width: 400px;
-    }
-
-    .alert {
-        padding: 15px;
-        margin-bottom: 10px;
-        border-radius: 4px;
-        animation: fadeIn 0.5s;
-    }
-
-    .alert-success {
-        background-color: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-    }
-
-    .alert-error {
-        background-color: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-    }
-
-    .alert-warning {
-        background-color: #fff3cd;
-        color: #856404;
-        border: 1px solid #ffeeba;
-    }
-
-    .alert-info {
-        background-color: #d1ecf1;
-        color: #0c5460;
-        border: 1px solid #bee5eb;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .fade-out {
-        animation: fadeOut 0.5s forwards;
-    }
-
-    @keyframes fadeOut {
-        from { opacity: 1; transform: translateY(0); }
-        to { opacity: 0; transform: translateY(-20px); }
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
-    }
-
-    .nav-links a {
-      color: var(--cor-navbar-texto);
-      text-decoration: none;
-      font-weight: bold;
-      font-family: 'Unbounded', sans-serif;
-    }
-
-    .menu-icon {
-      font-size: var(--tamanho-h2);
-      display: none;
-      cursor: pointer;
-      background: none;
-      border: none;
-      color: var(--cor-navbar-texto);
-    }
-
-    .dropbtn {
-      background-color: transparent;
-      color: var(--cor-navbar-texto);
-      padding: 0.5rem 1rem;
-      font-size: var(--tamanho-p);
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      font-family: 'Unbounded', sans-serif;
-    }
-
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      right: 0;
-      background-color: var(--cor-dropdown);
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
-
-    .dropdown-content a {
-      color: var(--cor-dropdown-texto);
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      text-align: left;
-      font-size: var(--tamanho-p);
-      font-family: 'Unbounded', sans-serif;
-    }
-
-    .dropdown-content a:hover {
-      background-color: var(--cor-dropdown-hover);
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    .profile-icon {
-      margin-left: 20px;
-      display: flex;
-      align-items: center;
-    }
-
-    .profile-pic-nav {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: #ddd;
-      position: relative;
-      overflow: hidden;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.3s ease;
-    }
-
-    .profile-pic-nav:hover {
-      transform: scale(1.1);
-    }
-
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: var(--cor-navbar);
-      z-index: 999;
-      flex-direction: column;
-      padding: 2rem;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-    }
-
-    .mobile-menu.aberto {
-      transform: translateX(0);
-    }
-
-    .mobile-menu-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--cor-borda);
-    }
-
-    .mobile-menu-close {
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: var(--cor-navbar-texto);
-      cursor: pointer;
-    }
-
-    .mobile-menu-links {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .mobile-menu-links a {
-      color: var(--cor-navbar-texto);
-      text-decoration: none;
-      font-size: var(--tamanho-h3);
-      padding: 1rem;
-      border-radius: 8px;
-      transition: background-color 0.3s ease;
-      font-family: 'Unbounded', sans-serif;
-    }
-
-    .mobile-menu-links a:hover {
-      background-color: var(--cor-dropdown-hover);
-    }
-
-    .mobile-profile {
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      border-top: 1px solid var(--cor-borda);
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      border-radius: 8px;
-      text-decoration: none;
-    }
-
-    .mobile-profile:hover {
-      background-color: var(--cor-dropdown-hover);
-    }
-
-    .mobile-profile-pic {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: #ddd;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.3s ease;
-    }
-
-    .mobile-profile:hover .mobile-profile-pic {
-      transform: scale(1.1);
-    }
-
-    .mobile-profile-name {
-      color: var(--cor-navbar-texto);
-      font-size: var(--tamanho-p);
-      font-family: 'Unbounded', sans-serif;
-    }
-
+    /* Bolinha de Acessibilidade */
     .bolinha-acessibilidade {
       position: fixed;
       bottom: 20px;
@@ -396,17 +173,17 @@
       background: var(--cor-bolinha-hover);
     }
 
+    /* Menu de Acessibilidade */
     .menu-acessibilidade {
       position: fixed;
       bottom: 90px;
       right: 90px;
-      background: var(--cor-widget);
+      background: var(--cor-card);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 20px;
       z-index: 1000;
       box-shadow: 0 8px 30px var(--cor-sombra);
-      backdrop-filter: blur(10px);
       transform: scale(0.8);
       opacity: 0;
       visibility: hidden;
@@ -450,7 +227,7 @@
       align-items: center;
       justify-content: center;
       padding: 12px 8px;
-      background: var(--gradiente-primario);
+      background: var(--cor-primaria);
       color: white;
       border: none;
       border-radius: 12px;
@@ -459,12 +236,13 @@
       transition: all 0.3s ease;
       min-height: 60px;
       gap: 5px;
-      box-shadow: 0 4px 10px rgba(42, 167, 69, 0.3);
+      box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
     }
 
     .botao-acessibilidade:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(42, 167, 69, 0.4);
+      background: var(--cor-primaria-escura);
+      box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
     }
 
     .botao-acessibilidade .icone {
@@ -487,13 +265,14 @@
       animation: pulse 2s infinite;
     }
 
+    /* Botão de Leitura de Texto */
     .botao-leitura-texto {
       position: fixed;
       bottom: 20px;
       right: 160px;
       width: 60px;
       height: 60px;
-      background: var(--cor-bolinha);
+      background: var(--cor-primaria);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -518,7 +297,7 @@
 
     .botao-leitura-texto:hover {
       transform: scale(1.1);
-      background: var(--cor-bolinha-hover);
+      background: var(--cor-primaria-escura);
     }
 
     .botao-leitura-texto.ouvindo {
@@ -527,16 +306,26 @@
     }
 
     @keyframes pulsar {
-      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
-      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
-      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
+      }
     }
 
+    /* Controles do Leitor de Texto */
     .controles-leitor {
       position: fixed;
       bottom: 90px;
       right: 160px;
-      background: var(--cor-widget);
+      background: var(--cor-card);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 15px;
@@ -546,7 +335,7 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      min-width: 200px;
+      min-width: 180px;
     }
 
     .controles-leitor.aberto {
@@ -555,43 +344,19 @@
       visibility: visible;
     }
 
-    .controles-leitor-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--cor-borda);
-    }
-
-    .controle-leitor-titulo {
-      font-size: 14px;
-      font-weight: bold;
-      color: var(--cor-widget-texto);
-      text-align: center;
-      flex: 1;
-    }
-
-    .controle-leitor-fechar {
-      background: none;
-      border: none;
-      color: var(--cor-widget-texto);
-      font-size: 20px;
-      cursor: pointer;
-      padding: 0 5px;
-      line-height: 1;
-      transition: color 0.3s ease;
-    }
-
-    .controle-leitor-fechar:hover {
-      color: #ff4757;
-    }
-
     .controles-leitor-conteudo {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 10px;
+    }
+
+    .controle-leitor-titulo {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--cor-texto);
+      margin-bottom: 5px;
+      text-align: center;
     }
 
     .controles-leitor-botoes {
@@ -605,7 +370,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--gradiente-primario);
+      background: var(--cor-primaria);
       border: none;
       color: white;
       cursor: pointer;
@@ -617,11 +382,12 @@
     }
 
     .controle-leitor-btn:hover {
+      background: var(--cor-primaria-escura);
       transform: scale(1.1);
     }
 
     .controle-leitor-btn:disabled {
-      background: var(--cor-secundaria);
+      background: var(--cor-texto-claro);
       cursor: not-allowed;
       transform: none;
     }
@@ -636,7 +402,7 @@
 
     .velocidade-leitor label {
       font-size: 12px;
-      color: var(--cor-widget-texto);
+      color: var(--cor-texto);
       white-space: nowrap;
     }
 
@@ -655,7 +421,7 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-bolinha);
+      background: var(--cor-primaria);
       cursor: pointer;
     }
 
@@ -663,18 +429,19 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-bolinha);
+      background: var(--cor-primaria);
       cursor: pointer;
       border: none;
     }
 
     .velocidade-valor {
       font-size: 12px;
-      color: var(--cor-widget-texto);
+      color: var(--cor-texto);
       min-width: 30px;
       text-align: center;
     }
 
+    /* VLibras Widget Styles */
     .vw-plugin-top-wrapper {
       z-index: 9999 !important;
     }
@@ -684,7 +451,7 @@
     }
     
     div[vw] .vw-access-button {
-      background-color: var(--cor-bolinha) !important;
+      background-color: var(--cor-primaria) !important;
       border-radius: 50% !important;
       width: 50px !important;
       height: 50px !important;
@@ -696,7 +463,7 @@
     
     div[vw] .vw-access-button:hover {
       transform: scale(1.1) !important;
-      background-color: var(--cor-bolinha-hover) !important;
+      background-color: var(--cor-primaria-escura) !important;
     }
     
     div[vw] .vw-access-button img {
@@ -704,31 +471,29 @@
     }
 
     @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-
-      .menu-icon {
-        display: block;
-      }
-
-      .mobile-menu {
-        display: flex;
-      }
-
       .bolinha-acessibilidade {
-        width: 70px;
-        height: 70px;
-        bottom: 25px;
-        right: 80px;
-        font-size: 28px;
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        right: 70px;
       }
 
       .menu-acessibilidade {
-        bottom: 110px;
-        right: 80px;
+        bottom: 80px;
+        right: 70px;
         min-width: 180px;
-        padding: 15px;
+      }
+
+      .botao-leitura-texto {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        right: 130px;
+      }
+
+      .controles-leitor {
+        right: 130px;
+        bottom: 80px;
       }
 
       .menu-botoes {
@@ -752,25 +517,6 @@
         font-size: 12px;
       }
 
-      .alert-messages {
-        left: 10px;
-        right: 10px;
-        max-width: none;
-      }
-
-      .botao-leitura-texto {
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-        right: 140px;
-      }
-
-      .controles-leitor {
-        right: 140px;
-        bottom: 105px;
-        min-width: 180px;
-      }
-
       div[vw] .vw-access-button {
         width: 45px !important;
         height: 45px !important;
@@ -779,51 +525,25 @@
       }
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 480px) {
       .bolinha-acessibilidade {
-        width: 65px;
-        height: 65px;
-        bottom: 20px;
-        right: 70px;
-        font-size: 26px;
+        width: 45px;
+        height: 45px;
+        right: 60px;
       }
 
       .menu-acessibilidade {
-        bottom: 100px;
-        right: 70px;
-        min-width: 170px;
+        right: 60px;
       }
 
       .botao-leitura-texto {
         width: 45px;
         height: 45px;
-        right: 125px;
+        right: 115px;
       }
 
       .controles-leitor {
-        right: 125px;
-        min-width: 170px;
-      }
-    }
-
-    @media (max-width: 360px) {
-      .menu-acessibilidade {
-        right: 10px;
-        left: 10px;
-        min-width: auto;
-      }
-
-      .bolinha-acessibilidade {
-        right: 60px;
-      }
-
-      .botao-leitura-texto {
-        right: 110px;
-      }
-
-      .controles-leitor {
-        right: 110px;
-        min-width: 160px;
+        right: 115px;
       }
 
       div[vw] .vw-access-button {
@@ -834,218 +554,289 @@
       }
     }
 
-    main {
-      max-width: 1200px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+    @media (max-width: 360px) {
+      .bolinha-acessibilidade {
+        right: 50px;
+      }
+
+      .menu-acessibilidade {
+        right: 50px;
+      }
+
+      .botao-leitura-texto {
+        right: 100px;
+      }
+
+      .controles-leitor {
+        right: 100px;
+      }
     }
 
-    .page-title {
-      text-align: center;
-      margin-bottom: 2rem;
-      font-family: 'Unbounded', cursive;
-      letter-spacing: 1px;
-      font-size: var(--tamanho-h1);
+    .photo-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 40px;
     }
 
-    .search-container {
-      max-width: 500px;
-      margin: 0 auto 2rem;
+    .photo-container {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin-bottom: 15px;
     }
 
-    .search-input {
+    .photo-preview {
       width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--cor-borda);
-      border-radius: 8px;
-      font-size: var(--tamanho-p);
-      transition: all 0.2s;
-      background-color: var(--cor-fundo);
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #22c55e;
+      cursor: pointer;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--cor-input-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      color: var(--cor-secundaria);
+      border: 2px dashed var(--cor-borda);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .photo-placeholder:hover {
+      border-color: #22c55e;
+      background-color: var(--cor-widget-hover);
+    }
+
+    .photo-text {
+      color: var(--cor-secundaria);
+      font-weight: 600;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .photo-text strong {
+      color: #22c55e;
+    }
+
+    .status-indicator {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background-color: #22c55e;
+      color: white;
+      font-weight: bold;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.3s;
+    }
+
+    .status-indicator.fechado {
+      background-color: #ef4444;
+    }
+
+    #logo-upload {
+      display: none;
+    }
+
+    /* Formulário */
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      flex: 1 1 45%;
+      min-width: 250px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
       color: var(--cor-texto);
     }
 
-    .search-input:focus {
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--cor-borda);
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.2s;
+      background-color: var(--cor-input-bg);
+      color: var(--cor-input-text);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
       outline: none;
       border-color: #22c55e;
       box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
     }
 
-    .barbearias-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
+    /* Status da Barbearia */
+    .status-section {
+      margin: 30px 0;
+      text-align: center;
     }
 
-    .barbearia-card {
-      background: var(--cor-widget);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 6px var(--cor-sombra);
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 1px solid var(--cor-borda);
-      position: relative;
-      height: 430px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .barbearia-card.fechado {
-      opacity: 0.85;
-      filter: grayscale(30%);
-    }
-
-    .barbearia-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 15px var(--cor-sombra);
-    }
-
-    .barbearia-status {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
+    .status-title {
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      z-index: 2;
-    }
-
-    .status-aberto {
-      background-color: #dcfce7;
-      color: #166534;
-    }
-
-    .status-fechado {
-      background-color: #fee2e2;
-      color: #991b1b;
-    }
-
-    .barbearia-logo {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-      border-bottom: 1px solid var(--cor-borda);
-    }
-
-    .barbearia-info {
-      padding: 1.25rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .barbearia-nome {
-      font-size: 1.125rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
+      margin-bottom: 15px;
       color: var(--cor-texto);
     }
 
-    .barbearia-endereco {
-      color: var(--cor-secundaria);
-      font-size: 0.875rem;
-      margin-bottom: 0.5rem;
-      line-height: 1.4;
-    }
-
-    .barbearia-endereco-completo {
-      color: var(--cor-secundaria);
-      font-size: 0.8rem;
-      margin-bottom: 0.75rem;
-      line-height: 1.3;
+    .status-buttons {
       display: flex;
-      align-items: flex-start;
-      gap: 0.5rem;
+      justify-content: center;
+      gap: 15px;
     }
 
-    .barbearia-endereco-completo::before {
-      content: "📍";
-      font-size: 0.8rem;
-      margin-top: 0.1rem;
-    }
-
-    .barbearia-telefone {
-      color: var(--cor-secundaria);
-      font-size: 0.875rem;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      line-height: 1.4;
-    }
-
-    .barbearia-telefone::before {
-      content: "📞";
-      font-size: 0.875rem;
-    }
-
-    .barbearia-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-top: auto;
-    }
-
-    .btn {
-      padding: 0.625rem 1rem;
-      border-radius: 8px;
+    .status-btn {
+      padding: 12px 30px;
+      font-size: 15px;
       font-weight: 600;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
       border: none;
-      font-size: 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 140px;
     }
 
-    .btn-agendar {
+    .btn-aberto {
       background-color: #22c55e;
       color: white;
+      box-shadow: 0 2px 5px rgba(34, 197, 94, 0.2);
     }
 
-    .btn-agendar:hover {
-      background-color: #16a34a;
-    }
-
-    .btn-indisponivel {
-      background-color: var(--cor-secundaria);
-      color: var(--cor-widget-texto);
-      cursor: not-allowed;
-      opacity: 0.7;
-    }
-
-    .btn-ja-agendado {
-      background-color: #3b82f6;
+    .btn-fechado {
+      background-color: #ef4444;
       color: white;
-      cursor: not-allowed;
-      opacity: 0.9;
+      box-shadow: 0 2px 5px rgba(239, 68, 68, 0.2);
     }
 
-    .closed-notice {
-      background-color: #fffbeb;
-      color: #92400e;
-      padding: 0.6rem;
+    .btn-aberto.active {
+      background-color: #16a34a;
+      transform: translateY(2px);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-fechado.active {
+      background-color: #dc2626;
+      transform: translateY(2px);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Botões de Ação */
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      gap: 15px;
+    }
+
+    .action-btn {
+      padding: 14px 25px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
       border-radius: 8px;
-      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      flex: 1;
       text-align: center;
-      margin-top: 0.5rem;
-      border: 1px solid #fde68a;
-      line-height: 1.3;
+      text-decoration: none;
+      display: inline-block;
     }
 
-    .already-scheduled-notice {
-      background-color: #dbeafe;
-      color: #1e40af;
-      padding: 0.6rem;
+    .btn-salvar {
+      background-color: #22c55e;
+      color: white;
+      box-shadow: 0 2px 5px rgba(34, 197, 94, 0.2);
+    }
+
+    .btn-salvar:hover {
+      background-color: #16a34a;
+      transform: translateY(-2px);
+    }
+
+    .btn-excluir {
+      background-color: #ef4444;
+      color: white;
+      box-shadow: 0 2px 5px rgba(239, 68, 68, 0.2);
+    }
+
+    .btn-excluir:hover {
+      background-color: #dc2626;
+      transform: translateY(-2px);
+    }
+
+    .btn-cancelar {
+      background-color: var(--cor-secundaria);
+      color: white;
+      box-shadow: 0 2px 5px rgba(100, 116, 139, 0.2);
+    }
+
+    .btn-cancelar:hover {
+      background-color: #475569;
+      transform: translateY(-2px);
+    }
+
+    /* Botão Excluir Separado */
+    .excluir-section {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 1px solid var(--cor-borda);
+      text-align: center;
+    }
+
+    .excluir-title {
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--cor-texto);
+    }
+
+    .excluir-warning {
+      background-color: #fef2f2;
+      color: #991b1b;
+      padding: 15px;
       border-radius: 8px;
-      font-size: 0.8rem;
-      text-align: center;
-      margin-top: 0.5rem;
-      border: 1px solid #93c5fd;
-      line-height: 1.3;
+      margin-bottom: 20px;
+      border: 1px solid #fecaca;
+      font-size: 14px;
+      line-height: 1.5;
     }
 
+    .btn-excluir-barbearia {
+      background-color: #dc2626;
+      color: white;
+      padding: 12px 30px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-excluir-barbearia:hover {
+      background-color: #b91c1c;
+      transform: translateY(-2px);
+    }
+
+    /* Modal */
     .modal {
       display: none;
       position: fixed;
@@ -1053,7 +844,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.5);
+      background-color: rgba(0, 0, 0, 0.5);
       z-index: 1000;
       justify-content: center;
       align-items: center;
@@ -1061,62 +852,115 @@
 
     .modal-content {
       background: var(--cor-widget);
-      color: var(--cor-texto);
-      padding: 2rem;
+      padding: 30px;
       border-radius: 12px;
-      max-width: 400px;
       width: 90%;
+      max-width: 400px;
       text-align: center;
-      box-shadow: 0 4px 20px var(--cor-sombra);
-    }
-
-    .modal-icon {
-      font-size: 3rem;
-      color: #22c55e;
-      margin-bottom: 1rem;
     }
 
     .modal-title {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      color: var(--cor-texto);
     }
 
     .modal-message {
       color: var(--cor-secundaria);
       margin-bottom: 1.5rem;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
-    .modal-actions {
+    .modal-buttons {
       display: flex;
       justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
     }
 
     .modal-btn {
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
       font-weight: 600;
       cursor: pointer;
-      border: none;
-      background-color: #22c55e;
+      transition: all 0.3s;
+    }
+
+    .modal-btn.confirm {
+      background-color: #dc2626;
       color: white;
     }
 
+    .modal-btn.confirm:hover {
+      background-color: #b91c1c;
+    }
+
+    .modal-btn.cancel {
+      background-color: var(--cor-secundaria);
+      color: white;
+    }
+
+    .modal-btn.cancel:hover {
+      background-color: #475569;
+    }
+
+    /* Mensagens */
+    .alert-messages {
+      margin-bottom: 20px;
+    }
+
+    .alert {
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .alert-success {
+      background-color: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .alert-error {
+      background-color: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    /* Responsividade */
     @media (max-width: 768px) {
-      .barbearias-grid {
-        grid-template-columns: 1fr;
+      .form-row {
+        flex-direction: column;
       }
-      
-      .barbearia-card {
-        height: auto;
-        min-height: 390px;
+
+      .status-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .modal-buttons {
+        flex-direction: column;
+      }
+
+      .form-group,
+      .status-btn,
+      .action-btn {
+        width: 100%;
       }
     }
   </style>
+  <!-- VLibras Plugin -->
   <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
 </head>
 <body>
+  <!-- VLibras Widget -->
   <div vw class="enabled">
     <div vw-access-button class="active"></div>
     <div vw-plugin-wrapper>
@@ -1124,20 +968,20 @@
     </div>
   </div>
 
+  <!-- Bolinha de Acessibilidade -->
   <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
-    +
+    ♿
   </button>
 
+  <!-- Botão de Leitura de Texto -->
   <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
     🔊
   </button>
 
+  <!-- Controles do Leitor de Texto -->
   <div class="controles-leitor" id="controlesLeitor">
-    <div class="controles-leitor-header">
-      <div class="controle-leitor-titulo">Leitor de Texto</div>
-      <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
-    </div>
     <div class="controles-leitor-conteudo">
+      <div class="controle-leitor-titulo">Leitor de Texto</div>
       <div class="controles-leitor-botoes">
         <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
         <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
@@ -1151,6 +995,7 @@
     </div>
   </div>
 
+  <!-- Menu de Acessibilidade -->
   <div class="menu-acessibilidade" id="menuAcessibilidade">
     <div class="menu-conteudo">
       <div class="menu-titulo">Acessibilidade</div>
@@ -1179,130 +1024,132 @@
     </div>
   </div>
 
-  <div class="mobile-menu" id="mobileMenu">
-    <div class="mobile-menu-header">
+  <div class="container">
+    <div class="header">
       <div class="logo">
         <span class="R">R</span>egua
       </div>
-      <button class="mobile-menu-close" onclick="fecharMenuMobile()">×</button>
-    </div>
-    
-    <div class="mobile-menu-links">
-      <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
-      <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
-      <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
-    </div>
-    
-    <a href="{% url 'perfilatalho' %}" class="mobile-profile" onclick="fecharMenuMobile()">
-      <div class="mobile-profile-pic" id="mobileProfilePic" 
-        {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
-      </div>
-      <div class="mobile-profile-name">
-        {% if user.first_name %}
-          {{ user.first_name }} {{ user.last_name }}
-        {% else %}
-          Meu Perfil
-        {% endif %}
-      </div>
-    </a>
-  </div>
-
-  <nav>
-    <div class="logo">
-      <a href="{% url 'Homeatalho' %}" style="text-decoration: none; color: inherit;">
-        <span class="R">R</span>egua
-      </a>
     </div>
 
-    {% if messages %}
+    <!-- Mensagens -->
     <div class="alert-messages">
+      {% if messages %}
         {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
+          <div class="alert alert-{{ message.tags }}">
             {{ message }}
-        </div>
+          </div>
         {% endfor %}
-    </div>
-    {% endif %}
-    
-    <div class="nav-links" id="navLinks">
-        <div class="dropdown">
-            <button class="dropbtn">☰ Menu</button>
-            <div class="dropdown-content">
-                <a href="{% url 'barbeariaatalho' %}">Barbearias Disponíveis</a>
-                <a href="{% url 'agendamento_clienteatalho' %}">Meus Agendamentos</a>
-                <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
-            </div>
-        </div>
-        <a href="{% url 'perfilatalho' %}" class="profile-icon">
-            <div class="profile-pic-nav" id="profile-pic-nav" 
-                {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
-            </div>
-        </a>
-    </div>
-    
-    <button class="menu-icon" id="menuIcon" onclick="abrirMenuMobile()">☰</button>
-  </nav>
-
-  <main>
-    <h1 class="page-title">Barbearias Disponíveis</h1>
-
-    <div class="search-container">
-      <input type="text" class="search-input" placeholder="Pesquisar barbearia..." id="searchInput">
+      {% endif %}
     </div>
 
-    <div class="barbearias-grid">
-      {% for barbearia in barbearias %}
-      <div class="barbearia-card {% if barbearia.status_barbearia == 'fechado' %}fechado{% endif %}">
-        <div class="barbearia-status {% if barbearia.status_barbearia == 'aberto' %}status-aberto{% else %}status-fechado{% endif %}">
-          {% if barbearia.status_barbearia == 'aberto' %}ABERTO{% else %}FECHADO{% endif %}
-        </div>
+    <div class="form-container">
+      <form method="post" enctype="multipart/form-data" id="form-barbearia">
+        {% csrf_token %}
         
-        <img src="{% if barbearia.foto_logo %}{{ barbearia.foto_logo.url }}{% else %}https://via.placeholder.com/400x160?text=Barbearia{% endif %}" 
-             alt="{{ barbearia.nome_barbearia }}" class="barbearia-logo">
-        
-        <div class="barbearia-info">
-          <h3 class="barbearia-nome">{{ barbearia.nome_barbearia }}</h3>
-          <p class="barbearia-endereco">{{ barbearia.cidade }}, {{ barbearia.estado }}</p>
-          
-          <p class="barbearia-endereco-completo">
-            {% if barbearia.endereco %}
-              {{ barbearia.endereco }}
+        <!-- Seção de Foto Centralizada -->
+        <div class="photo-section">
+          <div class="photo-container">
+            {% if barbearia.foto_logo %}
+              <img src="{{ barbearia.foto_logo.url }}" class="photo-preview" id="logo-preview">
             {% else %}
-              Endereço não informado
+              <div class="photo-placeholder" id="logo-placeholder">🪒</div>
             {% endif %}
-          </p>
+            <div class="status-indicator {% if barbearia.status_barbearia == 'fechado' %}fechado{% endif %}" id="status-indicator">
+              {{ barbearia.status_barbearia|upper|default:"ABERTO" }}
+            </div>
+          </div>
           
-          <p class="barbearia-telefone">
-            {{ barbearia.telefone_comercial|default:"Telefone não informado" }}
-          </p>
-          
-          <div class="barbearia-actions">
-            {% if barbearia.status_barbearia == 'aberto' %}
-              <button class="btn btn-agendar" onclick="verificarAgendamento('{{ barbearia.id }}', '{{ barbearia.nome_barbearia }}')">
-                Entrar na Fila
-              </button>
-            {% else %}
-              <button class="btn btn-indisponivel" disabled>
-                Indisponível no momento
-              </button>
-              <div class="closed-notice">
-                Esta barbearia está fechada. Tente novamente mais tarde.
-              </div>
-            {% endif %}
+          <p class="photo-text">Clique na imagem para <strong>alterar a foto</strong></p>
+          <input type="file" id="logo-upload" name="logo-upload" accept="image/*">
+        </div>
+
+        <!-- Dados Básicos -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nome_barbearia">Nome da barbearia</label>
+            <input type="text" id="nome_barbearia" name="nome_barbearia" value="{{ barbearia.nome_barbearia }}" required>
+          </div>
+          <div class="form-group">
+            <label for="telefone_comercial">Telefone comercial</label>
+            <input type="tel" id="telefone_comercial" name="telefone_comercial" value="{{ barbearia.telefone_comercial }}" required>
           </div>
         </div>
-      </div>
-      {% endfor %}
-    </div>
-  </main>
 
-  <div class="modal" id="modalConfirmacao">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="endereco">Endereço</label>
+            <input type="text" id="endereco" name="endereco" value="{{ barbearia.endereco }}" required>
+          </div>
+          <div class="form-group">
+            <label for="cidade">Cidade</label>
+            <input type="text" id="cidade" name="cidade" value="{{ barbearia.cidade }}" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="estado">Estado</label>
+            <select id="estado" name="estado" required>
+              <option value="">Selecione...</option>
+              <option value="DF" {% if barbearia.estado == 'DF' %}selected{% endif %}>Distrito Federal</option>
+              <option value="GO" {% if barbearia.estado == 'GO' %}selected{% endif %}>Goiás</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Status da Barbearia -->
+        <div class="status-section">
+          <div class="status-title">Status atual da barbearia</div>
+          <div class="status-buttons">
+            <button type="button" class="status-btn btn-aberto {% if barbearia.status_barbearia != 'fechado' %}active{% endif %}" id="btn-aberto">
+              ABERTO
+            </button>
+            <button type="button" class="status-btn btn-fechado {% if barbearia.status_barbearia == 'fechado' %}active{% endif %}" id="btn-fechado">
+              FECHADO
+            </button>
+          </div>
+          <input type="hidden" id="status_barbearia" name="status_barbearia" value="{{ barbearia.status_barbearia|default:'aberto' }}">
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="action-buttons">
+          <a href="{% url 'barbeiroatalho' %}" class="action-btn btn-cancelar" id="btn-cancelar">
+            CANCELAR
+          </a>
+          <button type="submit" class="action-btn btn-salvar">
+            SALVAR ALTERAÇÕES
+          </button>
+        </div>
+      </form>
+
+      <!-- Seção de Excluir Barbearia -->
+      <div class="excluir-section">
+        <div class="excluir-title">Zona de Perigo</div>
+        <div class="excluir-warning">
+          ⚠️ <strong>Atenção:</strong> Esta ação não pode ser desfeita. Ao excluir a barbearia, todos os dados serão permanentemente removidos, incluindo agendamentos e histórico.
+        </div>
+        <button type="button" class="btn-excluir-barbearia" onclick="abrirModalExclusao()">
+          EXCLUIR BARBEARIA
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmação de Exclusão -->
+  <div class="modal" id="modalExclusao">
     <div class="modal-content">
-      <div class="modal-icon">✓</div>
-      <h2 class="modal-title">Entrou na fila com sucesso</h2>
-      <p class="modal-message" id="modalMessage"></p>
-      <div class="modal-actions">
-        <button class="modal-btn" onclick="fecharModal()">Entendido</button>
+      <div class="modal-title">Confirmar Exclusão</div>
+      <div class="modal-message">
+        Tem certeza que deseja excluir a barbearia <strong>"{{ barbearia.nome_barbearia }}"</strong>?<br><br>
+        Esta ação é <strong>irreversível</strong> e todos os dados serão perdidos permanentemente.
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn cancel" onclick="fecharModalExclusao()">Cancelar</button>
+        <form method="post" style="display: inline;">
+          {% csrf_token %}
+          <input type="hidden" name="excluir_barbearia" value="true">
+          <button type="submit" class="modal-btn confirm">Sim, Excluir</button>
+        </form>
       </div>
     </div>
   </div>
@@ -1320,6 +1167,7 @@
       if (typeof VLibras !== 'undefined') {
         new window.VLibras.Widget('https://vlibras.gov.br/app');
       }
+
       document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
       document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
     });
@@ -1396,16 +1244,30 @@
       const controles = document.getElementById('controlesLeitor');
       const botao = document.getElementById('botaoLeituraTexto');
       
-      // Abre os controles apenas (remove o toggle)
-      controles.classList.add('aberto');
+      controles.classList.toggle('aberto');
       
       const menuAcessibilidade = document.getElementById('menuAcessibilidade');
       if (menuAcessibilidade.classList.contains('aberto')) {
         menuAcessibilidade.classList.remove('aberto');
       }
       
-      // Remove o evento de fechar ao clicar fora
-      document.removeEventListener('click', fecharControlesAoClicarFora);
+      if (controles.classList.contains('aberto')) {
+        setTimeout(() => {
+          document.addEventListener('click', fecharControlesAoClicarFora);
+        }, 100);
+      } else {
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
+    }
+
+    function fecharControlesAoClicarFora(event) {
+      const controles = document.getElementById('controlesLeitor');
+      const botao = document.getElementById('botaoLeituraTexto');
+      
+      if (!controles.contains(event.target) && !botao.contains(event.target)) {
+        controles.classList.remove('aberto');
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
     }
 
     function fecharControlesLeitor() {
@@ -1430,6 +1292,7 @@
       }
       
       utterance = new SpeechSynthesisUtterance(selectedText);
+      
       utterance.lang = 'pt-BR';
       utterance.rate = speechRate;
       utterance.pitch = 1;
@@ -1578,172 +1441,17 @@
       }
     });
 
-    function abrirMenuMobile() {
-      document.getElementById('mobileMenu').classList.add('aberto');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function fecharMenuMobile() {
-      document.getElementById('mobileMenu').classList.remove('aberto');
-      document.body.style.overflow = 'auto';
-    }
-
-    document.querySelectorAll('.mobile-menu-links a').forEach(link => {
-      link.addEventListener('click', fecharMenuMobile);
-    });
-
-    document.getElementById('searchInput').addEventListener('input', function(e) {
-      const searchTerm = e.target.value.toLowerCase();
-      const cards = document.querySelectorAll('.barbearia-card');
-      
-      cards.forEach(card => {
-        const nome = card.querySelector('.barbearia-nome').textContent.toLowerCase();
-        const endereco = card.querySelector('.barbearia-endereco').textContent.toLowerCase();
-        const enderecoCompleto = card.querySelector('.barbearia-endereco-completo').textContent.toLowerCase();
-        const telefone = card.querySelector('.barbearia-telefone').textContent.toLowerCase();
-        
-        if (nome.includes(searchTerm) || endereco.includes(searchTerm) || 
-            enderecoCompleto.includes(searchTerm) || telefone.includes(searchTerm)) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    });
-
-    let usuarioPossuiAgendamento = false;
-
-    function verificarAgendamentoAtivoInicial() {
-      fetch('{% url "verificar_agendamento_ativo" %}')
-        .then(response => {
-          if (response.status === 401) {
-            window.location.href = "{% url 'loginatalho' %}";
-            return;
-          }
-          return response.json();
-        })
-        .then(data => {
-          if (data && data.hasOwnProperty('possui_agendamento')) {
-            usuarioPossuiAgendamento = data.possui_agendamento;
-            atualizarBotoesAgendamento();
-          }
-        })
-        .catch(error => {
-          console.error('Erro ao verificar agendamento ativo:', error);
-        });
-    }
-
-    function atualizarBotoesAgendamento() {
-      const botoesAgendar = document.querySelectorAll('.btn-agendar');
-      
-      botoesAgendar.forEach(botao => {
-        if (usuarioPossuiAgendamento) {
-          botao.textContent = 'Já na fila';
-          botao.classList.remove('btn-agendar');
-          botao.classList.add('btn-ja-agendado');
-          botao.onclick = null;
-          
-          const card = botao.closest('.barbearia-card');
-          let aviso = card.querySelector('.already-scheduled-notice');
-          if (!aviso) {
-            aviso = document.createElement('div');
-            aviso.className = 'already-scheduled-notice';
-            aviso.textContent = 'Você já está em uma fila de espera.';
-            botao.parentNode.appendChild(aviso);
-          }
-        }
-      });
-    }
-
-    function verificarAgendamento(barbeariaId, barbeariaNome) {
-      if (usuarioPossuiAgendamento) {
-        alert('já possui um agendamento ativo. Por favor, cancele ou conclua seu agendamento atual antes de fazer um novo.');
-        return;
-      }
-
-      fetch('{% url "verificar_agendamento_ativo" %}')
-        .then(response => {
-          if (response.status === 401) {
-            window.location.href = "{% url 'loginatalho' %}";
-            return;
-          }
-          return response.json();
-        })
-        .then(data => {
-          if (data.possui_agendamento) {
-            usuarioPossuiAgendamento = true;
-            atualizarBotoesAgendamento();
-            alert('Você já possui um agendamento ativo. Por favor, cancele ou conclua seu agendamento atual antes de fazer um novo.');
-          } else {
-            abrirModalAgendamento(barbeariaId, barbeariaNome);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('Erro ao verificar agendamentos existentes');
-        });
-    }
-
-    function abrirModalAgendamento(barbeariaId, barbeariaNome) {
-      const dados = {
-        barbearia_id: barbeariaId,
-        csrfmiddlewaretoken: '{{ csrf_token }}'
-      };
-      
-      fetch('{% url "criar_agendamento" %}', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': '{{ csrf_token }}'
-        },
-        body: JSON.stringify(dados)
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          usuarioPossuiAgendamento = true;
-          atualizarBotoesAgendamento();
-          
-          document.getElementById('modalMessage').textContent = 
-            `Seu agendamento na ${barbeariaNome} foi confirmado com sucesso!`;
-          document.getElementById('modalConfirmacao').style.display = 'flex';
-        } else {
-          alert('Erro ao agendar: ' + (data.message || 'Tente novamente mais tarde'));
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Erro ao realizar agendamento');
-      });
-    }
-
-    function fecharModal() {
-      document.getElementById('modalConfirmacao').style.display = 'none';
-      window.location.href = "{% url 'agendamento_clienteatalho' %}";
-    }
-
-    function checkForProfilePhotoUpdates() {
-      fetch('{% url "perfilatalho" %}')
-        .then(response => response.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(html, 'text/html');
-          const newPhotoUrl = doc.querySelector('.profile-pic')?.style.backgroundImage;
-          
-          if (newPhotoUrl) {
-            document.getElementById('profile-pic-nav').style.backgroundImage = newPhotoUrl;
-            document.getElementById('mobileProfilePic').style.backgroundImage = newPhotoUrl;
-          }
-        });
-    }
-
     function toggleMenuAcessibilidade() {
       const menu = document.getElementById('menuAcessibilidade');
       const bolinha = document.querySelector('.bolinha-acessibilidade');
       
       menu.classList.toggle('aberto');
       bolinha.classList.toggle('ativo');
-      bolinha.classList.remove('pulsando');
+      
+      const controles = document.getElementById('controlesLeitor');
+      if (controles.classList.contains('aberto')) {
+        controles.classList.remove('aberto');
+      }
       
       if (menu.classList.contains('aberto')) {
         setTimeout(() => {
@@ -1859,11 +1567,112 @@
       return cookieValue;
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      verificarAgendamentoAtivoInicial();
+    document.getElementById('telefone_comercial').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 11) value = value.substring(0, 11);
+      if (value.length > 0) {
+        value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+        value = value.length > 10 ? 
+          value.replace(/(\d)(\d{4})$/, '$1-$2') : 
+          value.replace(/(\d)(\d{3})$/, '$1-$2');
+      }
+      e.target.value = value;
     });
-    
-    setInterval(checkForProfilePhotoUpdates, 30000);
+
+    const statusIndicator = document.getElementById('status-indicator');
+    const statusHiddenInput = document.getElementById('status_barbearia');
+    const btnAberto = document.getElementById('btn-aberto');
+    const btnFechado = document.getElementById('btn-fechado');
+
+    btnAberto.addEventListener('click', function() {
+      statusHiddenInput.value = 'aberto';
+      btnAberto.classList.add('active');
+      btnFechado.classList.remove('active');
+      statusIndicator.textContent = 'ABERTO';
+      statusIndicator.classList.remove('fechado');
+    });
+
+    btnFechado.addEventListener('click', function() {
+      statusHiddenInput.value = 'fechado';
+      btnFechado.classList.add('active');
+      btnAberto.classList.remove('active');
+      statusIndicator.textContent = 'FECHADO';
+      statusIndicator.classList.add('fechado');
+    });
+
+    const logoUpload = document.getElementById('logo-upload');
+    const logoPlaceholder = document.getElementById('logo-placeholder');
+    const logoPreview = document.getElementById('logo-preview');
+
+    if (logoPlaceholder) {
+      logoPlaceholder.addEventListener('click', function() {
+        logoUpload.click();
+      });
+    }
+
+    if (logoPreview) {
+      logoPreview.addEventListener('click', function() {
+        logoUpload.click();
+      });
+    }
+
+    logoUpload.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const existingPreview = document.getElementById('logo-preview');
+          
+          if (existingPreview) {
+            existingPreview.src = event.target.result;
+          } else {
+            const newPreview = document.createElement('img');
+            newPreview.src = event.target.result;
+            newPreview.className = 'photo-preview';
+            newPreview.id = 'logo-preview';
+            newPreview.addEventListener('click', function() {
+              logoUpload.click();
+            });
+            
+            const placeholder = document.getElementById('logo-placeholder');
+            placeholder.replaceWith(newPreview);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function confirmarCancelamento() {
+      if (confirm('Tem certeza que deseja cancelar? Todas as alterações não salvas serão perdidas.')) {
+        window.location.href = "{% url 'barbeiroatalho' %}";
+      }
+    }
+
+    document.getElementById('btn-cancelar').addEventListener('click', function(e) {
+      e.preventDefault();
+      confirmarCancelamento();
+    });
+
+    function abrirModalExclusao() {
+      document.getElementById('modalExclusao').style.display = 'flex';
+    }
+
+    function fecharModalExclusao() {
+      document.getElementById('modalExclusao').style.display = 'none';
+    }
+
+    window.addEventListener('click', function(event) {
+      const modal = document.getElementById('modalExclusao');
+      if (event.target === modal) {
+        fecharModalExclusao();
+      }
+    });
+
+    document.querySelector('form[action*="excluir_barbearia"]')?.addEventListener('submit', function(e) {
+      if (!confirm('Tem certeza absoluta que deseja excluir esta barbearia? Esta ação não pode ser desfeita!')) {
+        e.preventDefault();
+      }
+    });
 
     setTimeout(() => {
       const bolinha = document.querySelector('.bolinha-acessibilidade');
@@ -1871,14 +1680,6 @@
         bolinha.classList.remove('pulsando');
       }
     }, 10000);
-
-    setTimeout(() => {
-      const alerts = document.querySelectorAll('.alert');
-      alerts.forEach(alert => {
-          alert.classList.add('fade-out');
-          setTimeout(() => alert.remove(), 500);
-      });
-    }, 8000);
   </script>
 </body>
 </html>

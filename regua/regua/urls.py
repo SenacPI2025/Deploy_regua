@@ -8,8 +8,8 @@ from regua2.views import agendamentos_barbeiro, esqueci_senha, alterar_tema, alt
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', pag_principal, name='pag_inicial_atalho'),
+    path('esqueci_senha', esqueci_senha, name='esquecisenhaatalho'),
     path('Home/', Home, name='Homeatalho'),
-     path('esqueci_senha/', esqueci_senha, name='esquecisenhaatalho'),
     path('perfil/', perfil, name='perfilatalho'),
     path('perfil_barb/', perfil_barb, name='perfil_barbeiroatalho'),
     path('barbearias/', barbearia, name='barbeariaatalho'),
@@ -37,5 +37,4 @@ urlpatterns = [
     path('alterar-tema/', alterar_tema, name='alterar_tema'),
     path('alterar-tamanho-fonte/', alterar_tamanho_fonte, name='alterar_tamanho_fonte'),
     path('resetar-acessibilidade/', resetar_acessibilidade, name='resetar_acessibilidade'),
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

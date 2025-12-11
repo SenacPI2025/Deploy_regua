@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Regua - Área do Barbeiro</title>
+  <title>Login | Regua</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&display=swap');
 
@@ -17,7 +17,7 @@
     :root[data-tema="claro"] {
       --cor-primaria: #1DB954;
       --cor-primaria-escura: #17a745;
-      --cor-secundaria: #6c757d;
+      --cor-secundaria: #2d3748;
       --cor-fundo: #ffffff;
       --cor-fundo-secundario: #f8f9fa;
       --cor-texto: #2d3748;
@@ -42,12 +42,17 @@
       --cor-footer-links-hover: #1DB954;
       --cor-leitor-texto: rgba(29, 185, 84, 0.1);
       --cor-leitor-borda: #1DB954;
+      --cor-erro: #ef4444;
+      --cor-erro-bg: #fef2f2;
+      --cor-erro-border: #fecaca;
+      --cor-sucesso: #10b981;
+      --cor-sombra-card: rgba(0, 0, 0, 0.05);
     }
 
     :root[data-tema="escuro"] {
       --cor-primaria: #1DB954;
       --cor-primaria-escura: #17a745;
-      --cor-secundaria: #6c757d;
+      --cor-secundaria: #e2e8f0;
       --cor-fundo: #1a202c;
       --cor-fundo-secundario: #2d3748;
       --cor-texto: #e2e8f0;
@@ -72,36 +77,41 @@
       --cor-footer-links-hover: #1DB954;
       --cor-leitor-texto: rgba(29, 185, 84, 0.2);
       --cor-leitor-borda: #1DB954;
+      --cor-erro: #f87171;
+      --cor-erro-bg: #450a0a;
+      --cor-erro-border: #7f1d1d;
+      --cor-sucesso: #10b981;
+      --cor-sombra-card: rgba(0, 0, 0, 0.3);
     }
 
     :root[data-tamanho-fonte="pequeno"] {
-      --tamanho-fonte: 14px;
-      --tamanho-h1: 1.8rem;
-      --tamanho-h2: 1.5rem;
-      --tamanho-h3: 1.3rem;
+      --tamanho-fonte: 12px;
+      --tamanho-h1: 1.5rem;
+      --tamanho-h2: 1.3rem;
+      --tamanho-h3: 1.1rem;
       --tamanho-p: 0.9rem;
     }
 
     :root[data-tamanho-fonte="medio"] {
       --tamanho-fonte: 16px;
-      --tamanho-h1: 2.5rem;
-      --tamanho-h2: 2rem;
-      --tamanho-h3: 1.5rem;
+      --tamanho-h1: 2rem;
+      --tamanho-h2: 1.5rem;
+      --tamanho-h3: 1.3rem;
       --tamanho-p: 1rem;
     }
 
     :root[data-tamanho-fonte="grande"] {
-      --tamanho-fonte: 18px;
-      --tamanho-h1: 3rem;
-      --tamanho-h2: 2.5rem;
-      --tamanho-h3: 1.8rem;
+      --tamanho-fonte: 20px;
+      --tamanho-h1: 2.5rem;
+      --tamanho-h2: 2rem;
+      --tamanho-h3: 1.6rem;
       --tamanho-p: 1.1rem;
     }
 
     :root[data-tamanho-fonte="muito_grande"] {
-      --tamanho-fonte: 20px;
-      --tamanho-h1: 3.5rem;
-      --tamanho-h2: 3rem;
+      --tamanho-fonte: 24px;
+      --tamanho-h1: 3rem;
+      --tamanho-h2: 2.5rem;
       --tamanho-h3: 2rem;
       --tamanho-p: 1.3rem;
     }
@@ -112,7 +122,9 @@
       font-size: var(--tamanho-fonte);
       line-height: 1.6;
       transition: all 0.3s ease;
-      user-select: text;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
     ::selection {
@@ -120,504 +132,182 @@
       color: var(--cor-texto);
     }
 
-    nav {
-      background-color: var(--cor-navbar);
-      color: var(--cor-navbar-texto);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    header {
+      border-bottom: 1px solid var(--cor-borda);
+      text-align: center;
+      padding: 20px;
+      background-color: var(--cor-card);
       box-shadow: 0 2px 10px var(--cor-sombra);
     }
 
-    .logo {
-      font-size: var(--tamanho-h2);
-      color: var(--cor-navbar-texto);
-      font-weight: bold;
+    header h1 {
+      font-size: var(--tamanho-h1);
+      font-weight: 700;
+      letter-spacing: 1px;
     }
 
-    .logo a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .R {
+    header span {
       color: var(--cor-primaria);
     }
 
-    .nav-links {
+    main {
+      padding: 40px 20px;
+      flex-grow: 1;
       display: flex;
-      gap: 1.5rem;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
     }
 
-    .nav-links a {
-      color: var(--cor-navbar-texto);
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropbtn {
-      background-color: transparent;
-      color: var(--cor-navbar-texto);
-      padding: 0.5rem 1rem;
-      font-size: var(--tamanho-p);
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-      font-family: 'Unbounded', sans-serif;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      right: 0;
-      background-color: var(--cor-dropdown);
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-    }
-
-    .dropdown-content a {
-      color: var(--cor-dropdown-texto);
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      text-align: left;
-      font-size: var(--tamanho-p);
-    }
-
-    .dropdown-content a:hover {
-      background-color: var(--cor-dropdown-hover);
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
-    .profile-icon {
-      margin-left: 1.5rem;
-    }
-
-    .profile-pic-nav {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: #ddd;
-      position: relative;
-      overflow: hidden;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.3s ease;
-    }
-
-    .profile-pic-nav:hover {
-      transform: scale(1.1);
-    }
-
-    .profile-pic-nav::before {
-      content: "";
-      position: absolute;
-      top: 25%;
-      left: 25%;
-      width: 50%;
-      height: 50%;
-      border-radius: 50%;
-      border: 2px solid white;
-    }
-
-    .profile-pic-nav::after {
-      content: "";
-      position: absolute;
-      bottom: 8px;
-      left: 25%;
-      width: 50%;
-      height: 25%;
-      border-top: 2px solid white;
-      border-radius: 50%;
-    }
-
-    .profile-pic-nav.has-photo::before,
-    .profile-pic-nav.has-photo::after {
-      display: none;
-    }
-
-    .menu-icon {
-      font-size: var(--tamanho-h2);
-      display: none;
-      cursor: pointer;
-      background: none;
-      border: none;
-      color: var(--cor-navbar-texto);
-    }
-
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
+    .login-card {
+      background: var(--cor-card);
+      border-radius: 20px;
+      padding: 40px 30px;
       width: 100%;
-      height: 100%;
-      background-color: var(--cor-navbar);
-      z-index: 999;
-      flex-direction: column;
-      padding: 2rem;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
+      max-width: 450px;
+      box-shadow: 0 10px 30px var(--cor-sombra-card);
+      border: 1px solid var(--cor-borda);
+      transition: all 0.3s ease;
     }
 
-    .mobile-menu.aberto {
-      transform: translateX(0);
+    .login-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px var(--cor-sombra-card);
     }
 
-    .mobile-menu-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--cor-borda);
+    .title {
+      font-size: var(--tamanho-h2);
+      letter-spacing: 8px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-align: center;
+      color: var(--cor-texto);
     }
 
-    .mobile-menu-close {
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: var(--cor-navbar-texto);
-      cursor: pointer;
-    }
-
-    .mobile-menu-links {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .mobile-menu-links a {
-      color: var(--cor-navbar-texto);
-      text-decoration: none;
-      font-size: var(--tamanho-h3);
-      padding: 1rem;
-      border-radius: 8px;
-      transition: background-color 0.3s ease;
-    }
-
-    .mobile-menu-links a:hover {
-      background-color: var(--cor-dropdown-hover);
-    }
-
-    .mobile-profile {
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem;
-      border-top: 1px solid var(--cor-borda);
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      border-radius: 8px;
-      text-decoration: none;
-    }
-
-    .mobile-profile:hover {
-      background-color: var(--cor-dropdown-hover);
-    }
-
-    .mobile-profile-pic {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: #ddd;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.3s ease;
-    }
-
-    .mobile-profile:hover .mobile-profile-pic {
-      transform: scale(1.1);
-    }
-
-    .mobile-profile-name {
-      color: var(--cor-navbar-texto);
+    .subtitle {
       font-size: var(--tamanho-p);
+      color: var(--cor-texto-claro);
+      margin-bottom: 30px;
+      text-align: center;
+      font-weight: 500;
     }
 
-    .notificacoes-container {
-      position: fixed;
-      top: 100px;
-      left: 20px;
-      z-index: 1002;
-      max-width: 400px;
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
     }
 
-    .toast {
+    .input-group input {
+      width: 100%;
+      padding: 16px 20px 16px 50px;
+      border: 1px solid var(--cor-borda);
+      border-radius: 12px;
+      font-size: var(--tamanho-p);
+      outline: none;
       background-color: var(--cor-card);
       color: var(--cor-texto);
-      padding: 1rem 1.5rem;
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px var(--cor-sombra);
-      border-left: 4px solid #ffc107;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      animation: slideIn 0.3s ease;
       transition: all 0.3s ease;
+      font-weight: 500;
     }
 
-    .toast.success {
-      border-left-color: var(--cor-primaria);
+    .input-group input:focus {
+      border-color: var(--cor-primaria);
+      box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.2);
     }
 
-    .toast.error {
-      border-left-color: #dc3545;
-    }
-
-    .toast.warning {
-      border-left-color: #ffc107;
-    }
-
-    .toast.info {
-      border-left-color: #17a2b8;
-    }
-
-    .toast-message {
-      flex: 1;
-      margin-right: 1rem;
-      font-size: var(--tamanho-p);
-    }
-
-    .toast-close {
-      background: none;
-      border: none;
+    .input-group i {
+      position: absolute;
+      top: 50%;
+      left: 18px;
+      transform: translateY(-50%);
       color: var(--cor-texto-claro);
-      font-size: 1.2rem;
-      cursor: pointer;
-      padding: 0;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      transition: color 0.3s ease;
     }
 
-    .toast-close:hover {
-      color: var(--cor-texto);
+    .input-group input:focus + i {
+      color: var(--cor-primaria);
     }
 
-    @keyframes slideIn {
-      from {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-
-    @keyframes slideOut {
-      from {
-        transform: translateX(0);
-        opacity: 1;
-      }
-      to {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-    }
-
-    .hero {
-      position: relative;
-      height: 80vh;
-      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
-                  url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80');
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .login-text {
+      margin: 24px 0;
+      font-size: var(--tamanho-p);
+      font-weight: 500;
       text-align: center;
-      color: white;
-      padding: 0 2rem;
     }
 
-    .hero-content {
-      max-width: 800px;
-    }
-
-    .hero h1 {
-      font-size: var(--tamanho-h1);
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
-    }
-
-    .hero p {
-      font-size: var(--tamanho-p);
-      margin-bottom: 2rem;
-      opacity: 0.9;
-    }
-
-    .btn-primary {
-      display: inline-block;
-      background-color: var(--cor-primaria);
-      color: white;
-      padding: 1rem 2rem;
-      border-radius: 50px;
+    .login-text a {
+      color: var(--cor-primaria);
       text-decoration: none;
-      font-weight: bold;
-      font-size: var(--tamanho-p);
-      transition: all 0.3s ease;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+      margin-left: 4px;
+      font-weight: 600;
+      transition: all 0.2s ease;
     }
 
-    .btn-primary:hover {
-      background-color: var(--cor-primaria-escura);
-      transform: translateY(-3px);
+    .login-text a:hover {
+      text-decoration: underline;
+      color: var(--cor-primaria-escura);
+    }
+
+    .confirm-btn-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .confirm-btn {
+      background: var(--gradiente-primario);
+      color: white;
+      padding: 16px 40px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: var(--tamanho-p);
+      box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+      width: 100%;
+      letter-spacing: 0.5px;
+    }
+
+    .confirm-btn:hover {
+      transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
     }
 
-    .features {
-      padding: 5rem 2rem;
-      background-color: var(--cor-fundo-secundario);
+    .confirm-btn:active {
+      transform: translateY(0);
     }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .section-title {
+    .mensagem-erro {
+      color: var(--cor-erro);
+      margin-bottom: 20px;
+      font-weight: 600;
+      animation: fadeIn 0.5s;
+      background-color: var(--cor-erro-bg);
+      border: 1px solid var(--cor-erro-border);
+      padding: 12px 16px;
+      border-radius: 8px;
+      width: 100%;
       text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .section-title h2 {
-      font-size: var(--tamanho-h2);
-      color: var(--cor-texto);
-      margin-bottom: 1rem;
-    }
-
-    .section-title p {
       font-size: var(--tamanho-p);
-      color: var(--cor-texto-claro);
-      max-width: 600px;
-      margin: 0 auto;
     }
 
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .feature-card {
-      background-color: var(--cor-card);
-      border-radius: 10px;
-      padding: 2rem;
-      text-align: center;
-      box-shadow: 0 5px 15px var(--cor-sombra);
-      transition: transform 0.3s ease;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .feature-icon {
-      font-size: 3rem;
-      margin-bottom: 1.5rem;
-      color: var(--cor-primaria);
-    }
-
-    .feature-card h3 {
-      font-size: var(--tamanho-h3);
-      margin-bottom: 1rem;
-      color: var(--cor-texto);
-    }
-
-    .feature-card p {
-      font-size: var(--tamanho-p);
-      color: var(--cor-texto-claro);
-    }
-
-    .dashboard {
-      padding: 5rem 2rem;
-      background-color: var(--cor-fundo);
-    }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .dashboard-card {
-      background-color: var(--cor-card);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px var(--cor-sombra);
-      transition: transform 0.3s ease;
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .dashboard-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .dashboard-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      color: var(--cor-primaria);
-    }
-
-    .dashboard-card h3 {
-      font-size: var(--tamanho-h3);
-      margin-bottom: 0.5rem;
-      color: var(--cor-texto);
-    }
-
-    .dashboard-card p {
-      font-size: var(--tamanho-p);
-      color: var(--cor-texto-claro);
-      margin-bottom: 1.5rem;
-    }
-
-    .btn-secondary {
-      display: inline-block;
-      background-color: transparent;
-      color: var(--cor-primaria);
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: var(--tamanho-p);
-      transition: all 0.3s ease;
-      border: 2px solid var(--cor-primaria);
-    }
-
-    .btn-secondary:hover {
-      background-color: var(--cor-primaria);
+    .mensagem-sucesso {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradiente-primario);
       color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px var(--cor-sombra);
+      z-index: 1000;
+      animation: fadeIn 0.5s;
+      font-size: var(--tamanho-p);
+      font-weight: 600;
     }
 
-    .text-center {
-      text-align: center;
-    }
-
-    /* Leitor de Texto - Igual ao da página barbearias */
     .bolinha-acessibilidade {
       position: fixed;
       bottom: 20px;
@@ -641,25 +331,18 @@
     .bolinha-acessibilidade:hover {
       transform: scale(1.1);
       background: var(--cor-bolinha-hover);
-      box-shadow: 0 6px 25px var(--cor-sombra);
-    }
-
-    .bolinha-acessibilidade.ativo {
-      transform: rotate(45deg);
-      background: var(--cor-bolinha-hover);
     }
 
     .menu-acessibilidade {
       position: fixed;
       bottom: 90px;
       right: 90px;
-      background: var(--cor-widget);
+      background: var(--cor-card);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 20px;
       z-index: 1000;
       box-shadow: 0 8px 30px var(--cor-sombra);
-      backdrop-filter: blur(10px);
       transform: scale(0.8);
       opacity: 0;
       visibility: hidden;
@@ -683,7 +366,7 @@
     .menu-titulo {
       font-size: 16px;
       font-weight: bold;
-      color: var(--cor-widget-texto);
+      color: var(--cor-texto);
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 10px;
@@ -703,7 +386,7 @@
       align-items: center;
       justify-content: center;
       padding: 12px 8px;
-      background: var(--gradiente-primario);
+      background: var(--cor-primaria);
       color: white;
       border: none;
       border-radius: 12px;
@@ -712,12 +395,11 @@
       transition: all 0.3s ease;
       min-height: 60px;
       gap: 5px;
-      box-shadow: 0 4px 10px rgba(42, 167, 69, 0.3);
     }
 
     .botao-acessibilidade:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(42, 167, 69, 0.4);
+      background: var(--cor-primaria-escura);
     }
 
     .botao-acessibilidade .icone {
@@ -730,23 +412,13 @@
       text-align: center;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .bolinha-acessibilidade.pulsando {
-      animation: pulse 2s infinite;
-    }
-
     .botao-leitura-texto {
       position: fixed;
       bottom: 20px;
       right: 160px;
       width: 60px;
       height: 60px;
-      background: var(--cor-bolinha);
+      background: var(--cor-primaria);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -771,7 +443,7 @@
 
     .botao-leitura-texto:hover {
       transform: scale(1.1);
-      background: var(--cor-bolinha-hover);
+      background: var(--cor-primaria-escura);
     }
 
     .botao-leitura-texto.ouvindo {
@@ -780,16 +452,25 @@
     }
 
     @keyframes pulsar {
-      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
-      70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
-      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(255, 71, 87, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0);
+      }
     }
 
     .controles-leitor {
       position: fixed;
       bottom: 90px;
       right: 160px;
-      background: var(--cor-widget);
+      background: var(--cor-card);
       border: 1px solid var(--cor-borda);
       border-radius: 15px;
       padding: 15px;
@@ -799,7 +480,7 @@
       opacity: 0;
       visibility: hidden;
       transition: all 0.3s ease;
-      min-width: 200px;
+      min-width: 180px;
     }
 
     .controles-leitor.aberto {
@@ -808,43 +489,19 @@
       visibility: visible;
     }
 
-    .controles-leitor-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--cor-borda);
-    }
-
-    .controle-leitor-titulo {
-      font-size: 14px;
-      font-weight: bold;
-      color: var(--cor-widget-texto);
-      text-align: center;
-      flex: 1;
-    }
-
-    .controle-leitor-fechar {
-      background: none;
-      border: none;
-      color: var(--cor-widget-texto);
-      font-size: 20px;
-      cursor: pointer;
-      padding: 0 5px;
-      line-height: 1;
-      transition: color 0.3s ease;
-    }
-
-    .controle-leitor-fechar:hover {
-      color: #ff4757;
-    }
-
     .controles-leitor-conteudo {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 10px;
+    }
+
+    .controle-leitor-titulo {
+      font-size: 14px;
+      font-weight: bold;
+      color: var(--cor-texto);
+      margin-bottom: 5px;
+      text-align: center;
     }
 
     .controles-leitor-botoes {
@@ -858,7 +515,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--gradiente-primario);
+      background: var(--cor-primaria);
       border: none;
       color: white;
       cursor: pointer;
@@ -870,11 +527,12 @@
     }
 
     .controle-leitor-btn:hover {
+      background: var(--cor-primaria-escura);
       transform: scale(1.1);
     }
 
     .controle-leitor-btn:disabled {
-      background: var(--cor-secundaria);
+      background: var(--cor-texto-claro);
       cursor: not-allowed;
       transform: none;
     }
@@ -889,7 +547,7 @@
 
     .velocidade-leitor label {
       font-size: 12px;
-      color: var(--cor-widget-texto);
+      color: var(--cor-texto);
       white-space: nowrap;
     }
 
@@ -908,7 +566,7 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-bolinha);
+      background: var(--cor-primaria);
       cursor: pointer;
     }
 
@@ -916,14 +574,14 @@
       width: 15px;
       height: 15px;
       border-radius: 50%;
-      background: var(--cor-bolinha);
+      background: var(--cor-primaria);
       cursor: pointer;
       border: none;
     }
 
     .velocidade-valor {
       font-size: 12px;
-      color: var(--cor-widget-texto);
+      color: var(--cor-texto);
       min-width: 30px;
       text-align: center;
     }
@@ -937,7 +595,7 @@
     }
     
     div[vw] .vw-access-button {
-      background-color: var(--cor-bolinha) !important;
+      background-color: var(--cor-primaria) !important;
       border-radius: 50% !important;
       width: 50px !important;
       height: 50px !important;
@@ -949,7 +607,7 @@
     
     div[vw] .vw-access-button:hover {
       transform: scale(1.1) !important;
-      background-color: var(--cor-bolinha-hover) !important;
+      background-color: var(--cor-primaria-escura) !important;
     }
     
     div[vw] .vw-access-button img {
@@ -957,133 +615,50 @@
     }
 
     footer {
-      background-color: var(--cor-secundaria);
-      color: var(--cor-footer-texto);
-      padding: 3rem 2rem;
-      text-align: center;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .footer-logo {
-      font-size: var(--tamanho-h2);
-      margin-bottom: 1rem;
-      color: var(--cor-footer-texto);
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
-      color: var(--cor-footer-links);
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .footer-links a:hover {
-      color: var(--cor-footer-links-hover);
-    }
-
-    .footer-bottom {
       border-top: 1px solid var(--cor-borda);
-      padding-top: 2rem;
-      font-size: 0.9rem;
-      opacity: 0.8;
-      color: var(--cor-footer-texto);
+      height: 30px;
+      background-color: var(--cor-card);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
     }
 
     @media (max-width: 768px) {
-      .nav-links {
-        display: none;
+      .login-card {
+        padding: 30px 20px;
+        max-width: 400px;
       }
-
-      .menu-icon {
-        display: block;
-      }
-
-      .mobile-menu {
-        display: flex;
-      }
-
-      .hero {
-        height: 70vh;
-      }
-
-      .hero h1 {
-        font-size: 2rem;
-      }
-
-      .features-grid,
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-
+      
       .bolinha-acessibilidade {
-        width: 70px;
-        height: 70px;
-        bottom: 25px;
-        right: 80px;
-        font-size: 28px;
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        right: 70px;
       }
 
       .menu-acessibilidade {
-        bottom: 110px;
-        right: 80px;
+        bottom: 80px;
+        right: 70px;
         min-width: 180px;
-        padding: 15px;
-      }
-
-      .menu-botoes {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-
-      .botao-acessibilidade {
-        flex-direction: row;
-        justify-content: flex-start;
-        padding: 12px 15px;
-        min-height: 50px;
-        gap: 12px;
-      }
-
-      .botao-acessibilidade .icone {
-        font-size: 20px;
-      }
-
-      .botao-acessibilidade .texto {
-        font-size: 12px;
       }
 
       .botao-leitura-texto {
         width: 50px;
         height: 50px;
         font-size: 20px;
-        right: 140px;
+        right: 130px;
       }
 
       .controles-leitor {
-        right: 140px;
-        bottom: 105px;
-        min-width: 180px;
-      }
-
-      .footer-links {
-        flex-direction: column;
-        gap: 1rem;
-      }
-
-      .notificacoes-container {
-        top: 80px;
-        right: 10px;
-        max-width: 300px;
+        right: 130px;
+        bottom: 80px;
       }
 
       div[vw] .vw-access-button {
@@ -1108,39 +683,28 @@
       }
 
       .features,
-      .dashboard {
+      .barbearias {
         padding: 3rem 1rem;
       }
 
-      .notificacoes-container {
-        top: 70px;
-        right: 5px;
-        max-width: 280px;
-      }
-
       .bolinha-acessibilidade {
-        width: 65px;
-        height: 65px;
-        bottom: 20px;
-        right: 70px;
-        font-size: 26px;
+        width: 45px;
+        height: 45px;
+        right: 60px;
       }
 
       .menu-acessibilidade {
-        bottom: 100px;
-        right: 70px;
-        min-width: 170px;
+        right: 60px;
       }
 
       .botao-leitura-texto {
         width: 45px;
         height: 45px;
-        right: 125px;
+        right: 115px;
       }
 
       .controles-leitor {
-        right: 125px;
-        min-width: 170px;
+        right: 115px;
       }
 
       div[vw] .vw-access-button {
@@ -1152,36 +716,20 @@
     }
 
     @media (max-width: 360px) {
-      .menu-acessibilidade {
-        right: 10px;
-        left: 10px;
-        min-width: auto;
+      .bolinha-acessibilidade {
+        right: 50px;
       }
 
-      .bolinha-acessibilidade {
-        right: 60px;
+      .menu-acessibilidade {
+        right: 50px;
       }
 
       .botao-leitura-texto {
-        right: 110px;
+        right: 100px;
       }
 
       .controles-leitor {
-        right: 110px;
-        min-width: 160px;
-      }
-
-      .notificacoes-container {
-        top: 60px;
-        right: 5px;
-        max-width: 250px;
-      }
-
-      div[vw] .vw-access-button {
-        width: 40px !important;
-        height: 40px !important;
-        bottom: 20px !important;
-        left: 10px !important;
+        right: 100px;
       }
     }
   </style>
@@ -1195,19 +743,8 @@
     </div>
   </div>
 
-  <div class="notificacoes-container" id="notificacoesContainer">
-    {% if messages %}
-      {% for message in messages %}
-        <div class="toast {{ message.tags }}" id="toast-{{ forloop.counter }}">
-          <div class="toast-message">{{ message }}</div>
-          <button class="toast-close" onclick="fecharToast('toast-{{ forloop.counter }}')">×</button>
-        </div>
-      {% endfor %}
-    {% endif %}
-  </div>
-
-  <button class="bolinha-acessibilidade pulsando" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
-    +
+  <button class="bolinha-acessibilidade" onclick="toggleMenuAcessibilidade()" title="Acessibilidade">
+    ♿
   </button>
 
   <button class="botao-leitura-texto" id="botaoLeituraTexto" title="Ler texto selecionado" onclick="toggleControlesLeitor()">
@@ -1215,11 +752,8 @@
   </button>
 
   <div class="controles-leitor" id="controlesLeitor">
-    <div class="controles-leitor-header">
-      <div class="controle-leitor-titulo">Leitor de Texto</div>
-      <button class="controle-leitor-fechar" onclick="fecharControlesLeitor()" title="Fechar">×</button>
-    </div>
     <div class="controles-leitor-conteudo">
+      <div class="controle-leitor-titulo">Leitor de Texto</div>
       <div class="controles-leitor-botoes">
         <button class="controle-leitor-btn" id="btnPlay" onclick="lerTextoSelecionado()" title="Ler texto">▶️</button>
         <button class="controle-leitor-btn" id="btnPause" onclick="pausarLeitura()" title="Pausar" disabled>⏸️</button>
@@ -1261,179 +795,55 @@
     </div>
   </div>
 
-  <div class="mobile-menu" id="mobileMenu">
-    <div class="mobile-menu-header">
-      <div class="logo">
-        <a href="{% url 'Homeatalho' %}" style="text-decoration: none; color: inherit;">
-          <span class="R">R</span>egua
-        </a>
-      </div>
-      <button class="mobile-menu-close" onclick="fecharMenuMobile()">×</button>
-    </div>
-    
-    <div class="mobile-menu-links">
-      {% if not usuario.barbearia %}
-        <a href="{% url 'cadastro_barbatalho' %}">Cadastrar Barbearia</a>
-      {% else %}
-        <a href="#" onclick="mostrarAvisoBarbearia(); fecharMenuMobile(); return false;">Cadastrar Barbearia</a>
+  <header>
+    <h1><span>R</span>egua</h1>
+  </header>
+
+  <main>
+    <div class="login-card">
+      <h2 class="title">LOGIN</h2>
+      <p class="subtitle">Entre na sua conta para continuar</p>
+      
+      {% if messages %}
+        {% for message in messages %}
+      <div class="mensagem-erro">{{ message }}</div>
+        {% endfor %}
       {% endif %}
-      <a href="{% url 'agendamentos_barbeiro' %}">Agendamentos</a>
-      <a href="{% url 'minha_barbatalho' %}">Minha Barbearia</a>
-      <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
-    </div>
-    
-    <a href="{% url 'perfil_barbeiroatalho' %}" class="mobile-profile" onclick="fecharMenuMobile()">
-      <div class="mobile-profile-pic" id="mobileProfilePic" 
-        {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
+      
+      {% if request.session.cadastro_sucesso %}
+      <div id="mensagem-sucesso" class="mensagem-sucesso">
+        Cadastro realizado com sucesso!
       </div>
-      <div class="mobile-profile-name">
-        {% if user.first_name %}
-          {{ user.first_name }} {{ user.last_name }}
-        {% else %}
-          Meu Perfil
-        {% endif %}
-      </div>
-    </a>
-  </div>
-
-  <nav>
-    <div class="logo">
-      <a href="{% url 'Homeatalho' %}" style="text-decoration: none; color: inherit;">
-        <span class="R">R</span>egua
-      </a>
-    </div>
-
-    <div class="nav-links" id="navLinks">
-      <div class="dropdown">
-        <button class="dropbtn">☰ Menu</button>
-        <div class="dropdown-content">
-          {% if not usuario.barbearia %}
-            <a href="{% url 'cadastro_barbatalho' %}">Cadastrar Barbearia</a>
-          {% else %}
-            <a href="#" onclick="mostrarAvisoBarbearia(); return false;">Cadastrar Barbearia</a>
-          {% endif %}
-          <a href="{% url 'agendamentos_barbeiro' %}">Agendamentos</a>
-          <a href="{% url 'minha_barbatalho' %}">Minha Barbearia</a>
-          <a href="{% url 'logout' %}" style="color: #ff4d4d;">Sair</a>
-        </div>
-      </div>
-      <a href="{% url 'perfil_barbeiroatalho' %}" class="profile-icon">
-        <div class="profile-pic-nav" id="profile-pic-nav" 
-          {% if foto_url %}style="background-image: url('{{ foto_url }}')"{% endif %}>
-        </div>
-      </a>
-    </div>
-
-    <button class="menu-icon" id="menuIcon" onclick="abrirMenuMobile()">☰</button>
-  </nav>
-
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Bem-vindo à sua Área do Barbeiro</h1>
-      <p>Gerencie sua barbearia, agendamentos e clientes de forma simples e eficiente</p>
-      {% if not usuario.barbearia %}
-        <a href="{% url 'cadastro_barbatalho' %}" class="btn-primary">Cadastrar Minha Barbearia</a>
-      {% else %}
-        <button class="btn-primary" onclick="mostrarAvisoBarbearia()">
-          Cadastrar Minha Barbearia
-        </button>
       {% endif %}
-    </div>
-  </section>
 
-  <section class="features">
-    <div class="container">
-      <div class="section-title">
-        <h2>Recursos para Profissionais</h2>
-        <p>Tudo que você precisa para gerenciar seu negócio com eficiência</p>
-      </div>
-      
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">📅</div>
-          <h3>Gestão de Agendamentos</h3>
-          <p>Controle todos os seus agendamentos em um só lugar, com lembretes automáticos</p>
+      <form method="post" action="{% url 'loginatalho' %}">
+        {% csrf_token %}
+        
+        <div class="input-group">
+          <i class="fas fa-envelope"></i>
+          <input type="email" name="email" placeholder="E-mail" required>
         </div>
         
-        <div class="feature-card">
-          <div class="feature-icon">👥</div>
-          <h3>Gestão de Clientes</h3>
-          <p>Mantenha o histórico completo dos seus clientes e seus serviços</p>
+        <div class="input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" name="senha" placeholder="Senha" required>
         </div>
-        
-        <div class="feature-card">
-          <div class="feature-icon">⏱️</div>
-          <h3>Controle de clientes</h3>
-          <p>Uma barbearia vazia e controlada</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="dashboard">
-    <div class="container">
-      <div class="section-title">
-        <h2>Painel de Controle</h2>
-        <p>Acesse rapidamente as principais funcionalidades</p>
-      </div>
-      
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <div class="dashboard-icon">🏪</div>
-          <h3>Minha Barbearia</h3>
-          <p>Gerencie as informações da sua barbearia, serviços e horários de funcionamento</p>
-          <a href="{% url 'minha_barbatalho' %}" class="btn-secondary">Acessar</a>
+        <div class="login-text">
+          Não tem uma conta? <a href="{% url 'autenticar' %}">Cadastre-se</a>
+          <a href="{% url 'esquecisenhaatalho' %}">Esqueceu a senha?</a>
         </div>
-        
-        <div class="dashboard-card">
-          <div class="dashboard-icon">📋</div>
-          <h3>Agendamentos</h3>
-          <p>Visualize e gerencie todos os agendamentos do dia e da semana</p>
-          <a href="{% url 'agendamentos_barbeiro' %}" class="btn-secondary">Acessar</a>
-        </div>
-        
-        <div class="dashboard-card">
-          <div class="dashboard-icon">👤</div>
-          <h3>Meu Perfil</h3>
-          <p>Atualize suas informações pessoais e foto de perfil</p>
-          <a href="{% url 'perfil_barbeiroatalho' %}" class="btn-secondary">Acessar</a>
-        </div>
-      </div>
-      
-      <div class="text-center">
-        {% if not usuario.barbearia %}
-          <a href="{% url 'cadastro_barbatalho' %}" class="btn-primary">Cadastrar Nova Barbearia</a>
-        {% else %}
-          <button class="btn-primary" onclick="mostrarAvisoBarbearia()">
-            Cadastrar Nova Barbearia
-          </button>
-        {% endif %}
-      </div>
-    </div>
-  </section>
 
-  <footer>
-    <div class="footer-content">
-      <div class="footer-logo">
-        <span class="R">R</span>egua
-      </div>
-      <div class="footer-links">
-        {% if not usuario.barbearia %}
-          <a href="{% url 'cadastro_barbatalho' %}">Cadastrar Barbearia</a>
-        {% else %}
-          <a href="#" onclick="mostrarAvisoBarbearia(); return false;">Cadastrar Barbearia</a>
-        {% endif %}
-        <a href="{% url 'agendamentos_barbeiro' %}">Agendamentos</a>
-        <a href="{% url 'minha_barbatalho' %}">Minha Barbearia</a>
-        <a href="{% url 'perfil_barbeiroatalho' %}">Meu Perfil</a>
-        <a href="{% url 'logout' %}">Sair</a>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 Regua. Todos os direitos reservados.</p>
-      </div>
+        <div class="confirm-btn-container">
+          <button type="submit" class="confirm-btn">ENTRAR</button>
+        </div>
+      </form>
     </div>
-  </footer>
+  </main>
 
+  <footer></footer>
+
+  <script src="https://kit.fontawesome.com/a2e8d043f0.js" crossorigin="anonymous"></script>
   <script>
     let synth = window.speechSynthesis;
     let utterance = null;
@@ -1447,6 +857,7 @@
       if (typeof VLibras !== 'undefined') {
         new window.VLibras.Widget('https://vlibras.gov.br/app');
       }
+
       document.documentElement.style.setProperty('--cor-leitor-texto', 'rgba(29, 185, 84, 0.1)');
       document.documentElement.style.setProperty('--cor-leitor-borda', '#1DB954');
     });
@@ -1523,16 +934,30 @@
       const controles = document.getElementById('controlesLeitor');
       const botao = document.getElementById('botaoLeituraTexto');
       
-      // Abre os controles apenas (remove o toggle)
-      controles.classList.add('aberto');
+      controles.classList.toggle('aberto');
       
       const menuAcessibilidade = document.getElementById('menuAcessibilidade');
       if (menuAcessibilidade.classList.contains('aberto')) {
         menuAcessibilidade.classList.remove('aberto');
       }
       
-      // Remove o evento de fechar ao clicar fora
-      document.removeEventListener('click', fecharControlesAoClicarFora);
+      if (controles.classList.contains('aberto')) {
+        setTimeout(() => {
+          document.addEventListener('click', fecharControlesAoClicarFora);
+        }, 100);
+      } else {
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
+    }
+
+    function fecharControlesAoClicarFora(event) {
+      const controles = document.getElementById('controlesLeitor');
+      const botao = document.getElementById('botaoLeituraTexto');
+      
+      if (!controles.contains(event.target) && !botao.contains(event.target)) {
+        controles.classList.remove('aberto');
+        document.removeEventListener('click', fecharControlesAoClicarFora);
+      }
     }
 
     function fecharControlesLeitor() {
@@ -1557,6 +982,7 @@
       }
       
       utterance = new SpeechSynthesisUtterance(selectedText);
+      
       utterance.lang = 'pt-BR';
       utterance.rate = speechRate;
       utterance.pitch = 1;
@@ -1705,27 +1131,17 @@
       }
     });
 
-    function abrirMenuMobile() {
-      document.getElementById('mobileMenu').classList.add('aberto');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function fecharMenuMobile() {
-      document.getElementById('mobileMenu').classList.remove('aberto');
-      document.body.style.overflow = 'auto';
-    }
-
-    document.querySelectorAll('.mobile-menu-links a').forEach(link => {
-      link.addEventListener('click', fecharMenuMobile);
-    });
-
     function toggleMenuAcessibilidade() {
       const menu = document.getElementById('menuAcessibilidade');
       const bolinha = document.querySelector('.bolinha-acessibilidade');
       
       menu.classList.toggle('aberto');
       bolinha.classList.toggle('ativo');
-      bolinha.classList.remove('pulsando');
+      
+      const controles = document.getElementById('controlesLeitor');
+      if (controles.classList.contains('aberto')) {
+        controles.classList.remove('aberto');
+      }
       
       if (menu.classList.contains('aberto')) {
         setTimeout(() => {
@@ -1746,52 +1162,6 @@
         document.removeEventListener('click', fecharMenuAoClicarFora);
       }
     }
-
-    function mostrarToast(mensagem, tipo = 'info') {
-      const container = document.getElementById('notificacoesContainer');
-      const toastId = 'toast-' + Date.now();
-      
-      const toast = document.createElement('div');
-      toast.className = `toast ${tipo}`;
-      toast.id = toastId;
-      toast.innerHTML = `
-        <div class="toast-message">${mensagem}</div>
-        <button class="toast-close" onclick="fecharToast('${toastId}')">×</button>
-      `;
-      
-      container.appendChild(toast);
-      
-      setTimeout(() => {
-        fecharToast(toastId);
-      }, 8000);
-    }
-
-    function fecharToast(toastId) {
-      const toast = document.getElementById(toastId);
-      if (toast) {
-        toast.style.animation = 'slideOut 0.5s ease';
-        setTimeout(() => {
-          if (toast.parentNode) {
-            toast.remove();
-          }
-        }, 500);
-      }
-    }
-
-    function mostrarAvisoBarbearia() {
-      mostrarToast('Você já possui uma barbearia cadastrada! Acesse "Minha Barbearia" para gerenciá-la.', 'warning');
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      setTimeout(() => {
-        const toasts = document.querySelectorAll('.toast');
-        toasts.forEach(toast => {
-          setTimeout(() => {
-            fecharToast(toast.id);
-          }, 8000);
-        });
-      }, 1000);
-    });
 
     function alternarTema() {
       const temaAtual = document.documentElement.getAttribute('data-tema');
@@ -1887,21 +1257,44 @@
       return cookieValue;
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-      {% if usuario.foto_perfil %}
-      document.querySelectorAll('.profile-pic-nav, .mobile-profile-pic').forEach(pic => {
-        pic.style.backgroundImage = 'url({{ usuario.foto_perfil.url }})';
-        pic.classList.add('has-photo');
-      });
-      {% endif %}
-    });
-
-    setTimeout(() => {
-      const bolinha = document.querySelector('.bolinha-acessibilidade');
-      if (bolinha) {
-        bolinha.classList.remove('pulsando');
+    document.addEventListener('DOMContentLoaded', function() {
+      const mensagemErro = document.querySelector('.mensagem-erro');
+      if (mensagemErro) {
+        setTimeout(() => {
+          mensagemErro.style.opacity = '0';
+          mensagemErro.style.transition = 'opacity 0.5s';
+          setTimeout(() => mensagemErro.remove(), 500);
+        }, 5000);
       }
-    }, 10000);
+      
+      const mensagemSucesso = document.getElementById('mensagem-sucesso');
+      if (mensagemSucesso) {
+        setTimeout(() => {
+          mensagemSucesso.style.animation = 'fadeOut 0.5s';
+          setTimeout(() => {
+            mensagemSucesso.remove();
+            fetch('{% url "limpar_sessao" %}', {
+              method: 'POST',
+              headers: {
+                'X-CSRFToken': getCSRFToken(),
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({})
+            });
+          }, 500);
+        }, 3000);
+      }
+
+      document.querySelector('form').addEventListener('submit', function(e) {
+        const email = this.querySelector('input[name="email"]').value.trim();
+        const senha = this.querySelector('input[name="senha"]').value.trim();
+        
+        if (!email || !senha) {
+          e.preventDefault();
+          alert('Por favor, preencha todos os campos!');
+        }
+      });
+    });
   </script>
 </body>
 </html>
